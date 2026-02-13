@@ -1,80 +1,80 @@
-# 核心工具與能力手冊 (Core Tools & Capabilities Manual)
+# Core Tools & Capabilities Manual
 
-本文件是我作為您的 AI 助理所能使用的核心工具與能力的完整說明。它定義了每個工具的功能、使用時機與最佳實踐。
-
----
-
-## 核心原則：積極使用工具，優化 Token 消耗
-
-**本手冊中列出的所有工具，都是為了將複雜的請求轉化為高效、精準的操作。在我們的互動中，我會積極且優先地使用這些工具，以達到最高效率和最低的 token 消耗。**
-
-*   **程式碼庫理解與搜索**: 我會優先使用 `repomix` 和 `next-devtools` 工具來獲取上下文，而不是要求您貼上大量程式碼。
-*   **文件查詢**: 我會優先使用 `context7` 和 `next-devtools` 來查詢最新的官方文件，而不是依賴我內存的可能過時的知識。
-*   **UI 元件操作**: 我會優先使用 `shadcn` 工具來獲取指令，而不是手動編寫元件程式碼。
+This document is a complete description of the core tools and capabilities I can use as your AI assistant. It defines the function, use cases, and best practices for each tool.
 
 ---
 
-## 1. 序列化思考 (`sequential-thinking`)
+## Core Principle: Proactive Tool Use to Optimize Token Consumption
 
-這是我解決複雜問題的核心思維框架。
+**All tools listed in this manual are designed to transform complex requests into efficient, precise actions. In our interactions, I will proactively and preferentially use these tools to achieve the highest efficiency and lowest token consumption.**
+
+*   **Codebase Understanding & Search**: I will prioritize using `repomix` and `next-devtools` tools to get context, rather than asking you to paste large amounts of code.
+*   **Documentation Lookup**: I will prioritize using `context7` and `next-devtools` to query the latest official documentation, rather than relying on my potentially outdated internal knowledge.
+*   **UI Component Operations**: I will prioritize using `shadcn` tools to get commands, rather than manually writing component code.
+
+---
+
+## 1. Sequential Thinking (`sequential-thinking`)
+
+This is my core thinking framework for solving complex problems.
 
 *   **`sequentialthinking`**
-    *   **功能**: 將一個複雜的任務（例如：架構重構、Bug 修復）分解成一系列循序漸進、可管理、可修正的思考步驟。
-    *   **使用時機**: 當您提出一個需要多步驟、深入分析或可能需要中途調整策略的複雜請求時，我會優先使用此工具來規劃我的思考路徑，確保最終產出的解決方案是全面且可靠的。
+    *   **Function**: Decomposes a complex task (e.g., architecture refactoring, bug fixing) into a series of sequential, manageable, and correctable thinking steps.
+    *   **When to Use**: When you present a complex request that requires multiple steps, in-depth analysis, or a strategy that might need adjustment mid-course, I will prioritize using this tool to plan my thinking path, ensuring the final solution is comprehensive and reliable.
 
 ---
 
-## 2. 軟體規劃 (`software-planning`)
+## 2. Software Planning (`software-planning`)
 
-這套工具專門用於專案管理和任務追蹤。
+This set of tools is specialized for project management and task tracking.
 
-*   **`start_planning`**: 當我們開始一個新功能或一個大型任務時，我會用它來初始化一個新的計畫。
-*   **`save_plan`**: 在規劃過程中，用來保存我們共同制定的實施計畫。
-*   **`add_todo`, `get_todos`, `remove_todo`, `update_todo_status`**: 用於管理和追蹤該計畫下的具體待辦事項，確保我們不會遺漏任何細節。
-
----
-
-## 3. 程式碼庫打包與分析 (`repomix`)
-
-這套工具讓我能夠「閱讀」和「理解」您的整個程式碼庫。
-
-*   **`pack_codebase` / `pack_remote_repository`**: 將本地或遠端的程式碼倉庫打包成一個單一、便於分析的檔案。這是我理解專案全貌的第一步。
-*   **`generate_skill`**: 從程式碼庫中自動生成一個「技能包」，讓我能快速學習並掌握您專案的特定模式和實踐。
-*   **`attach_packed_output`**: 如果您已經有一個打包好的程式碼庫檔案，我可以使用此工具直接載入它。
-*   **`read_repomix_output` / `grep_repomix_output`**: 讓我能讀取或搜尋打包檔案內的特定內容。
-*   **`file_system_read_file` / `file_system_read_directory`**: 提供安全、直接的檔案系統讀取能力，用於獲取單一檔案或目錄結構的即時資訊。
+*   **`start_planning`**: When we begin a new feature or a large task, I will use this to initialize a new plan.
+*   **`save_plan`**: Used during the planning process to save the implementation plan we've jointly developed.
+*   **`add_todo`, `get_todos`, `remove_todo`, `update_todo_status`**: Used to manage and track specific to-do items under the plan, ensuring we don't miss any details.
 
 ---
 
-## 4. `shadcn/ui` 元件庫管理 (`shadcn`)
+## 3. Codebase Packing & Analysis (`repomix`)
 
-這套工具專門用於管理和操作 `shadcn/ui` 元件。
+This set of tools allows me to "read" and "understand" your entire codebase.
 
-*   **`get_project_registries`**: 檢查 `components.json` 以了解專案中配置了哪些元件註冊表。
-*   **`list_items_in_registries`, `search_items_in_registries`**: 列出或搜尋可用的 UI 元件。
-*   **`view_items_in_registries`**: 查看特定元件的詳細資訊（程式碼、依賴等）。
-*   **`get_item_examples_from_registries`**: 尋找特定元件的官方使用範例。
-*   **`get_add_command_for_items`**: **最常用的功能**。當您要求新增 UI 元件時，我會用此工具產生正確的 `npx shadcn-ui@latest add ...` 指令。
-*   **`get_audit_checklist`**: 在新增元件後，提供一個快速的檢查清單以驗證其功能是否正常。
-
----
-
-## 5. Next.js 開發者工具 (`next-devtools`)
-
-這是我與正在運行的 Next.js 開發伺服器互動的強大工具集。
-
-*   **`nextjs_index`**: **首選工具**。在進行任何修改或診斷之前，我會先用它來偵測所有正在運行的 Next.js 服務，並列出它們可用的所有 MCP (Model Context Protocol) 工具。這能讓我了解應用的即時狀態、路由和錯誤。
-*   **`nextjs_call`**: 在 `nextjs_index` 之後使用，用來執行特定的 MCP 工具（例如：`get_errors`, `get_routes`）。
-*   **`nextjs_docs`**: 獲取 Next.js 官方文件。我必須先透過 `nextjs_index` 讀取 `nextjs-docs://llms-index` 資源來找到正確的文件路徑。
-*   **`browser_eval`**: **頁面驗證的關鍵**。我會使用此工具在真實瀏覽器中載入頁面，以捕捉 `curl` 無法發現的運行時錯誤、渲染問題和前端互動 Bug。
-*   **`upgrade_nextjs_16`**: 當您需要將專案升級到 Next.js v16 時，我會使用此工具來指導整個升級流程，包括自動執行官方的 codemods。
-*   **`enable_cache_components`**: 當您需要遷移到 Next.js 16 的 Cache Components 模式時，我會使用此工具來自動化完成所有相關的設定和程式碼修正。
+*   **`pack_codebase` / `pack_remote_repository`**: Packages a local or remote code repository into a single, easily analyzable file. This is my first step in understanding the project's overall picture.
+*   **`generate_skill`**: Automatically generates a "skill package" from the codebase, allowing me to quickly learn and master your project's specific patterns and practices.
+*   **`attach_packed_output`**: If you already have a packed codebase file, I can use this tool to load it directly.
+*   **`read_repomix_output` / `grep_repomix_output`**: Allows me to read or search for specific content within the packed file.
+*   **`file_system_read_file` / `file_system_read_directory`**: Provides secure, direct file system reading capabilities to get real-time information about a single file or directory structure.
 
 ---
 
-## 6. 第三方文件查詢 (`context7`)
+## 4. `shadcn/ui` Component Library Management (`shadcn`)
 
-當我需要查詢 Next.js 以外的、任何第三方函式庫或框架的最新文件時，我會使用這套工具。
+This set of tools is specialized for managing and operating `shadcn/ui` components.
 
-*   **`resolve-library-id`**: **第一步**。將您提到的函式庫名稱（例如 "react-hook-form"）解析為 Context7 系統可識別的唯一 ID。
-*   **`query-docs`**: **第二步**。使用上一步獲取的 ID，向 Context7 查詢相關的最新文件和程式碼範例。
+*   **`get_project_registries`**: Checks `components.json` to understand which component registries are configured in the project.
+*   **`list_items_in_registries`, `search_items_in_registries`**: Lists or searches for available UI components.
+*   **`view_items_in_registries`**: Views detailed information about a specific component (code, dependencies, etc.).
+*   **`get_item_examples_from_registries`**: Finds official usage examples for a specific component.
+*   **`get_add_command_for_items`**: **Most frequently used function**. When you ask to add a UI component, I will use this tool to generate the correct `npx shadcn-ui@latest add ...` command.
+*   **`get_audit_checklist`**: After adding a component, provides a quick checklist to verify its functionality is normal.
+
+---
+
+## 5. Next.js Developer Tools (`next-devtools`)
+
+This is my powerful toolset for interacting with a running Next.js development server.
+
+*   **`nextjs_index`**: **Preferred tool**. Before making any modifications or diagnostics, I will first use it to detect all running Next.js services and list all their available MCP (Model Context Protocol) tools. This allows me to understand the application's real-time status, routes, and errors.
+*   **`nextjs_call`**: Used after `nextjs_index` to execute a specific MCP tool (e.g., `get_errors`, `get_routes`).
+*   **`nextjs_docs`**: Gets Next.js official documentation. I must first read the `nextjs-docs://llms-index` resource via `nextjs_index` to find the correct documentation path.
+*   **`browser_eval`**: **Key for page verification**. I will use this tool to load pages in a real browser to capture runtime errors, rendering issues, and front-end interaction bugs that `curl` cannot find.
+*   **`upgrade_nextjs_16`**: When you need to upgrade your project to Next.js v16, I will use this tool to guide the entire upgrade process, including automatically executing official codemods.
+*   **`enable_cache_components`**: When you need to migrate to Next.js 16's Cache Components mode, I will use this tool to automate all related setup and code corrections.
+
+---
+
+## 6. Third-Party Documentation Lookup (`context7`)
+
+When I need to query the latest documentation for any third-party library or framework other than Next.js, I will use this set of tools.
+
+*   **`resolve-library-id`**: **First step**. Resolves the library name you mentioned (e.g., "react-hook-form") into a unique ID that the Context7 system can recognize.
+*   **`query-docs`**: **Second step**. Uses the ID obtained in the previous step to query Context7 for the latest relevant documentation and code examples.
