@@ -1,0 +1,183 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Represents a user's identity and profile information, based on AuthIdentity and AccessPrincipal.",
+      "type": "object",
+      "properties": {
+        "principalId": { "type": "string", "description": "The unique identifier for the access principal." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's public display name." },
+        "photoURL": { "type": "string", "format": "uri", "description": "URL of the user's profile picture." },
+        "authProviders": { "type": "array", "items": { "type": "string" }, "description": "List of authentication providers used." }
+      },
+      "required": ["principalId", "email"]
+    },
+    "Organization": {
+      "title": "Organization (Tenant)",
+      "description": "Represents a tenant, which can be a personal account or a multi-member organization.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the organization or tenant." },
+        "type": { "type": "string", "enum": ["personal", "organization"], "description": "The type of the tenant." },
+        "status": { "type": "string", "description": "The current status of the tenant (e.g., active, suspended)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the tenant was created." }
+      },
+      "required": ["name", "type"]
+    },
+    "Workspace": {
+      "title": "Workspace",
+      "description": "Represents an execution context within a tenant, containing various work domain aggregates.",
+      "type": "object",
+      "properties": {
+        "tenantId": { "type": "string", "description": "The ID of the parent tenant." },
+        "name": { "type": "string", "description": "The name of the workspace." },
+        "status": { "type": "string", "description": "The current status of the workspace (e.g., active, archived)." },
+        "visibility": { "type": "string", "enum": ["public", "private"], "description": "The visibility of the workspace within the tenant." }
+      },
+      "required": ["tenantId", "name"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A work item or task within a workspace.",
+      "type": "object",
+      "properties": {
+        "workspaceId": { "type": "string", "description": "The ID of the parent workspace." },
+        "title": { "type": "string", "description": "The title or name of the task." },
+        "status": { "type": "string", "enum": ["proposed", "scheduled", "completed"], "description": "The current status of the task." }
+      },
+      "required": ["workspaceId", "title", "status"]
+    },
+    "QA": {
+      "title": "QA",
+      "description": "A quality assurance process for a task.",
+      "type": "object",
+      "properties": {
+        "taskId": { "type": "string", "description": "The ID of the task being checked." },
+        "status": { "type": "string", "enum": ["pending", "passed", "failed"], "description": "The status of the QA check." }
+      },
+      "required": ["taskId", "status"]
+    },
+    "Acceptance": {
+      "title": "Acceptance",
+      "description": "An acceptance test for a QA-passed item.",
+      "type": "object",
+      "properties": {
+        "qaId": { "type": "string", "description": "The ID of the QA item being accepted." },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"], "description": "The status of the acceptance test." }
+      },
+      "required": ["qaId", "status"]
+    },
+    "Finance": {
+      "title": "Finance",
+      "description": "A financial record related to an accepted work item.",
+      "type": "object",
+      "properties": {
+        "acceptanceId": { "type": "string", "description": "The ID of the accepted item." },
+        "status": { "type": "string", "enum": ["pending", "completed", "failed"], "description": "The status of the financial transaction." }
+      },
+      "required": ["acceptanceId", "status"]
+    },
+    "Issue": {
+      "title": "Issue",
+      "description": "A logged issue related to any aggregate.",
+      "type": "object",
+      "properties": {
+        "originAggregateType": { "type": "string", "description": "The type of the aggregate where the issue originated." },
+        "originAggregateId": { "type": "string", "description": "The ID of the aggregate where the issue originated." },
+        "status": { "type": "string", "enum": ["open", "resolved", "closed"], "description": "The status of the issue." }
+      },
+      "required": ["originAggregateType", "originAggregateId", "status"]
+    },
+    "File": {
+      "title": "File",
+      "description": "A passive file asset within a workspace.",
+      "type": "object",
+      "properties": {
+        "workspaceId": { "type": "string", "description": "The ID of the parent workspace." },
+        "name": { "type": "string", "description": "The name of the file." },
+        "type": { "type": "string", "description": "The MIME type of the file." },
+        "url": { "type": "string", "format": "uri", "description": "The storage URL of the file." }
+      },
+      "required": ["workspaceId", "name", "type", "url"]
+    },
+    "Diary": {
+      "title": "Diary",
+      "description": "A content or social entry within a workspace.",
+      "type": "object",
+      "properties": {
+        "workspaceId": { "type": "string", "description": "The ID of the parent workspace." },
+        "authorPrincipalId": { "type": "string", "description": "The ID of the authoring principal." },
+        "content": { "type": "string", "description": "The content of the diary entry." },
+        "visibility": { "type": "string", "enum": ["public", "workspace", "private"], "description": "Visibility of the diary entry." },
+        "status": { "type": "string", "enum": ["active", "archived"], "description": "Status of the diary entry." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["workspaceId", "authorPrincipalId", "content"]
+    },
+    "AuditLog": {
+        "title": "Audit Log",
+        "description": "A system-level record for tracking significant events.",
+        "type": "object",
+        "properties": {
+            "eventId": {"type": "string", "description": "The ID of the domain event that triggered this log."},
+            "aggregateType": {"type": "string"},
+            "aggregateId": {"type": "string"},
+            "principalId": {"type": "string"},
+            "action": {"type": "string"},
+            "occurredAt": {"type": "string", "format": "date-time"}
+        },
+        "required": ["eventId", "principalId", "action", "occurredAt"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores public profiles for all users (principals)."
+    },
+    "/organizations/{orgId}": {
+      "schema": { "$ref": "#/entities/Organization" },
+      "description": "Top-level collection for all tenants (organizations)."
+    },
+    "/organizations/{orgId}/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Subcollection for storing audit trail events for an organization."
+    },
+    "/workspaces/{workspaceId}": {
+      "schema": { "$ref": "#/entities/Workspace" },
+      "description": "Top-level collection for all workspaces across all tenants."
+    },
+    "/workspaces/{workspaceId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/Task" },
+      "description": "Subcollection for tasks within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/qas/{qaId}": {
+      "schema": { "$ref": "#/entities/QA" },
+      "description": "Subcollection for QA processes within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/acceptances/{acceptanceId}": {
+      "schema": { "$ref": "#/entities/Acceptance" },
+      "description": "Subcollection for acceptance tests within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/finances/{financeId}": {
+      "schema": { "$ref": "#/entities/Finance" },
+      "description": "Subcollection for financial records within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/issues/{issueId}": {
+      "schema": { "$ref": "#/entities/Issue" },
+      "description": "Subcollection for logged issues within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/files/{fileId}": {
+      "schema": { "$ref": "#/entities/File" },
+      "description": "Subcollection for file assets within a specific workspace."
+    },
+    "/workspaces/{workspaceId}/diaries/{diaryId}": {
+      "schema": { "$ref": "#/entities/Diary" },
+      "description": "Subcollection for diary entries within a specific workspace."
+    }
+  }
+}
