@@ -18,5 +18,8 @@
     "hooks": "@/hooks"
   },
   "iconLibrary": "lucide",
-  "mcp": true
+  "mcp": {
+    "enabled": true,
+    "strategy": "proactive_tool_use"
+  }
 }
