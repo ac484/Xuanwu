@@ -1,0 +1,83 @@
+
+"use client";
+
+import { useEffect, type ReactNode, useState } from "react";
+import { usePathname, useRouter }from "next/navigation";
+import { Loader2 } from "lucide-react";
+
+import { SidebarProvider, SidebarInset } from "@/app/_components/ui/sidebar";
+import { useAuth } from "@/context/auth-context";
+import { AccountProvider } from "@/context/account-context";
+import { useI18n } from "@/context/i18n-context";
+
+const LoadingScreen = () => {
+  const { t, isLoading } = useI18n();
+  // Start with a static message that is identical on server and client initial render.
+  const [message, setMessage] = useState("Calibrating dimension...");
+
+  useEffect(() => {
+    // Once i18n is loaded on the client, update the message to the translated version.
+    // This happens after hydration, so it's safe.
+    if (!isLoading) {
+      setMessage(t('common.loading'));
+    }
+  }, [isLoading, t]);
+  
+  return (
+    <div className="h-screen w-full flex flex-col items-center justify-center space-y-4 bg-background">
+      <div className="text-4xl animate-bounce">🐢</div>
+      <div className="flex items-center gap-2 text-muted-foreground font-black uppercase text-[10px] tracking-widest">
+        <Loader2 className="w-3 h-3 animate-spin" /> {message}
+      </div>
+    </div>
+  );
+};
+
+
+export function RootLayoutClient({ children, sidebar, header, main }: {
+  children: ReactNode;
+  sidebar: ReactNode;
+  header: ReactNode;
+  main: ReactNode;
+}) {
+  const { state } = useAuth();
+  const { user, authInitialized } = state;
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isAuthRoute = ['/login', '/register', '/forgot-password'].some(p => pathname.startsWith(p));
+  const isPublicRoute = isAuthRoute || pathname === '/';
+  
+  useEffect(() => {
+    if (!authInitialized) return;
+
+    if (user && isPublicRoute) {
+      router.replace('/overview');
+    } else if (!user && !isPublicRoute) {
+      router.replace('/');
+    }
+  }, [authInitialized, user, pathname, router, isPublicRoute]);
+
+  if (!authInitialized || (user && isPublicRoute) || (!user && !isPublicRoute)) {
+    return <LoadingScreen />;
+  }
+  
+  if (!user && isPublicRoute) {
+    return <>{children}</>;
+  }
+
+  // Render the protected dashboard layout for authenticated users on non-public routes.
+  return (
+    <AccountProvider>
+      <SidebarProvider>
+        {sidebar}
+        <SidebarInset>
+          {header}
+          <main className="flex-1 p-6 overflow-y-auto content-visibility-auto">
+            {main}
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+    </AccountProvider>
+  );
+}

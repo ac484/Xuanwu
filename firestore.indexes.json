@@ -1,3 +1,4 @@
+
 {
   "indexes": [
     {
@@ -5,17 +6,33 @@
       "queryScope": "COLLECTION_GROUP",
       "fields": [
         { "fieldPath": "orgId", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
+        { "fieldPath": "recordedAt", "order": "DESCENDING" }
       ]
     },
     {
-      "collectionGroup": "pulseLogs",
+      "collectionGroup": "auditLogs",
       "queryScope": "COLLECTION_GROUP",
       "fields": [
         { "fieldPath": "orgId", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
+        { "fieldPath": "recordedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "organizations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "memberIds",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
       ]
     }
   ],
   "fieldOverrides": []
 }
+
+    

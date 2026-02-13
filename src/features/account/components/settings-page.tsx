@@ -1,0 +1,60 @@
+"use client";
+
+import { PageHeader } from "../_components/shared/page-header";
+import { ProfileCard } from "../_components/settings/profile-card";
+import { PreferencesCard } from "../_components/settings/preferences-card";
+import { SecurityCard } from "../_components/settings/security-card";
+import { useSettingsLogic } from "../_hooks/use-settings-logic";
+
+export function SettingsPage() {
+  const {
+    isMounted,
+    user,
+    profile,
+    name,
+    setName,
+    bio,
+    setBio,
+    selectedBadges,
+    handleBadgeToggle,
+    isSaving,
+    isUploading,
+    handleSaveProfile,
+    handleWithdraw,
+    handleAvatarUpload,
+    avatarInputRef,
+    t,
+  } = useSettingsLogic();
+
+  if (!isMounted || !user) {
+    return null; // Or a loading skeleton
+  }
+
+  return (
+    <div className="space-y-8 max-w-4xl mx-auto pb-12 animate-in fade-in duration-500">
+      <PageHeader
+        title={t('settings.userSettingsTitle')}
+        description={t('settings.userSettingsDescription')}
+      />
+      <div className="grid gap-6">
+        <ProfileCard
+            user={user}
+            profile={profile}
+            name={name}
+            setName={setName}
+            bio={bio}
+            setBio={setBio}
+            selectedBadges={selectedBadges}
+            handleBadgeToggle={handleBadgeToggle}
+            handleSaveProfile={handleSaveProfile}
+            handleAvatarUpload={handleAvatarUpload}
+            isSaving={isSaving}
+            isUploading={isUploading}
+            avatarInputRef={avatarInputRef}
+        />
+        <PreferencesCard />
+        <SecurityCard onWithdraw={handleWithdraw} t={t} />
+      </div>
+    </div>
+  );
+}
