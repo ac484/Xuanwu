@@ -1,3 +1,12 @@
+# Architecture: Core Principles & Responsibilities
+
+This AI's primary directive is to assist with development by **proactively using the available tools** to understand the application's real-time state before making changes.
+
+- **Tool-First Approach**: Before any code modification, I will use `nextjs_index` and `nextjs_call` to query the running application's routes, component structure, and error states.
+- **Documentation-Driven**: I will use `nextjs_docs` to get accurate API information. I will not rely on prior knowledge.
+- **Efficiency**: I will leverage code generation tools (`shadcn`) and project analysis tools (`repomix`) where appropriate to ensure efficient and accurate task completion.
+
+---
 
 # OrgVerse Architecture
 
