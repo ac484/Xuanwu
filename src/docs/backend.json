@@ -15,13 +15,13 @@
       }
     },
     "ExpertiseBadge": {
-        "title": "Expertise Badge",
-        "description": "Represents an area of expertise for a user.",
-        "type": "object",
-        "properties": {
-            "id": { "type": "string" },
-            "name": { "type": "string" }
-        }
+      "title": "Expertise Badge",
+      "description": "Represents an area of expertise for a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" }
+      }
     },
     "Organization": {
       "title": "Organization",
@@ -31,19 +31,88 @@
         "name": { "type": "string" },
         "description": { "type": "string" },
         "ownerId": { "type": "string" },
+        "memberIds": { "type": "array", "items": { "type": "string" } },
+        "members": { "type": "array", "items": { "$ref": "#/entities/MemberReference" } },
+        "teams": { "type": "array", "items": { "$ref": "#/entities/Team" } }
+      }
+    },
+    "MemberReference": {
+      "title": "Member Reference",
+      "description": "A reference to a user within an organization.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["Owner", "Admin", "Member", "Guest"] }
+      }
+    },
+    "Team": {
+      "title": "Team",
+      "description": "A group of members within an organization.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["internal", "external"] },
         "memberIds": { "type": "array", "items": { "type": "string" } }
       }
     },
     "Workspace": {
-        "title": "Workspace",
-        "description": "A logical space within a dimension for specific projects or functions.",
-        "type": "object",
-        "properties": {
-            "name": { "type": "string" },
-            "dimensionId": { "type": "string" },
-            "visibility": { "type": "string", "enum": ["visible", "hidden"] },
-            "lifecycleState": { "type": "string", "enum": ["preparatory", "active", "stopped"]}
-        }
+      "title": "Workspace",
+      "description": "A logical space within a dimension for specific projects or functions.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "dimensionId": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["visible", "hidden"] },
+        "lifecycleState": { "type": "string", "enum": ["preparatory", "active", "stopped"] },
+        "capabilities": { "type": "array", "items": { "type": "object" } },
+        "grants": { "type": "array", "items": { "type": "object" } },
+        "teamIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "WorkspaceTask": {
+      "title": "Workspace Task",
+      "description": "A single task item within a workspace.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "progressState": { "type": "string", "enum": ["todo", "doing", "completed", "verified", "accepted"] },
+        "subtotal": { "type": "number" },
+        "parentId": { "type": "string" }
+      }
+    },
+    "WorkspaceIssue": {
+      "title": "Workspace Issue",
+      "description": "A governance issue for handling conflicts.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "type": { "type": "string", "enum": ["technical", "financial"] },
+        "priority": { "type": "string", "enum": ["high", "medium"] }
+      }
+    },
+    "ScheduleItem": {
+      "title": "Schedule Item",
+      "description": "An event or milestone on the schedule.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "accountId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PROPOSAL", "OFFICIAL", "REJECTED"] }
+      }
+    },
+    "DailyLog": {
+      "title": "Daily Log",
+      "description": "A daily activity log entry.",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "accountId": { "type": "string" }
+      }
     }
   },
   "auth": {
@@ -58,9 +127,25 @@
       "schema": { "$ref": "#/entities/Organization" },
       "description": "Stores organization data."
     },
+    "/organizations/{orgId}/dailyLogs/{logId}": {
+      "schema": { "$ref": "#/entities/DailyLog" },
+      "description": "Sub-collection for daily activity logs within an organization."
+    },
+    "/organizations/{orgId}/schedule_items/{itemId}": {
+      "schema": { "$ref": "#/entities/ScheduleItem" },
+      "description": "Sub-collection for schedule items within an organization."
+    },
     "/workspaces/{workspaceId}": {
-        "schema": { "$ref": "#/entities/Workspace" },
-        "description": "Stores workspace data."
+      "schema": { "$ref": "#/entities/Workspace" },
+      "description": "Stores workspace data."
+    },
+    "/workspaces/{workspaceId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/WorkspaceTask" },
+      "description": "Sub-collection for tasks within a workspace."
+    },
+    "/workspaces/{workspaceId}/issues/{issueId}": {
+      "schema": { "$ref": "#/entities/WorkspaceIssue" },
+      "description": "Sub-collection for issues within a workspace."
     }
   }
 }
