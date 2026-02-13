@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Represents the public and private profile of a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "User ID, same as Firebase Auth UID." },
+        "bio": { "type": "string", "description": "A short biography of the user." },
+        "photoURL": { "type": "string", "format": "uri", "description": "URL of the user's profile picture." },
+        "expertiseBadges": {
+          "type": "array",
+          "items": { "$ref": "#/entities/ExpertiseBadge" }
+        }
+      }
+    },
+    "ExpertiseBadge": {
+        "title": "Expertise Badge",
+        "description": "Represents an area of expertise for a user.",
+        "type": "object",
+        "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+        }
+    },
+    "Organization": {
+      "title": "Organization",
+      "description": "Represents a collaborative dimension for a group of users.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "memberIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Workspace": {
+        "title": "Workspace",
+        "description": "A logical space within a dimension for specific projects or functions.",
+        "type": "object",
+        "properties": {
+            "name": { "type": "string" },
+            "dimensionId": { "type": "string" },
+            "visibility": { "type": "string", "enum": ["visible", "hidden"] },
+            "lifecycleState": { "type": "string", "enum": ["preparatory", "active", "stopped"]}
+        }
+    }
+  },
+  "auth": {
+    "providers": ["password", "anonymous"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores individual user profile data."
+    },
+    "/organizations/{orgId}": {
+      "schema": { "$ref": "#/entities/Organization" },
+      "description": "Stores organization data."
+    },
+    "/workspaces/{workspaceId}": {
+        "schema": { "$ref": "#/entities/Workspace" },
+        "description": "Stores workspace data."
+    }
+  }
+}
