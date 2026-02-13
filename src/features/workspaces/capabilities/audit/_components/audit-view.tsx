@@ -5,7 +5,7 @@ import { AlertCircle, Terminal, Activity } from "lucide-react";
 import { AuditLog } from "@/types/domain";
 import { AuditTimeline } from "./audit-timeline";
 import { AuditEventItem } from "./audit-event-item";
-import { AuditDetailSheet } from "../_features/audit-detail-sheet";
+import { AuditDetailSheet } from "./audit-detail-sheet";
 import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
 import { useApp } from "@/hooks/state/use-app";
 import { useAccount } from "@/hooks/state/use-account";
