@@ -18,12 +18,7 @@ A Capability is responsible for its own:
 -   **Data Access**: All data fetching and mutations are handled via its own private hooks or actions, which in turn call the `infra` layer.
 -   **Entry Point**: Each capability MUST have a single public entry point file, `entry.tsx`, which is registered in `registry.ts`. This file acts as an adapter, connecting the capability to the workspace context.
 
-## 3. Naming Conventions
-
--   **Capability Directory**: `kebab-case` (e.g., `document-parser`).
--   **Internal Files**: All internal files and subdirectories MUST also use `kebab-case`.
-
-## 4. Communication Protocol: Event Bus
+## 3. Communication Protocol: Event Bus
 
 To communicate with other parts of the system, a Capability MUST use the event bus.
 
@@ -34,3 +29,17 @@ To communicate with other parts of the system, a Capability MUST use the event b
 4.  The `qa` capability then adds the task to its own internal state (its "To-Do" list).
 
 This ensures that `tasks` and `qa` remain completely decoupled.
+
+## 4. The "One Core, Two Views" Pattern
+
+A key architectural pattern in this project is the use of a single core view component that can be rendered in different contexts (e.g., organization-wide vs. workspace-specific).
+
+**Pain Point Solved**: Avoids duplicating UI and logic for aggregated views (organization level) and filtered views (workspace level).
+
+**Implementation**:
+1.  A reusable, "dumb" view component is created (e.g., `AuditView`, `UnifiedScheduleView`). This component is context-agnostic and simply renders the data it receives as props.
+2.  Two (or more) "smart" container components are created to provide the context:
+    *   **Organization-level container** (e.g., `OrganizationAuditPage`): Uses global hooks like `useAccount()` to fetch and pass down **aggregated data** from all relevant workspaces.
+    *   **Workspace-level container** (e.g., `WorkspaceAuditPage`): Uses context-specific hooks like `useWorkspace()` to pass down **filtered data** for that single workspace.
+
+This pattern allows for maximum code reuse and a clean separation between data fetching/context and UI presentation.
