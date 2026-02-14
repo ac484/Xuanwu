@@ -1,83 +1,117 @@
-
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
   extends: [
-    'next/core-web-vitals',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/typescript',
+    'plugin:boundaries/recommended',
   ],
-  rules: {
-    // 關閉 console.log 的警告，但允許 console.warn 和 console.error
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
-
-    // 允許未使用的變數以底線開頭
-    '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
-    
-    // 對 any 型別發出警告而非錯誤
-    '@typescript-eslint/no-explicit-any': 'warn',
-
-    // 強制執行一致的命名慣例
-    '@typescript-eslint/naming-convention': [
-      'warn',
-      // Interface 名稱應為 PascalCase，且不應以 'I' 開頭
-      {
-        selector: 'interface',
-        format: ['PascalCase'],
-        custom: {
-          regex: '^I[A-Z]',
-          match: false,
-        },
+  plugins: ['@typescript-eslint', 'import', 'boundaries'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
       },
-      // Type alias 應為 PascalCase
+    },
+    'boundaries/elements': [
       {
-        selector: 'typeAlias',
-        format: ['PascalCase'],
+        type: 'feature',
+        pattern: 'src/features/([^/]+)/',
+        capture: ['featureName'],
       },
-      // Enum 名稱應為 PascalCase
       {
-        selector: 'enum',
-        format: ['PascalCase'],
+        type: 'hooks',
+        pattern: 'src/hooks/',
       },
-    ],
-    
-    // 架構邊界規則
-    'import/no-restricted-paths': [
-      'error',
       {
-        zones: [
-          // 防止 UI 層 (app) 直接存取基礎設施層 (infra)
-          {
-            target: 'src/app/**/*!(*.spec|*.test).*',
-            from: 'src/infra/**',
-            message: 'UI 層不應直接存取 Infra 層，請透過 Feature 層的介面操作。',
-          },
-          // 防止 features 層之間互相直接依賴，應透過共享模組或事件來溝通
-          {
-            target: 'src/features/**/*!(*.spec|*.test).*',
-            from: 'src/features/**/*!(*.spec|*.test).*',
-            message: 'Features 之間不應直接互相引用，請考慮使用共享模組、Context 或事件。',
-          },
-          // 允許 feature 引用自己的子模組
-          {
-            target: 'src/features/(*)',
-            from: 'src/features/(*)',
-            allow: true
-          },
-          // 新增：防止平行路由之間互相引用
-          {
-            target: 'src/app/**/@*/**',
-            from: 'src/app/**/@*/**',
-            message: '平行路由之間不應直接互相引用。請透過父層的 layout 或 page 進行組合。'
-          },
-          // 新增：允許平行路由引用自己的子模組
-          {
-            target: 'src/app/**/@(*)/**',
-            from: 'src/app/**/@$1/**',
-            allow: true
-          }
-        ],
+        type: 'context',
+        pattern: 'src/context/',
+      },
+      {
+        type: 'ui',
+        pattern: 'src/app/_components/ui/',
+      },
+      {
+        type: 'lib',
+        pattern: 'src/lib/',
       },
     ],
   },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'import/order': [
+      'warn',
+      {
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+        pathGroups: [
+          { pattern: 'react', group: 'external', position: 'before' },
+          { pattern: '@/**', group: 'internal' },
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: { order: 'asc', caseInsensitive: true },
+      },
+    ],
+    'boundaries/entry-point': ['error', {
+      default: 'allow',
+      rules: [
+        {
+          target: 'feature',
+          disallow: ['**/_*', '**/_*/**'],
+          message: 'Module is internal. Files and folders starting with "_" cannot be imported from outside their parent feature.',
+        },
+      ],
+    }],
+    'boundaries/dependency': ['error', {
+        rules: [
+            {
+                from: { type: 'feature', featureName: '($1)' },
+                allow: [{ type: 'feature', featureName: '($1)' }],
+                message: 'A feature can only import from its own modules.'
+            },
+            {
+                from: 'feature',
+                allow: ['hooks', 'context', 'ui', 'lib'],
+            },
+            {
+                from: ['hooks', 'context', 'ui', 'lib'],
+                disallow: 'feature',
+                message: 'Global modules (hooks, context, etc.) cannot import from a specific feature.',
+            },
+        ],
+    }],
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variable",
+        "types": ["function"],
+        "filter": {
+          "regex": "^(use[A-Z])",
+          "match": false
+        },
+        "custom": {
+          "regex": "^use[A-Z].*",
+          "match": true
+        },
+        "message": "Hooks must start with 'use' and be in PascalCase (e.g., useMyHook)."
+      }
+    ]
+  },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
 };
