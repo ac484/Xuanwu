@@ -5,5 +5,5 @@
  */
 
 export * from './account.repository';
-export * from './workspace.repository';
+export * from './space.repository';
 export * from './user.repository';
