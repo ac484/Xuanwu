@@ -1,48 +1,108 @@
-# Xuanwu 系統架構藍圖 (Blueprint)
+# System Blueprint
 
-## 核心願景
-Xuanwu 是一個現代化的工作空間架構系統，旨在將「數位身分」從單一組織中解構，演進為跨維度、跨空間的「多維度協作網路」。
+This document outlines the system design, ensuring that the `blueprint.md` is in complete alignment with `ARCHITECTURE.md` and `backend.json`.
 
-## 1. 階層架構 (Hierarchy)
+## 1. Authentication Boundary
 
-### 1.1 組織維度 (Organization) - [Root Boundary]
-- **定義**：最高等級的資料與身分邊界（數據孤島）。
-- **職責**：管理全局身分、訂閱層級與組織層級的安全策略。
-- **成員模型**：**組織成員 (Org Members)** 具備進入該維度的基本身分，但不代表具備所有空間的存取權。
+- **Architecture:** `AuthIdentity`, `AuthSession`
+- **Backend:** The `UserProfile` entity, which merges the concepts of `AuthIdentity` and `AccessPrincipal`. Authentication is handled by Firebase Auth. User profiles are stored in Firestore.
+- **Firestore Collection:** `/users/{userId}`
+- **Schema (`UserProfile`):**
+  - `principalId`: string (Primary Key)
+  - `email`: string
+  - `displayName`: string
+  - `photoURL`: string
+  - `authProviders`: array of strings
 
-### 1.2 邏輯空間 (Workspace) - [Logic Boundary]
-- **定義**：組織內的純粹技術運行環境（容器）。
-- **職責**：定義運行上下文 (Context)、資源範圍 (Scope) 與安全策略 (Policy)。
-- **成員模型**：**空間成員 (Workspace Members)** 針對特定空間定義的存取名單，實現精確的最小權限原則。
+## 2. Authorization Boundary
 
-### 1.3 能力註冊表 (Specs/Blocks) - [Atomic Capabilities]
-- **定義**：掛載於 Workspace 內的獨立技術規範單元。
-- **職責**：定義 API、數據模型或組件規範，模組間保持絕對隔離，僅透過 Facade 接口進行通訊。
+- **Architecture:** `AccessPrincipal`, `AccessRole`, `AccessRoleAssignment`, `AccessPolicy`
+- **Backend:** `AccessPrincipal` is represented by the `UserProfile` entity. Role-based access control (RBAC) is implemented through `TenantMember` and `WorkspaceMember` relationships, which are not explicitly defined as separate entities in `backend.json` but are managed within the application logic. Access policies are enforced at the application layer.
 
-## 2. 核心功能模組
+## 3. Tenant Governance Boundary
 
-- **身分主權入口 (SSO)**：統一的身分驗證門戶 (demo/12345)。
-- **維度切換器 (Global Switcher)**：允許使用者在不同組織維度間無縫切換。
-- **UI 共振適配 (UI Adapter)**：利用 GenAI (Genkit) 偵測 Workspace 上下文，自動生成並應用符合品牌特色的 HSL 色彩配置。
-- **雙層成員管理**：
-  - 組織級：人才招募與全局身分管理。
-  - 空間級：特定技術節點的存取授權。
+- **Architecture:** `TenantAggregate`, `TenantMember`, `TenantPartnership`
+- **Backend:** The `Organization` entity represents the `TenantAggregate`. `TenantMember` is a logical relationship, not a separate entity. `TenantPartnership` is defined in the architecture but not yet implemented in `backend.json`.
+- **Firestore Collection:** `/organizations/{orgId}`
+- **Schema (`Organization`):**
+    - `name`: string
+    - `type`: enum (`personal`, `organization`)
+    - `status`: string
+    - `createdAt`: timestamp
 
-## 3. 技術棧 (Tech Stack)
+## 4. Workspace Boundary
 
-- **框架**: Next.js 15 (App Router)
-- **UI**: ShadCN UI + Tailwind CSS
-- **狀態管理**: Zustand (Persist)
-- **AI 引擎**: Genkit v1.x (Google Gemini 2.5 Flash)
-- **後端整合**: Firebase (Authentication / Firestore / Storage)
-- **字體**: Inter (Headline & Body)
+- **Architecture:** `WorkspaceAggregate`, `WorkspaceMember`
+- **Backend:** The `Workspace` entity represents the `WorkspaceAggregate`. `WorkspaceMember` is a logical relationship.
+- **Firestore Collection:** `/workspaces/{workspaceId}`
+- **Schema (`Workspace`):**
+    - `tenantId`: string
+    - `name`: string
+    - `status`: string
+    - `visibility`: enum (`public`, `private`)
 
-## 4. 視覺語言 (Visual Identity)
+## 5. Work Domain Aggregates
 
-- **Primary**: Deep Sky Blue (#00BFFF) - 代表信任與權威。
-- **Background**: Light Gray (#E0E0E0) - 提供中性底色。
-- **Accent**: Coral (#FF807A) - 用於交互元素。
-- **風格**: 原子化、模塊化疊加、磨砂玻璃效果、流體過渡。
+This boundary contains the core business logic aggregates, all of which are stored as sub-collections within a workspace.
 
----
-*文件狀態：已同步於重構 v2.0 - 原子化空間架構優化版*
+- **Architecture:** `TaskAggregate`, `QaAggregate`, `AcceptanceAggregate`, `FinanceAggregate`, `IssueAggregate`
+- **Backend Entities:** `Task`, `QA`, `Acceptance`, `Finance`, `Issue`
+
+- **Firestore Sub-collections:**
+  - `/workspaces/{workspaceId}/tasks/{taskId}` (Schema: `Task`)
+  - `/workspaces/{workspaceId}/qas/{qaId}` (Schema: `QA`)
+  - `/workspaces/{workspaceId}/acceptances/{acceptanceId}` (Schema: `Acceptance`)
+  - `/workspaces/{workspaceId}/finances/{financeId}` (Schema: `Finance`)
+  - `/workspaces/{workspaceId}/issues/{issueId}` (Schema: `Issue`)
+
+## 6. Resource Boundary
+
+- **Architecture:** `FileAggregate`
+- **Backend:** The `File` entity represents a passive resource.
+- **Firestore Sub-collection:** `/workspaces/{workspaceId}/files/{fileId}`
+- **Schema (`File`):**
+    - `workspaceId`: string
+    - `name`: string
+    - `type`: string
+    - `url`: string (uri)
+
+## 7. Diary Aggregate
+
+- **Architecture:** `DiaryAggregate`
+- **Backend:** The `Diary` entity represents a content/social entry.
+- **Firestore Sub-collection:** `/workspaces/{workspaceId}/diaries/{diaryId}`
+- **Schema (`Diary`):**
+    - `workspaceId`: string
+    - `authorPrincipalId`: string
+    - `content`: string
+    - `visibility`: enum (`public`, `workspace`, `private`)
+    - `status`: enum (`active`, `archived`)
+    - `createdAt`: timestamp
+
+## 8. External Service Boundary (Conceptual)
+
+- **Architecture:** `DocumentParserService`, `TaskDraft`
+- **Backend:** This is a conceptual boundary. The `DocumentParserService` is envisioned as a microservice or cloud function that processes files to create `Task` drafts, which are then used to create `Task` aggregates. This is not directly defined in `backend.json`.
+
+## 9. Command Boundary (Conceptual)
+
+- **Architecture:** `DomainCommand`, `CommandHandler`
+- **Backend:** This is a conceptual boundary representing the application's command layer (e.g., API endpoints, cloud functions). These are the sole entry points for mutating the state of aggregates, as enforced by application logic and Firestore security rules.
+
+## 10. Event Boundary (Conceptual)
+
+- **Architecture:** `DomainEvent`, `EventStore`, `ProjectionSubscriber`
+- **Backend:** This is a conceptual boundary. Domain events are generated by aggregates upon state changes. An `EventStore` (e.g., a dedicated Firestore collection) could be used to persist these events, and `ProjectionSubscriber`s would then update read models or trigger other side effects.
+
+## 11. Audit Boundary
+
+- **Architecture:** `AuditLog`, `AuditSubscriber`
+- **Backend:** The `AuditLog` entity provides a system-level audit trail. An `AuditSubscriber` (e.g., a cloud function triggered by domain events) would be responsible for creating these log entries.
+- **Firestore Sub-collection:** `/organizations/{orgId}/auditLogs/{logId}`
+- **Schema (`AuditLog`):**
+    - `eventId`: string
+    - `aggregateType`: string
+    - `aggregateId`: string
+    - `principalId`: string
+    - `action`: string
+    - `occurredAt`: timestamp
