@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
@@ -44,20 +44,20 @@ const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
   
 export default function CapabilityManager() {
-    const { workspace, logAuditEvent, mountCapabilities, unmountCapability } = useWorkspace();
+    const { space, logAuditEvent, mountCapabilities, unmountCapability } = useSpace();
     const { state } = useApp();
     const { capabilitySpecs, organizations } = state;
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [selectedCaps, setSelectedCaps] = useState<Set<string>>(new Set());
 
     const ownerType = useMemo(() => 
-      organizations[workspace.dimensionId] ? 'organization' : 'user',
-      [organizations, workspace.dimensionId]
+      organizations[space.dimensionId] ? 'organization' : 'user',
+      [organizations, space.dimensionId]
     );
 
     const mountedCapIds = useMemo(() => 
-      (workspace?.capabilities || []).map((c: Capability) => c.id),
-      [workspace?.capabilities]
+      (space?.capabilities || []).map((c: Capability) => c.id),
+      [space?.capabilities]
     );
     
     const availableSpecs = useMemo(() => {
@@ -149,11 +149,11 @@ export default function CapabilityManager() {
                     <Layers className="w-5 h-5 text-primary" />
                     Capability Management
                 </CardTitle>
-                <CardDescription>Manage mounted "atomic capabilities" for the workspace.</CardDescription>
+                <CardDescription>Manage mounted "atomic capabilities" for the space.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {(workspace.capabilities || []).map((cap: any) => (
+                    {(space.capabilities || []).map((cap: any) => (
                     <Card key={cap.id} className="border-border/60 hover:border-primary/40 transition-all group bg-card/40 backdrop-blur-sm overflow-hidden">
                         <CardHeader className="pb-4">
                         <div className="flex items-center justify-between mb-4">
@@ -191,8 +191,8 @@ export default function CapabilityManager() {
                     <DialogDescription className="flex items-center gap-2 pt-2">
                     <Info className="w-4 h-4 text-muted-foreground" />
                     {ownerType === 'user' 
-                        ? "Showing core capabilities available for a Personal Workspace."
-                        : "Showing all available capabilities for an Organizational Workspace."}
+                        ? "Showing core capabilities available for a Personal Space."
+                        : "Showing all available capabilities for an Organizational Space."}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 max-h-[60vh] overflow-y-auto">
