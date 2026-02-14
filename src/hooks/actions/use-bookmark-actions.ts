@@ -29,12 +29,12 @@ export function useBookmarkActions() {
 
     useEffect(() => {
         if (!user || !db) {
-            setLoading(false);
-            setBookmarks(new Set());
+            if (loading) setLoading(false);
+            if (bookmarks.size > 0) setBookmarks(new Set());
             return;
         }
 
-        setLoading(true);
+        if (!loading) setLoading(true);
         const bookmarksQuery = query(collection(db, `users/${user.id}/bookmarks`));
         const unsubscribe = onSnapshot(bookmarksQuery, (snapshot) => {
             const bookmarkedIds = new Set(snapshot.docs.map(doc => doc.id));
@@ -46,7 +46,7 @@ export function useBookmarkActions() {
         });
 
         return () => unsubscribe();
-    }, [user, db]);
+    }, [user, db, loading, bookmarks.size]);
 
     const toggleBookmark = useCallback(async (logId: string, shouldBookmark: boolean) => {
         if (!user) return;

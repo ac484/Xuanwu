@@ -15,17 +15,20 @@ import { SpaceTask } from "@/types/domain";
  */
 export default function SpaceFinance() {
   const { space, logAuditEvent, eventBus } = useSpace();
+
+  const initialTasks = useMemo(() =>
+    Object.values(space.tasks || {}).filter(
+      (task) => task.progressState === "accepted"
+    ),
+    [space.tasks]);
   
-  const [acceptedTasks, setAcceptedTasks] = useState<SpaceTask[]>([]);
+  const [acceptedTasks, setAcceptedTasks] = useState<SpaceTask[]>(initialTasks);
   const totalAcceptedTasks = acceptedTasks.length;
 
   // 1. Independent State Hydration: Consumes task data from the parent context on mount.
   useEffect(() => {
-    const initialTasks = Object.values(space.tasks || {}).filter(
-      (task) => task.progressState === "accepted"
-    );
     setAcceptedTasks(initialTasks);
-  }, [space.tasks]);
+  }, [initialTasks]);
 
   // 2. Event-Driven Updates: Subscribes to events for real-time changes.
   useEffect(() => {

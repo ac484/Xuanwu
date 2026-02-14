@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { Heart } from "lucide-react";
 
@@ -17,13 +17,20 @@ interface LikeButtonProps {
 
 export function LikeButton({ log, currentUser }: LikeButtonProps) {
   const { toggleLike } = useDailyActions();
-  const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  
+  const initialIsLiked = useMemo(() => 
+    currentUser ? log.likes?.includes(currentUser.id) ?? false : false,
+    [log.likes, currentUser]
+  );
+  const initialLikeCount = useMemo(() => log.likeCount || 0, [log.likeCount]);
+
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   useEffect(() => {
-    setIsLiked(currentUser ? log.likes?.includes(currentUser.id) ?? false : false);
-    setLikeCount(log.likeCount || 0);
-  }, [log, currentUser]);
+    setIsLiked(initialIsLiked);
+    setLikeCount(initialLikeCount);
+  }, [initialIsLiked, initialLikeCount]);
 
   const handleToggleLike = useCallback(() => {
     if (!currentUser) return;
@@ -34,10 +41,10 @@ export function LikeButton({ log, currentUser }: LikeButtonProps) {
     setLikeCount(newLikeCount);
 
     toggleLike(log.id).catch(() => {
-      setIsLiked(currentUser ? log.likes?.includes(currentUser.id) ?? false : false);
-      setLikeCount(log.likeCount || 0);
+      setIsLiked(initialIsLiked);
+      setLikeCount(initialLikeCount);
     });
-  }, [isLiked, likeCount, toggleLike, log, currentUser]);
+  }, [isLiked, likeCount, toggleLike, log.id, currentUser, initialIsLiked, initialLikeCount]);
 
   return (
     <div className="flex items-center gap-1">

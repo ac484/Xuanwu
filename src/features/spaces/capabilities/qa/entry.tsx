@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { ShieldCheck, XCircle, CheckCircle, Search, AlertTriangle } from "lucide-react";
 
@@ -23,15 +23,17 @@ export default function SpaceQA() {
   const { space, logAuditEvent, eventBus, updateTask } = useSpace();
   const { state: { user } } = useAuth();
   
-  const [qaTasks, setQaTasks] = useState<SpaceTask[]>([]);
+  const initialTasks = useMemo(() => 
+    Object.values(space.tasks || {}).filter(
+      (task) => task.progressState === "completed"
+    ), [space.tasks]);
+
+  const [qaTasks, setQaTasks] = useState<SpaceTask[]>(initialTasks);
 
   // 1. Independent State Hydration: Consumes task data from the parent context on mount.
   useEffect(() => {
-    const initialTasks = Object.values(space.tasks || {}).filter(
-      (task) => task.progressState === "completed"
-    );
     setQaTasks(initialTasks);
-  }, [space.tasks]);
+  }, [initialTasks]);
 
 
   // 2. Event-Driven Updates: Subscribes to events for real-time changes.

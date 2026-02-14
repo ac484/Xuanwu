@@ -12,6 +12,7 @@ import { Badge } from "@/app/_components/ui/badge";
 // ============================================================================
 // Internal Dependencies - Contexts & Hooks
 // ============================================================================
+
 import { useAuth } from "@/context/auth-context";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useAccount } from "@/hooks/state/use-account";
@@ -68,6 +69,10 @@ export default function OverviewPage() {
   const { user } = authState;
   const { spaces } = accountState;
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const organizationsArray = useMemo(() => Object.values(organizations), [organizations]);
   
   const dimensionSpaces = useMemo(() => {
@@ -115,10 +120,6 @@ export default function OverviewPage() {
     return [];
   }, [spaces, activeAccount, organizations, user]);
   
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const activeOrg = useMemo(() => 
     activeAccount?.type === 'organization' ? organizations[activeAccount.id] : null,
     [organizations, activeAccount]

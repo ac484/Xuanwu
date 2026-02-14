@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { 
-  Box, 
+  Box,
   Settings2,
   Eye,
   EyeOff
@@ -16,7 +16,6 @@ import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
 import { Switch } from "@/app/_components/ui/switch";
-import { Textarea } from "@/app/_components/ui/textarea";
 import { useWorkspace } from "@/features/workspaces";
 import { toast } from "@/hooks/ui/use-toast";
 import { WorkspaceLifecycleState, Address } from "@/types/domain";
@@ -67,6 +66,8 @@ function WorkspaceSettingsForm() {
         }
     }
   
+    if (!state.workspace) return null;
+
     return (
         <div className="space-y-8">
             <Card>

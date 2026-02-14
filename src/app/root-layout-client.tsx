@@ -13,17 +13,8 @@ import { useI18n } from "@/features/core/i18n/i18n-context";
 
 const LoadingScreen = () => {
   const { t, isLoading } = useI18n();
-  // Start with a static message that is identical on server and client initial render.
-  const [message, setMessage] = useState("Calibrating dimension...");
+  const message = isLoading ? "Calibrating dimension..." : t('common.loading');
 
-  useEffect(() => {
-    // Once i18n is loaded on the client, update the message to the translated version.
-    // This happens after hydration, so it's safe.
-    if (!isLoading) {
-      setMessage(t('common.loading'));
-    }
-  }, [isLoading, t]);
-  
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center space-y-4 bg-background">
       <div className="text-4xl animate-bounce">🐢</div>

@@ -61,7 +61,7 @@ export function SpacesPage() {
   if (!mounted || !activeAccount) return null;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-500 gpu-accelerated">
+    <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-500">
       <SpaceListHeader
         activeAccountName={activeAccount.name}
         viewMode={viewMode}
@@ -104,8 +104,8 @@ export function SpacesPage() {
               </DialogTitle>
           </DialogHeader>
           <div className="py-4 p-4 bg-destructive/5 rounded-2xl border border-destructive/20 text-[11px] text-destructive italic">
-              This action will permanently erase the space node "
-              {spaceToDelete?.name}" and all its subordinate atomic data and technical
+              This action will permanently erase the space node &quot;
+              {spaceToDelete?.name}&quot; and all its subordinate atomic data and technical
               specifications.
           </div>
           <DialogFooter>

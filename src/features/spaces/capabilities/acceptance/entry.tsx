@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { Trophy, CheckCircle2, Search, XCircle, AlertTriangle } from "lucide-react";
 
@@ -23,14 +23,16 @@ export default function SpaceAcceptance() {
   const { state: space, logAuditEvent, eventBus, updateTask } = useSpace() as any;
   const { state: { user } } = useAuth();
   
-  const [verifiedTasks, setVerifiedTasks] = useState<SpaceTask[]>([]);
+  const initialTasks = useMemo(() => 
+    Object.values(space.tasks || {}).filter(
+      (task: any) => task.progressState === "verified"
+    ), [space.tasks]);
+
+  const [verifiedTasks, setVerifiedTasks] = useState<SpaceTask[]>(initialTasks as any[]);
 
   useEffect(() => {
-    const initialTasks = Object.values(space.tasks || {}).filter(
-      (task: any) => task.progressState === "verified"
-    );
     setVerifiedTasks(initialTasks as any[]);
-  }, [space.tasks]);
+  }, [initialTasks]);
 
 
   useEffect(() => {
