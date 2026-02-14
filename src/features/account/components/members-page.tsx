@@ -1,15 +1,18 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/app/_components/ui/card";
+import { useState, useEffect, useMemo } from "react";
+
+import { UserPlus, Trash2, Mail, AlertCircle } from "lucide-react";
+
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
-import { UserPlus, Trash2, Mail, AlertCircle } from "lucide-react";
-import { toast } from "@/hooks/ui/use-toast";
-import { useState, useEffect, useMemo } from "react";
-import { MemberReference } from "@/types/domain";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/app/_components/ui/card";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useApp } from "@/hooks/state/use-app";
 import { useOrganization } from "@/hooks/state/use-organization";
-import { useI18n } from "@/features/core/i18n/i18n-context";
+import { toast } from "@/hooks/ui/use-toast";
+import { MemberReference } from "@/types/domain";
+
 import { PageHeader } from "../_components/shared/page-header";
 
 export function MembersPage() {

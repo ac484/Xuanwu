@@ -1,8 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/app/_components/ui/button";
+
+import { Check, ChevronsUpDown, Globe, Plus } from "lucide-react";
+import Link from "next/link";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
+import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +15,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { Check, ChevronsUpDown, Globe, Plus } from "lucide-react";
-import { SwitchableAccount, User, UserProfile, Organization } from "@/types/domain";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { SwitchableAccount, User, UserProfile, Organization } from "@/types/domain";
+
+
 import { OrgCreateDialog } from "./org-create-dialog";
 
 interface AccountSwitcherProps {

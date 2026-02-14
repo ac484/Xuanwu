@@ -1,14 +1,18 @@
 // [職責] 監聽事件並執行副作用 (The Orchestrator)
 "use client";
 import { useEffect } from "react";
+
+import { collection, doc, writeBatch, serverTimestamp, addDoc } from 'firebase/firestore';
+
+import { ToastAction } from "@/app/_components/ui/toast";
+import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
+import { useSpace } from "@/features/spaces/_hooks/use-space";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
-import { ToastAction } from "@/app/_components/ui/toast";
-import { collection, doc, writeBatch, serverTimestamp, addDoc } from 'firebase/firestore';
-import type { SpaceEventPayloadMap } from "./space-events";
 import { SpaceTask } from "@/types/domain";
-import { useSpace } from "@/features/spaces/_hooks/use-space";
-import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
+
+import type { SpaceEventPayloadMap } from "./space-events";
+
 
 /**
  * @fileoverview Global event handler for space-level events.

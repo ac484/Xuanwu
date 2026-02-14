@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+import { format } from "date-fns";
+import { CalendarIcon, MapPin } from "lucide-react";
 import { DateRange } from "react-day-picker";
+
+import { Button } from "@/app/_components/ui/button";
+import { Calendar } from "@/app/_components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +16,12 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/app/_components/ui/dialog";
-import { Button } from "@/app/_components/ui/button";
-import { Label } from "@/app/_components/ui/label";
 import { Input } from "@/app/_components/ui/input";
-import { Textarea } from "@/app/_components/ui/textarea";
+import { Label } from "@/app/_components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/_components/ui/popover";
-import { Calendar } from "@/app/_components/ui/calendar";
-import { CalendarIcon, MapPin } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { Textarea } from "@/app/_components/ui/textarea";
 import { toast } from "@/hooks/ui/use-toast";
+import { cn } from "@/lib/utils";
 import { Location } from "@/types/domain";
 
 interface ProposalDialogProps {

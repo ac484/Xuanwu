@@ -1,10 +1,12 @@
 "use client";
 
-import { Label } from "@/app/_components/ui/label";
-import { Input } from "@/app/_components/ui/input";
-import { Textarea } from "@/app/_components/ui/textarea";
 import { Checkbox } from "@/app/_components/ui/checkbox";
+import { Input } from "@/app/_components/ui/input";
+import { Label } from "@/app/_components/ui/label";
+import { Textarea } from "@/app/_components/ui/textarea";
+
 import { AVAILABLE_BADGES } from "../../../_constants/badges";
+
 import type { ProfileFormProps } from '../../../_types/settings';
 
 export function ProfileForm({ name, setName, bio, setBio, email, selectedBadges, handleBadgeToggle }: ProfileFormProps) {

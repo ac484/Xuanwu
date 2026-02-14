@@ -1,7 +1,8 @@
 "use client";
 
-import { Button } from "@/app/_components/ui/button";
 import { MessageCircle } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
 
 interface CommentButtonProps {
   count?: number;

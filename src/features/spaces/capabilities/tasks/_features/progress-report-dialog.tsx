@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { toast } from "@/hooks/ui/use-toast";
+
+import { Button } from '@/app/_components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -10,9 +11,10 @@ import {
   DialogFooter,
   DialogDescription,
 } from '@/app/_components/ui/dialog';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
 import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
+import { toast } from "@/hooks/ui/use-toast";
+
 import type { TaskWithChildren } from '../_types/types';
 
 export function ProgressReportDialog({

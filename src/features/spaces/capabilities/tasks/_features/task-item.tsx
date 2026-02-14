@@ -12,10 +12,12 @@ import {
   MapPin,
 } from 'lucide-react';
 import Image from "next/image";
-import { Button } from '@/app/_components/ui/button';
+
 import { Badge } from '@/app/_components/ui/badge';
+import { Button } from '@/app/_components/ui/button';
 import { Progress } from '@/app/_components/ui/progress';
 import { cn } from "@/lib/utils";
+
 import type { TaskWithChildren } from '../_types/types';
 
 interface TaskItemProps {

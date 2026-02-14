@@ -1,11 +1,13 @@
 "use client";
 
-import { ScheduleItem } from "@/types/domain";
+import { Check, X } from "lucide-react";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
-import { Button } from "@/app/_components/ui/button";
-import { Badge } from "@/app/_components/ui/badge";
-import { Check, X } from "lucide-react";
+import { ScheduleItem } from "@/types/domain";
+
 
 interface GovernanceSidebarProps {
   proposals: ScheduleItem[];

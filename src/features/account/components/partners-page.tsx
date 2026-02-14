@@ -1,10 +1,13 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/app/_components/ui/card";
+import { useState, useEffect, useMemo } from "react";
+
+import { Handshake, Plus, FolderTree, ArrowRight, Globe, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
-import { Handshake, Plus, FolderTree, ArrowRight, Globe, AlertCircle } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/app/_components/ui/card";
 import { 
   Dialog, 
   DialogContent, 
@@ -13,13 +16,13 @@ import {
   DialogFooter,
   DialogDescription
 } from "@/app/_components/ui/dialog";
-import { Label } from "@/app/_components/ui/label";
 import { Input } from "@/app/_components/ui/input";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/ui/use-toast";
+import { Label } from "@/app/_components/ui/label";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useApp } from "@/hooks/state/use-app";
 import { useOrganization } from "@/hooks/state/use-organization";
-import { useI18n } from "@/features/core/i18n/i18n-context";
+import { toast } from "@/hooks/ui/use-toast";
+
 import { PageHeader } from "../_components/shared/page-header";
 
 /**

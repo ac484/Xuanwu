@@ -1,8 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/_components/ui/card";
-import { Button } from "@/app/_components/ui/button";
 import { AlertTriangle } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/_components/ui/card";
+
 import type { SecurityCardProps } from '../../_types/settings';
 
 export function SecurityCard({ onWithdraw, t }: SecurityCardProps) {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useOptionalWorkspace } from "@/features/workspaces";
-import { DailyLog } from "@/types/domain";
+import { Share2 } from "lucide-react";
+
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -9,8 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { Share2 } from "lucide-react";
+import { useOptionalWorkspace } from "@/features/workspaces";
 import { toast } from "@/hooks/ui/use-toast";
+import { DailyLog } from "@/types/domain";
+
+
 
 interface ShareButtonProps {
   log: DailyLog;

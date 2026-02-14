@@ -1,16 +1,18 @@
 
 'use client';
 
-import { FormProvider, useFormContext } from 'react-hook-form';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from '@/app/_components/ui/dialog';
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/app/_components/ui/input-group";
-import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
 import { Mail } from 'lucide-react';
+import { FormProvider, useFormContext } from 'react-hook-form';
+
+import { Button } from '@/app/_components/ui/button';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from '@/app/_components/ui/dialog';
+import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/app/_components/ui/input-group";
+import { Label } from '@/app/_components/ui/label';
 import { useI18n } from '@/context/i18n-context';
-import type { UseFormReturn } from 'react-hook-form';
+
 import type { ResetPasswordFormValues } from '../_schemas/auth.schema';
+import type { UseFormReturn } from 'react-hook-form';
 
 interface ResetPasswordDialogProps {
   isOpen: boolean;

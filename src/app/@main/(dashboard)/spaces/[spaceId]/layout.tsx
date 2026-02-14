@@ -2,6 +2,7 @@
 "use client";
 
 import { ReactNode } from "react";
+
 import { SpaceLayout } from "@/features/spaces";
 
 /**

@@ -1,24 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/ui/use-toast";
+
 import { addMonths, subMonths } from "date-fns";
+import { History, Calendar, ListChecks, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useApp } from "@/hooks/state/use-app";
+import { toast } from "@/hooks/ui/use-toast";
 import type { ScheduleItem, Location, MemberReference } from "@/types/domain";
 
 // UI Components
-import { History, Calendar, ListChecks, AlertCircle } from "lucide-react";
-import { UnifiedCalendarGrid } from "./unified-calendar-grid";
-import { GovernanceSidebar } from "./governance-sidebar";
-import { ScheduleSection } from "./schedule-section";
-import { upcomingEventsColumns } from "./upcoming-events-columns";
+
 import { decisionHistoryColumns } from "./decision-history-columns";
+import { GovernanceSidebar } from "./governance-sidebar";
 import { ProposalDialog } from "./proposal-dialog";
+import { ScheduleSection } from "./schedule-section";
+import { UnifiedCalendarGrid } from "./unified-calendar-grid";
+import { upcomingEventsColumns } from "./upcoming-events-columns";
 
 
 // Hooks
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
-import { useApp } from "@/hooks/state/use-app";
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (

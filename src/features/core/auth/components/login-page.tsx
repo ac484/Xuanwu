@@ -2,8 +2,11 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import { Dialog, DialogContent, DialogTitle } from '@/app/_components/ui/dialog';
+
 import { AuthBackground } from '../_components/auth-background';
 import { AuthTabsRoot } from '../_components/auth-tabs-root';
 import { ResetPasswordDialog } from '../_components/reset-password-dialog';

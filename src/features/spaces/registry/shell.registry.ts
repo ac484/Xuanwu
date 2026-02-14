@@ -1,6 +1,7 @@
-import dynamic from 'next/dynamic';
-import type { CapabilityDetail } from '../capability.model';
 import { LayoutDashboard, Layers, Settings } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+import type { CapabilityDetail } from '../capability.model';
 
 /**
  * Defines the shell capabilities, which are fundamental to the workspace container itself.

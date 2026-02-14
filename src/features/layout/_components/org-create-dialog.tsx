@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+import { Loader2 } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +13,8 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/app/_components/ui/dialog";
-import { Button } from "@/app/_components/ui/button";
-import { Label } from "@/app/_components/ui/label";
 import { Input } from "@/app/_components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Label } from "@/app/_components/ui/label";
 import { toast } from "@/hooks/ui/use-toast";
 import { Organization, SwitchableAccount } from "@/types/domain";
 

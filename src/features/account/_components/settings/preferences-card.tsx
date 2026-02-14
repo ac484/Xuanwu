@@ -1,10 +1,11 @@
 "use client";
 
+import { Bell } from "lucide-react";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Label } from "@/app/_components/ui/label";
 import { Separator } from "@/app/_components/ui/separator";
 import { Switch } from "@/app/_components/ui/switch";
-import { Bell } from "lucide-react";
 
 export function PreferencesCard() {
   return (

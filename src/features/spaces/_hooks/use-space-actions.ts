@@ -1,15 +1,7 @@
 // [職責] 提供所有操作函式。
 // 所有先前在 SpaceContextShell 中的操作函式都將移到這裡。
 import { useCallback } from 'react';
-import { 
-  Space, 
-  SpaceTask, 
-  SpaceRole, 
-  Capability, 
-  SpaceLifecycleState, 
-  Address, 
-  ScheduleItem 
-} from '@/types/domain';
+
 import {
   createTask as createTaskFacade,
   updateTask as updateTaskFacade,
@@ -27,6 +19,15 @@ import {
   createScheduleItem as createScheduleItemFacade,
 } from '@/features/core/firebase/firestore/firestore.facade';
 import { useLogger } from '@/features/spaces/_hooks/shell/use-logger';
+import { 
+  Space, 
+  SpaceTask, 
+  SpaceRole, 
+  Capability, 
+  SpaceLifecycleState, 
+  Address, 
+  ScheduleItem 
+} from '@/types/domain';
 
 interface UseSpaceActionsProps {
   spaceId: string;

@@ -3,8 +3,9 @@
  * @fileOverview Extracts line items from an invoice or quote document.
  */
 
-import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+
+import { ai } from '@/ai/genkit';
 import {
   ExtractInvoiceItemsInputSchema,
   ExtractInvoiceItemsOutputSchema,

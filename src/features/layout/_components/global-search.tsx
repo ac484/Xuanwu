@@ -1,5 +1,9 @@
 "use client";
 
+import { Globe, Layers, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { Badge } from "@/app/_components/ui/badge";
 import {
   CommandDialog,
   CommandEmpty,
@@ -8,9 +12,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/app/_components/ui/command";
-import { Badge } from "@/app/_components/ui/badge";
-import { Globe, Layers, User } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Organization, Workspace, MemberReference, SwitchableAccount } from "@/types/domain";
 
 interface GlobalSearchProps {

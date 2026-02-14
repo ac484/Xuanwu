@@ -1,7 +1,7 @@
 "use client";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/app/_components/ui/sheet";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/app/_components/ui/sheet";
 import { AuditLog } from "@/types/domain";
 
 interface AuditDetailSheetProps {

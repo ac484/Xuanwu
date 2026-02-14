@@ -1,7 +1,11 @@
 // [職責] 單個 Space 的卡片展示
 "use client";
 
+import { MoreVertical, Eye, EyeOff, Shield, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,17 +14,14 @@ import {
   CardTitle,
   CardFooter,
 } from "@/app/_components/ui/card";
-import { Badge } from "@/app/_components/ui/badge";
-import { Button } from "@/app/_components/ui/button";
-import { MoreVertical, Eye, EyeOff, Shield, MapPin } from "lucide-react";
-import type { Space } from "@/types/domain";
-import { useI18n } from "@/features/core/i18n/i18n-context";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
+import { useI18n } from "@/features/core/i18n/i18n-context";
+import type { Space } from "@/types/domain";
 
 interface SpaceCardProps {
   space: Space;

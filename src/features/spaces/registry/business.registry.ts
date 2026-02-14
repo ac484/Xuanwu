@@ -1,6 +1,7 @@
-import dynamic from 'next/dynamic';
-import type { CapabilityDetail } from '../capability.model';
 import { FileText, ListTodo, Landmark, MessageSquare, Calendar, FileScan } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+import type { CapabilityDetail } from '../capability.model';
 
 /**
  * [Business] Business Function List

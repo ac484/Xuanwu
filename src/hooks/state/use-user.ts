@@ -2,7 +2,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+
 import { onSnapshot, doc } from 'firebase/firestore';
+
 import { useAuth } from '@/context/auth-context';
 import { useFirebase } from '@/context/firebase-context';
 import {

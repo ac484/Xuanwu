@@ -1,13 +1,15 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from 'react';
+
 import { FirebaseApp } from 'firebase/app';
-import { Firestore } from 'firebase/firestore';
 import { Auth } from 'firebase/auth';
+import { Firestore } from 'firebase/firestore';
 import { FirebaseStorage } from 'firebase/storage';
+
 import { app } from '@/features/core/firebase/app.client';
-import { db } from '@/features/core/firebase/firestore/firestore.client';
 import { auth } from '@/features/core/firebase/auth/auth.client';
+import { db } from '@/features/core/firebase/firestore/firestore.client';
 import { storage } from '@/features/core/firebase/storage/storage.client';
 
 interface FirebaseContextType {

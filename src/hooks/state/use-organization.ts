@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from 'react';
-import { useApp } from './use-app';
+
 import { useAuth } from '@/context/auth-context';
 import {
   createOrganization as createOrganizationFacade,
@@ -15,6 +15,8 @@ import {
   deleteOrganization as deleteOrganizationFacade,
 } from '@/features/core/firebase/firestore/firestore.facade';
 import type { MemberReference, User, ThemeConfig } from '@/types/domain';
+
+import { useApp } from './use-app';
 
 /**
  * @fileoverview A hook for managing organization-level actions.

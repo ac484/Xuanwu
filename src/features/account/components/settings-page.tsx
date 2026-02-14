@@ -1,12 +1,14 @@
 "use client";
 
-import { PageHeader } from "../_components/shared/page-header";
-import { ProfileCard } from "../_components/settings/profile-card";
-import { PreferencesCard } from "../_components/settings/preferences-card";
-import { SecurityCard } from "../_components/settings/security-card";
-import { DangerZoneCard } from "../_components/settings/danger-zone-card";
-import { useSettingsLogic } from "../_hooks/use-settings-logic";
 import { useI18n } from "@/features/core/i18n/i18n-context";
+
+import { DangerZoneCard } from "../_components/settings/danger-zone-card";
+import { PreferencesCard } from "../_components/settings/preferences-card";
+import { ProfileCard } from "../_components/settings/profile-card";
+import { SecurityCard } from "../_components/settings/security-card";
+import { PageHeader } from "../_components/shared/page-header";
+import { useSettingsLogic } from "../_hooks/use-settings-logic";
+
 
 export function SettingsPage() {
   const {

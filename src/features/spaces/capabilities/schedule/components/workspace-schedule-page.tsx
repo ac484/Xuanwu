@@ -1,11 +1,14 @@
 "use client";
 
+import { useCallback } from 'react';
+
+import { MemberReference, ScheduleItem } from "@/types/domain";
+
+import { AssignMemberDropdown } from "../_components/assign-member-dropdown";
 import { UnifiedScheduleView } from "../_components/unified-schedule-view";
 import { useWorkspaceSchedule } from "../_hooks/use-workspace-schedule";
 import { useWorkspaceScheduleActions } from "../_hooks/use-workspace-schedule-actions";
-import { MemberReference, ScheduleItem } from "@/types/domain";
-import { AssignMemberDropdown } from "../_components/assign-member-dropdown";
-import { useCallback } from 'react';
+
 
 
 /**

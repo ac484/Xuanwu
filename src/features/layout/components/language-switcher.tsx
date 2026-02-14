@@ -1,7 +1,7 @@
 "use client";
 
-import { useI18n } from '@/features/core/i18n/i18n-context';
-import { Locale } from '@/types/i18n';
+import { Globe } from 'lucide-react';
+
 import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
@@ -9,7 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-import { Globe } from 'lucide-react';
+import { useI18n } from '@/features/core/i18n/i18n-context';
+import { Locale } from '@/types/i18n';
+
 
 const LOCALE_NAMES: Record<Locale, string> = {
   'en': 'English',

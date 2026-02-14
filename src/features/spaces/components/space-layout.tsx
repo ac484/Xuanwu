@@ -2,9 +2,11 @@
 "use client";
 
 import { ReactNode, Suspense } from "react";
-import { SpaceContext, useSpaceController } from "@/features/spaces/_context";
-import { SpaceHeader } from "@/features/spaces/_components/shell/space-header";
+
 import { Loader2 } from "lucide-react";
+
+import { SpaceHeader } from "@/features/spaces/_components/shell/space-header";
+import { SpaceContext, useSpaceController } from "@/features/spaces/_context";
 
 /**
  * A suspense boundary to show a loading state while the page component (a capability) loads.

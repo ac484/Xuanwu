@@ -1,12 +1,13 @@
 
 'use client';
 
-import { useFormContext } from 'react-hook-form';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/app/_components/ui/input-group";
-import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
 import { Mail, User, Lock, Loader2 } from 'lucide-react';
+import { useFormContext } from 'react-hook-form';
+
+import { Button } from '@/app/_components/ui/button';
+import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/app/_components/ui/input-group";
+import { Label } from '@/app/_components/ui/label';
 import { useI18n } from '@/context/i18n-context';
 
 interface RegisterFormProps {

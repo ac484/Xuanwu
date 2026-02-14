@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useContext } from "react";
+
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
-import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 
 function useWorkspace() {
   const context = useContext(WorkspaceContext);

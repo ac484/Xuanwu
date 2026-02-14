@@ -1,11 +1,12 @@
 "use client";
 
-import { Textarea } from "@/app/_components/ui/textarea";
+import { ImagePlusIcon, Send, Loader2, X } from "lucide-react";
+import Image from "next/image";
+
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { Input } from "@/app/_components/ui/input";
-import { ImagePlusIcon, Send, Loader2, X } from "lucide-react";
-import Image from "next/image";
+import { Textarea } from "@/app/_components/ui/textarea";
 
 interface DailyLogComposerProps {
   content: string;

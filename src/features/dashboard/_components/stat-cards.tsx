@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import { useAccount } from "@/hooks/state/use-account";
+
+import { ShieldCheck, Activity, Layers, Zap } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Progress } from "@/app/_components/ui/progress";
-import { ShieldCheck, Activity, Layers, Zap } from "lucide-react";
+import { useAccount } from "@/hooks/state/use-account";
 import { Workspace } from "@/types/domain";
 
 interface StatCardsProps {

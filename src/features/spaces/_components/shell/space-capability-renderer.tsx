@@ -2,7 +2,9 @@
 'use client';
 
 import { Suspense } from 'react';
+
 import { useSearchParams } from 'next/navigation';
+
 import { CAPABILITIES } from "@/features/spaces/registry";
 
 function CapabilityRenderer() {

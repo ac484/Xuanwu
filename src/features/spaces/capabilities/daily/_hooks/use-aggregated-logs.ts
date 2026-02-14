@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+
 import { useAccount } from "@/hooks/state/use-account";
 import { DailyLog } from "@/types/domain";
 

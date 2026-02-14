@@ -1,5 +1,6 @@
-import type { User, UserProfile, ExpertiseBadge } from '@/types/domain';
 import type { RefObject, ChangeEvent } from 'react';
+
+import type { User, UserProfile, ExpertiseBadge } from '@/types/domain';
 
 export interface PageHeaderProps {
   title: string;

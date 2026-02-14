@@ -1,14 +1,17 @@
 
 import type {Metadata} from 'next';
+
 import './globals.css';
-import {Toaster} from '@/app/_components/ui/toaster';
 import { Inter } from 'next/font/google';
-import { cn } from '@/lib/utils';
-import { ThemeProvider } from '@/context/theme-context';
-import { FirebaseClientProvider } from '@/context/firebase-context';
-import { AuthProvider } from '@/context/auth-context';
+
+import {Toaster} from '@/app/_components/ui/toaster';
 import { AppProvider } from '@/context/app-context';
+import { AuthProvider } from '@/context/auth-context';
+import { FirebaseClientProvider } from '@/context/firebase-context';
+import { ThemeProvider } from '@/context/theme-context';
 import { I18nProvider } from '@/features/core/i18n/i18n-context';
+import { cn } from '@/lib/utils';
+
 import { RootLayoutClient } from './root-layout-client';
 
 export const metadata: Metadata = {

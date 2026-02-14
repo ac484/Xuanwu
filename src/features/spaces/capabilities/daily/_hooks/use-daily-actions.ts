@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback } from "react";
-import { useApp } from "@/hooks/state/use-app";
+
 import { useAuth } from "@/context/auth-context";
 import { toggleDailyLogLike } from "@/features/core/firebase/firestore/repositories/account.repository";
+import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
 
 export function useDailyActions() {

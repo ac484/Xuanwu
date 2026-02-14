@@ -8,9 +8,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
+
+import { collection, onSnapshot, query } from 'firebase/firestore';
+
 import { useAuth } from '@/context/auth-context';
 import { useFirebase } from '@/context/firebase-context';
-import { collection, onSnapshot, query } from 'firebase/firestore';
 import { 
     addBookmark as addBookmarkRepo,
     removeBookmark as removeBookmarkRepo
@@ -30,7 +32,7 @@ export function useBookmarkActions() {
             setLoading(false);
             setBookmarks(new Set());
             return;
-        };
+        }
 
         setLoading(true);
         const bookmarksQuery = query(collection(db, `users/${user.id}/bookmarks`));

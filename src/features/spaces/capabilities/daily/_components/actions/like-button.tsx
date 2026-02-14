@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { useDailyActions } from '../../_hooks/use-daily-actions';
-import { DailyLog, User } from "@/types/domain";
-import { Button } from "@/app/_components/ui/button";
+
 import { Heart } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
 import { cn } from "@/lib/utils";
+import { DailyLog, User } from "@/types/domain";
+
+import { useDailyActions } from '../../_hooks/use-daily-actions';
 
 interface LikeButtonProps {
   log: DailyLog;

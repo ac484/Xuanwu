@@ -5,8 +5,9 @@
  * - adaptUIColorToOrgContext - Determines appropriate colors based on the dimension identity description.
  */
 
-import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+
+import {ai} from '@/ai/genkit';
 
 const AdaptUIColorToOrgContextInputSchema = z.object({
   organizationContext: z

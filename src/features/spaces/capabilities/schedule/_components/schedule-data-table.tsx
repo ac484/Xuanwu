@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import {
   ColumnDef,
   flexRender,
@@ -13,7 +14,16 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table"
+import { ChevronDown } from "lucide-react"
 
+import { Button } from "@/app/_components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/app/_components/ui/dropdown-menu"
+import { Input } from "@/app/_components/ui/input"
 import {
   Table,
   TableBody,
@@ -22,15 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu"
-import { Button } from "@/app/_components/ui/button"
-import { Input } from "@/app/_components/ui/input"
-import { ChevronDown } from "lucide-react"
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

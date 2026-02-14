@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
+
+import { subDays, isFuture, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
+
+import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
-import { subDays, isFuture, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 import { ScheduleItem } from "@/types/domain";
 
 /**

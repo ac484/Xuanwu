@@ -19,8 +19,7 @@ import {
   writeBatch,
   updateDoc,
 } from 'firebase/firestore';
-import { db } from '../firestore.client';
-import { updateDocument, addDocument } from '../firestore.write.adapter';
+
 import type {
   User,
   Organization,
@@ -31,6 +30,9 @@ import type {
   DailyLog,
   DailyLogComment,
 } from '@/types/domain';
+
+import { db } from '../firestore.client';
+import { updateDocument, addDocument } from '../firestore.write.adapter';
 
 export const createOrganization = async (orgName: string, owner: User): Promise<string> => {
   const orgData: Omit<Organization, 'id' | 'createdAt'> = {

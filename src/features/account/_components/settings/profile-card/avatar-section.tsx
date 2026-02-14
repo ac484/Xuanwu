@@ -1,9 +1,11 @@
 "use client";
 
+import { Loader2, Upload } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
-import { Loader2, Upload } from "lucide-react";
+
 import type { AvatarSectionProps } from '../../../_types/settings';
 
 export function AvatarSection({ profile, name, isUploading, avatarInputRef, handleAvatarUpload }: AvatarSectionProps) {

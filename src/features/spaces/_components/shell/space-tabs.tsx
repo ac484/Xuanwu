@@ -2,8 +2,10 @@
 "use client";
 
 import { useMemo } from "react";
+
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+
 import { Tabs, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
 import { useSpace } from "@/features/spaces";
 import { CAPABILITIES } from "@/features/spaces/registry/registry";

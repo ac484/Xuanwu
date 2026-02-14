@@ -1,8 +1,9 @@
 "use client";
 
+import { Shield } from "lucide-react";
+
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
-import { Shield } from "lucide-react";
 import { OrganizationRole } from "@/types/domain";
 
 interface PermissionTreeProps {

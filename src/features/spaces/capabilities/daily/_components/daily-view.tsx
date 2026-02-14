@@ -1,19 +1,24 @@
 "use client";
 
 import { useState, useMemo } from "react";
+
 import { AlertCircle, MessageSquare } from "lucide-react";
-import { useOptionalWorkspace, WorkspaceContextShell } from "@/features/workspaces";
-import { useAccount } from "@/hooks/state/use-account";
+
 import { useAuth } from "@/context/auth-context";
+import { useOptionalWorkspace, WorkspaceContextShell } from "@/features/workspaces";
+import { useLogger } from "@/features/workspaces";
+import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
 import { DailyLog } from "@/types/domain";
+
+import { useAggregatedLogs } from "../_hooks/use-aggregated-logs";
+import { useDailyUpload } from "../_hooks/use-daily-upload";
+
 import { DailyLogComposer } from "./composer";
 import { DailyLogCard } from "./daily-log-card";
 import { DailyLogDialog } from "./daily-log-dialog";
-import { useDailyUpload } from "../_hooks/use-daily-upload";
-import { useLogger } from "@/features/workspaces";
-import { useAggregatedLogs } from "../_hooks/use-aggregated-logs";
+
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;

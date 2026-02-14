@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
+
 import type { WorkspaceTask } from "@/types/domain";
+
 import type { TaskWithChildren } from '../_types/types';
 
 const buildTaskTree = (tasks: WorkspaceTask[]): TaskWithChildren[] => {

@@ -2,6 +2,7 @@
 "use client";
 
 import { createContext } from "react";
+
 import { WorkspaceEventBus } from "@/features/workspaces/_events/workspace-event-bus";
 
 export const EventBusContext = createContext<WorkspaceEventBus | null>(null);

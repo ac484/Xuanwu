@@ -1,10 +1,13 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
-import { Button } from "@/app/_components/ui/button";
 import { User, Loader2 } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
+
 import { AvatarSection } from "./avatar-section";
 import { ProfileForm } from "./profile-form";
+
 import type { ProfileCardProps } from '../../../_types/settings';
 
 export function ProfileCard({

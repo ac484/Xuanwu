@@ -1,7 +1,9 @@
 // [職責] 同步 Firestore 資料。
 // 這個 Hook 將負責設定 onSnapshot 監聽器，從 Firestore 訂閱子集合的變更，並透過 dispatch 更新狀態。
 import { useEffect } from 'react';
+
 import { collection, onSnapshot, query, Firestore } from 'firebase/firestore';
+
 import { LocalAction } from '@/features/spaces/_context/space-context';
 
 interface UseSpaceSyncProps {

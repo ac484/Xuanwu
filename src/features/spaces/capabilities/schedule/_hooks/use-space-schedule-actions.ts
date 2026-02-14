@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback, useContext } from "react";
+
 import {
   assignMemberToScheduleItem,
   unassignMemberFromScheduleItem,
 } from "@/features/core/firebase/firestore/firestore.facade";
-import { ScheduleItem } from "@/types/domain";
-import { toast } from "@/hooks/ui/use-toast";
 import { SpaceContext } from "@/features/spaces/_context/space-context";
+import { toast } from "@/hooks/ui/use-toast";
+import { ScheduleItem } from "@/types/domain";
 
 function useSpace() {
   const context = useContext(SpaceContext);

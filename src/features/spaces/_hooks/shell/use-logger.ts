@@ -1,11 +1,13 @@
 "use client";
 
-import { useFirebase } from "@/context/firebase-context";
-import { serverTimestamp } from "firebase/firestore";
-import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
 import { useCallback } from "react";
-import type { AuditLog, User } from "@/types/domain";
+
+import { serverTimestamp } from "firebase/firestore";
+
+import { useFirebase } from "@/context/firebase-context";
+import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
 import { useApp } from "@/hooks/state/use-app";
+import type { AuditLog, User } from "@/types/domain";
 
 /**
  * useLogger - Zero-cognition logging interface for the space shell.

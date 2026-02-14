@@ -1,6 +1,8 @@
 "use client";
 
+import { Globe, MoreVertical, Users, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 import { Button } from "@/app/_components/ui/button";
 import {
   Card,
@@ -10,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { Globe, MoreVertical, Users, ArrowUpRight } from "lucide-react";
 import { useApp } from "@/hooks/state/use-app";
 import { Organization, SwitchableAccount } from "@/types/domain";
 

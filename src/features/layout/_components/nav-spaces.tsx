@@ -1,6 +1,9 @@
 "use client";
 
+import { Terminal } from "lucide-react";
 import Link from "next/link";
+
+import { Badge } from "@/app/_components/ui/badge";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -8,10 +11,8 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
 } from "@/app/_components/ui/sidebar";
-import { Badge } from "@/app/_components/ui/badge";
-import { Terminal } from "lucide-react";
-import { Space } from "@/types/space";
 import { cn } from "@/lib/utils";
+import { Space } from "@/types/space";
 
 interface NavSpacesProps {
   spaces: Space[];

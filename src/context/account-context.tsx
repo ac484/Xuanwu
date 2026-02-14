@@ -1,11 +1,13 @@
 "use client";
 
 import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
-import { useFirebase } from "@/context/firebase-context";
+
 import { collection, query, where, onSnapshot, QuerySnapshot, orderBy, limit } from "firebase/firestore";
+
+import { useFirebase } from "@/context/firebase-context";
+import { useApp } from '@/hooks/state/use-app';
 import { DailyLog, AuditLog, PartnerInvite, ScheduleItem } from '@/types/domain';
 import { Space } from '@/types/space';
-import { useApp } from '@/hooks/state/use-app';
 
 // State and Action Types
 interface AccountState {
@@ -103,7 +105,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
         if (!activeAccount?.id || !db) {
             dispatch({ type: 'RESET_STATE' });
             return;
-        };
+        }
 
         const unsubs: (() => void)[] = [];
 

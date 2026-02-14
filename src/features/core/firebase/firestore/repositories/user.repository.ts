@@ -6,9 +6,11 @@
  */
 
 import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+
+import type { UserProfile } from '@/types/domain';
+
 import { db } from '../firestore.client';
 import { setDocument } from '../firestore.write.adapter';
-import type { UserProfile } from '@/types/domain';
 
 /**
  * Fetches a user's profile from Firestore.

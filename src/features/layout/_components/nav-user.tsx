@@ -1,7 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
+
+import { UserCircle, LogOut, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/app/_components/ui/sidebar";
-import { UserCircle, LogOut, ChevronUp } from "lucide-react";
 import { User, UserProfile, Organization, SwitchableAccount } from "@/types/domain";
-import { useMemo } from "react";
+
 
 interface NavUserProps {
   user: User | null;

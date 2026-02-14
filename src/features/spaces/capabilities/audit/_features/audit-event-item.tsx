@@ -1,11 +1,13 @@
 "use client";
 
 import { format } from "date-fns";
+
 import { Badge } from "@/app/_components/ui/badge";
-import { AuditLog } from "@/types/domain";
 import { cn } from "@/lib/utils";
-import { AuditTypeIcon } from "./audit-type-icon";
+import { AuditLog } from "@/types/domain";
+
 import { AuditEventItemContainer } from "./audit-timeline";
+import { AuditTypeIcon } from "./audit-type-icon";
 
 interface AuditEventItemProps {
     log: AuditLog;

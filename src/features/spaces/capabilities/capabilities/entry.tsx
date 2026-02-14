@@ -1,9 +1,7 @@
 "use client";
 
-import { useSpace } from "@/features/spaces";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
-import { Badge } from "@/app/_components/ui/badge";
-import { Button } from "@/app/_components/ui/button";
+import { useCallback, useState, useMemo } from "react";
+
 import { 
   Box, 
   Trash2, 
@@ -23,13 +21,17 @@ import {
   Calendar,
   FileScan
 } from "lucide-react";
-import { toast } from "@/hooks/ui/use-toast";
-import { useCallback, useState, useMemo } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/app/_components/ui/dialog";
-import { Capability } from "@/types/domain";
-import { useApp } from "@/hooks/state/use-app";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
 import { Checkbox } from "@/app/_components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/app/_components/ui/dialog";
 import { Label } from "@/app/_components/ui/label";
+import { useSpace } from "@/features/spaces";
+import { useApp } from "@/hooks/state/use-app";
+import { toast } from "@/hooks/ui/use-toast";
+import { Capability } from "@/types/domain";
 
 const PERSONAL_CAPABILITY_IDS = new Set([
   'tasks',

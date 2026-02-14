@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import { Card } from "@/app/_components/ui/card";
 import { DailyLog, User } from "@/types/domain";
-import { ImageCarousel } from "./image-carousel";
-import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
-import { LikeButton } from "./actions/like-button";
-import { CommentButton } from "./actions/comment-button";
+
 import { BookmarkButton } from "./actions/bookmark-button";
+import { CommentButton } from "./actions/comment-button";
+import { LikeButton } from "./actions/like-button";
+import { ImageCarousel } from "./image-carousel";
 
 function SpaceAvatar({ name }: { name: string }) {
     return (

@@ -1,9 +1,7 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/app/_components/ui/card";
-import { Button } from "@/app/_components/ui/button";
-import { Badge } from "@/app/_components/ui/badge";
+import { useState, useMemo } from "react";
+
 import { 
   Users, 
   Trash2, 
@@ -15,16 +13,20 @@ import {
   ShieldAlert,
   MoreVertical
 } from "lucide-react";
-import { useState, useMemo } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { toast } from "@/hooks/ui/use-toast";
-import { Team, WorkspaceGrant, WorkspaceRole, MemberReference } from "@/types/domain";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/app/_components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
-import { Label } from "@/app/_components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/app/_components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
+import { Label } from "@/app/_components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
+import { useWorkspace } from "@/features/workspaces";
 import { useApp } from "@/hooks/state/use-app";
+import { toast } from "@/hooks/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { Team, WorkspaceGrant, WorkspaceRole, MemberReference } from "@/types/domain";
 
 
 const getErrorMessage = (error: unknown, fallback: string) =>

@@ -1,17 +1,18 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MemberReference, ScheduleItem } from "@/types/domain"
+import { format } from "date-fns"
+import { ArrowUpDown } from "lucide-react"
+
 import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar"
+import { Button } from "@/app/_components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/app/_components/ui/tooltip"
-import { format } from "date-fns"
-import { Button } from "@/app/_components/ui/button"
-import { ArrowUpDown } from "lucide-react"
+import { MemberReference, ScheduleItem } from "@/types/domain"
 
 export type UpcomingEventItem = Pick<ScheduleItem, 'id' | 'title' | 'workspaceName' | 'startDate' | 'endDate' | 'assigneeIds'> & { members: MemberReference[] }
 

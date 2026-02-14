@@ -2,6 +2,7 @@
 "use client";
 
 import type { Space } from "@/types/domain";
+
 import { SpaceCard } from "./space-card";
 
 interface SpaceGridViewProps {

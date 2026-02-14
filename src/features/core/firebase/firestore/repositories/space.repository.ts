@@ -13,12 +13,7 @@ import {
   doc,
   getDoc,
 } from 'firebase/firestore';
-import { db } from '../firestore.client';
-import {
-  updateDocument,
-  addDocument,
-  deleteDocument,
-} from '../firestore.write.adapter';
+
 import type {
   SwitchableAccount,
   Capability,
@@ -33,6 +28,13 @@ import type {
   SpaceTask,
   SpaceLifecycleState,
 } from '@/types/space';
+
+import { db } from '../firestore.client';
+import {
+  updateDocument,
+  addDocument,
+  deleteDocument,
+} from '../firestore.write.adapter';
 
 /**
  * Creates a new space with default values, based on the active account context.

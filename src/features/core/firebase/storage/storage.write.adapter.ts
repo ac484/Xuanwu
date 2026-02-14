@@ -11,6 +11,7 @@ import {
   UploadResult,
   UploadMetadata,
 } from 'firebase/storage';
+
 import { storage } from './storage.client';
 
 /**

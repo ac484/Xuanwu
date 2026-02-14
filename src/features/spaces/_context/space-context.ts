@@ -1,9 +1,11 @@
 // [職責] 定義 Context 物件、State 的型別定義和 Reducer 函式。
 // 這將是純粹的狀態容器定義，不包含任何副作用或操作。
 import { createContext, Dispatch } from 'react';
-import { Space, AuditLog, SpaceTask, SpaceIssue, SpaceFile } from '@/types/domain';
-import { SpaceEventBus } from '@/features/spaces/_events/space-event-bus';
+
 import { Firestore, QuerySnapshot } from 'firebase/firestore';
+
+import { SpaceEventBus } from '@/features/spaces/_events/space-event-bus';
+import { Space, AuditLog, SpaceTask, SpaceIssue, SpaceFile } from '@/types/domain';
 
 // State for sub-collections
 export interface SpaceLocalState {

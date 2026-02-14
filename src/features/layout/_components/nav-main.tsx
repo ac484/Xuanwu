@@ -1,6 +1,14 @@
 "use client";
 
+import {
+  LayoutDashboard,
+  Layers,
+  FolderTree,
+  ChevronRight,
+  Settings,
+} from "lucide-react";
 import Link from "next/link";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -14,13 +22,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuButton,
 } from "@/app/_components/ui/sidebar";
-import {
-  LayoutDashboard,
-  Layers,
-  FolderTree,
-  ChevronRight,
-  Settings,
-} from "lucide-react";
 import { GOVERNANCE_NAV_ITEMS, AGGREGATED_CAPABILITY_NAV_ITEMS } from "@/features/account/_constants/organization-navigation";
 
 interface NavMainProps {

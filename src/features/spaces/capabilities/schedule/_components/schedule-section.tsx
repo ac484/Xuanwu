@@ -1,8 +1,9 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
-import { ScheduleDataTable } from "./schedule-data-table";
 import { ColumnDef } from "@tanstack/react-table";
+import { LucideIcon } from "lucide-react";
+
+import { ScheduleDataTable } from "./schedule-data-table";
 
 interface ScheduleSectionProps<TData, TValue> {
   icon: LucideIcon;

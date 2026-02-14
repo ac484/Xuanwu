@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo } from 'react';
-import { Space } from '@/types/space';
-import { useApp } from './use-app';
+
 import { useAuth } from '@/context/auth-context';
+import { Space } from '@/types/space';
+
 import { useAccount } from './use-account';
+import { useApp } from './use-app';
 
 /**
  * A hook that centralizes the logic for determining which spaces are visible to the current user

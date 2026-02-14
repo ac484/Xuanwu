@@ -1,18 +1,19 @@
 // [職責] 列表佈局容器
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/app/_components/ui/button";
-import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff, Shield, MoreVertical } from "lucide-react";
-import type { Space } from "@/types/domain";
-import { useI18n } from "@/features/core/i18n/i18n-context";
+import { useRouter } from "next/navigation";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
+import { useI18n } from "@/features/core/i18n/i18n-context";
+import type { Space } from "@/types/domain";
 
 interface SpaceListItemProps {
   space: Space;

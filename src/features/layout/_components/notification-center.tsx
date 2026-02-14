@@ -1,9 +1,10 @@
 "use client";
 
-import { Popover, PopoverContent, PopoverTrigger } from "@/app/_components/ui/popover";
-import { Button } from "@/app/_components/ui/button";
-import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Bell, Trash2, Check } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/app/_components/ui/popover";
+import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Notification } from "@/types/domain";
 
 interface NotificationCenterProps {

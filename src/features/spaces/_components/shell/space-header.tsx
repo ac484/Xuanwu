@@ -1,12 +1,15 @@
 // [職責] 組合顯示空間的標題、狀態列與能力導覽頁籤
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/app/_components/ui/button";
 import { ArrowLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/app/_components/ui/button";
+import { useSpace } from "@/features/spaces";
+
 import { SpaceStatusBar } from "./space-status-bar";
 import { SpaceTabs } from "./space-tabs";
-import { useSpace } from "@/features/spaces";
+
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (

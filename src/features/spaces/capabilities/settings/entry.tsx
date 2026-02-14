@@ -1,23 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useWorkspace } from "@/features/workspaces";
-import { Card, CardDescription, CardHeader, CardTitle, CardFooter, CardContent } from "@/app/_components/ui/card";
-import { Button } from "@/app/_components/ui/button";
+
 import { 
   Box, 
   Settings2,
   Eye,
   EyeOff
 } from "lucide-react";
-import { toast } from "@/hooks/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { WorkspaceLifecycleState, Address } from "@/types/domain";
-import { Label } from "@/app/_components/ui/label";
+
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardDescription, CardHeader, CardTitle, CardFooter, CardContent } from "@/app/_components/ui/card";
 import { Input } from "@/app/_components/ui/input";
-import { Switch } from "@/app/_components/ui/switch";
+import { Label } from "@/app/_components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
+import { Switch } from "@/app/_components/ui/switch";
 import { Textarea } from "@/app/_components/ui/textarea";
+import { useWorkspace } from "@/features/workspaces";
+import { toast } from "@/hooks/ui/use-toast";
+import { WorkspaceLifecycleState, Address } from "@/types/domain";
 
 function WorkspaceSettingsForm() {
     const { state, dispatch } = useWorkspace();

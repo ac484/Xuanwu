@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+
 import {
   Plus,
   Search,
@@ -9,10 +10,12 @@ import {
   LayoutGrid,
   List as ListIcon,
 } from "lucide-react";
+
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
-import { CreateSpaceDialog } from "./create-space-dialog";
 import { useI18n } from "@/features/core/i18n/i18n-context";
+
+import { CreateSpaceDialog } from "./create-space-dialog";
 
 interface PageHeaderProps {
   title: string;

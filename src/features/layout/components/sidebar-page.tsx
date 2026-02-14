@@ -36,9 +36,9 @@ import {
 import { useAuth } from "@/context/auth-context";
 import { useI18n } from '@/features/core/i18n/i18n-context';
 import { useApp } from "@/hooks/state/use-app";
+import { useOrganization } from "@/hooks/state/use-organization";
 import { useUser } from "@/hooks/state/use-user";
 import { useVisibleSpaces } from '@/hooks/state/use-visible-spaces';
-import { useOrganization } from "@/hooks/state/use-organization";
 
 // ============================================================================
 // Sidebar Sub-components (Private to this feature)

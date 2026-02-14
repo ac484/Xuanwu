@@ -1,13 +1,15 @@
 "use client";
 
-import { useSpace } from "@/features/spaces";
-import { Button } from "@/app/_components/ui/button";
-import { Trophy, CheckCircle2, Search, XCircle, AlertTriangle } from "lucide-react";
-import { toast } from "@/hooks/ui/use-toast";
-import { Badge } from "@/app/_components/ui/badge";
-import { SpaceTask } from "@/types/domain";
 import { useState, useEffect } from "react";
+
+import { Trophy, CheckCircle2, Search, XCircle, AlertTriangle } from "lucide-react";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import { useAuth } from "@/context/auth-context";
+import { useSpace } from "@/features/spaces";
+import { toast } from "@/hooks/ui/use-toast";
+import { SpaceTask } from "@/types/domain";
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;

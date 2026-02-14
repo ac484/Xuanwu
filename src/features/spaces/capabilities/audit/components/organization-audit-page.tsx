@@ -1,7 +1,8 @@
 "use client";
 
-import { AuditView } from "../_components/audit-view";
 import { ReactNode } from 'react';
+
+import { AuditView } from "../_components/audit-view";
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (

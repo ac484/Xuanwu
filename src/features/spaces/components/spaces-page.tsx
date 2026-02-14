@@ -2,19 +2,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { Terminal } from "lucide-react";
-import { useApp } from "@/hooks/state/use-app";
-import { useI18n } from "@/features/core/i18n/i18n-context";
-import { useVisibleSpace } from "@/hooks/state/use-visible-spaces";
-import { useSpaceFilters } from "../_hooks/use-space-filters";
-import { SpaceListHeader } from "../_components/list/space-list-header";
-import { SpaceGridView } from "../_components/list/space-grid-view";
-import { SpaceTableView } from "../_components/list/space-table-view";
+
 import { Button } from "@/app/_components/ui/button";
-import { CreateSpaceDialog } from "../_components/list/create-space-dialog";
-import { Space } from "@/types/domain";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
+import { useI18n } from "@/features/core/i18n/i18n-context";
+import { useApp } from "@/hooks/state/use-app";
+import { useVisibleSpace } from "@/hooks/state/use-visible-spaces";
+import { Space } from "@/types/domain";
+
 import { handleDeleteSpace } from "../_actions/space-actions";
+import { CreateSpaceDialog } from "../_components/list/create-space-dialog";
+import { SpaceGridView } from "../_components/list/space-grid-view";
+import { SpaceListHeader } from "../_components/list/space-list-header";
+import { SpaceTableView } from "../_components/list/space-table-view";
+import { useSpaceFilters } from "../_hooks/use-space-filters";
+
+
 
 
 export function SpacesPage() {

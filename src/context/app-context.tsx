@@ -1,9 +1,12 @@
 "use client";
 
 import React, { createContext, useReducer, useEffect, ReactNode, useMemo } from 'react';
-import { useFirebase } from "@/context/firebase-context";
+
 import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
+
+import { useFirebase } from "@/context/firebase-context";
 import { Organization, CapabilitySpec, Notification, SwitchableAccount, User } from '@/types/domain';
+
 import { useAuth } from './auth-context';
 
 // State and Action Types

@@ -4,7 +4,9 @@
 // External Dependencies
 // ============================================================================
 import { useEffect, useMemo, useState, ReactNode } from "react";
+
 import { User as UserIcon } from "lucide-react";
+
 import { Badge } from "@/app/_components/ui/badge";
 
 // ============================================================================
@@ -12,17 +14,17 @@ import { Badge } from "@/app/_components/ui/badge";
 // ============================================================================
 import { useAuth } from "@/context/auth-context";
 import { useI18n } from "@/features/core/i18n/i18n-context";
-import { useApp } from "@/hooks/state/use-app";
 import { useAccount } from "@/hooks/state/use-account";
+import { useApp } from "@/hooks/state/use-app";
 import type { Space } from "@/types/space";
 
 // ============================================================================
 // Internal Dependencies - Overview Components
 // ============================================================================
-import { StatCards } from "../_components/stat-cards";
 import { OrgGrid } from "../_components/org-grid";
-import { SpaceList } from "../_components/space-list";
 import { PermissionTree } from "../_components/permission-tree";
+import { SpaceList } from "../_components/space-list";
+import { StatCards } from "../_components/stat-cards";
 
 // ============================================================================
 // Internal Components

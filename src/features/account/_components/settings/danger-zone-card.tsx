@@ -1,5 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
+import { Button } from "@/app/_components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { Button } from "@/app/_components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +20,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/app/_components/ui/dialog";
-import { useTranslations } from "next-intl";
+
 
 interface DangerZoneCardProps {
   onDelete: () => void;

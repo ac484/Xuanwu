@@ -7,8 +7,9 @@
  * handling foreground messages.
  */
 
-import { messaging } from './messaging.client';
 import { getToken, onMessage } from 'firebase/messaging';
+
+import { messaging } from './messaging.client';
 
 // Example of a potential adapter function:
 /*

@@ -1,10 +1,13 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
-import { ShieldCheck, ShieldAlert, Users, AlertCircle } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
-import { useApp } from "@/hooks/state/use-app";
+
+import { ShieldCheck, ShieldAlert, Users, AlertCircle } from "lucide-react";
+
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
 import { useAccount } from "@/hooks/state/use-account";
+import { useApp } from "@/hooks/state/use-app";
+
 import { PageHeader } from "../_components/shared/page-header";
 
 // DEPRECATED FOR WRITE: This permission matrix, which manages access by mapping `teamId` to `workspace.teamIds`, is now a read-only visualization. The `WorkspaceMembersManagement` component handles both team and individual grants. This component now serves to provide a high-level, read-only view of composite access state (Team Inheritance).

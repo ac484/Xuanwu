@@ -1,11 +1,12 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ScheduleItem } from "@/types/domain"
-import { Badge } from "@/app/_components/ui/badge"
-import { CheckCircle, XCircle, ArrowUpDown } from "lucide-react"
 import { format } from "date-fns"
+import { CheckCircle, XCircle, ArrowUpDown } from "lucide-react"
+
+import { Badge } from "@/app/_components/ui/badge"
 import { Button } from "@/app/_components/ui/button"
+import { ScheduleItem } from "@/types/domain"
 
 export type DecisionHistoryItem = Pick<ScheduleItem, 'id' | 'title' | 'workspaceName' | 'status' | 'updatedAt'>
 

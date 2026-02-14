@@ -1,8 +1,9 @@
 "use client";
 
-import { useSpace } from "@/features/spaces";
-import { Button } from "@/app/_components/ui/button";
-import { Badge } from "@/app/_components/ui/badge";
+import { useMemo, useState, useRef } from "react";
+
+import { collection, addDoc, updateDoc, doc, serverTimestamp, arrayUnion } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { 
   FileText, 
   UploadCloud, 
@@ -21,11 +22,16 @@ import {
   Download,
   Loader2
 } from "lucide-react";
-import { toast } from "@/hooks/ui/use-toast";
-import { useFirebase } from "@/context/firebase-context";
-import { collection, addDoc, updateDoc, doc, serverTimestamp, arrayUnion } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useMemo, useState, useRef } from "react";
+
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/app/_components/ui/dropdown-menu";
+import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { 
   Sheet, 
   SheetContent, 
@@ -33,16 +39,17 @@ import {
   SheetHeader, 
   SheetTitle 
 } from "@/app/_components/ui/sheet";
-import { ScrollArea } from "@/app/_components/ui/scroll-area";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
+import { useFirebase } from "@/context/firebase-context";
+import { useSpace } from "@/features/spaces";
+
+
+import { toast } from "@/hooks/ui/use-toast";
+
+
+
+import { formatBytes } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
-import { formatBytes } from "@/lib/format";
 import type { SpaceFile, SpaceFileVersion } from "@/types/domain";
 import {
   Table,

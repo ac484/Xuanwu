@@ -1,10 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback, useContext } from 'react';
-import { WorkspaceContext } from '@/features/workspaces/_context/workspace-context';
-import { Button } from '@/app/_components/ui/button';
-import { Input } from '@/app/_components/ui/input';
-import { Textarea } from '@/app/_components/ui/textarea';
+
 import {
   Plus,
   Settings2,
@@ -17,7 +14,9 @@ import {
   Paperclip,
   MapPin,
 } from 'lucide-react';
-import { toast } from '@/hooks/ui/use-toast';
+import Image from "next/image";
+
+import { Button } from '@/app/_components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -25,14 +24,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/app/_components/ui/dialog';
-import { Label } from '@/app/_components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/_components/ui/select';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -41,13 +32,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-import Image from "next/image";
-import { useTaskUpload } from './_hooks/use-task-upload';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/app/_components/ui/select';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { WorkspaceContext } from '@/features/workspaces/_context/workspace-context';
+import { toast } from '@/hooks/ui/use-toast';
 import { WorkspaceTask, Location } from '@/types/domain';
-import { useTaskTree } from './_hooks/use-task-tree';
-import { TaskWithChildren } from './_types/types';
+
 import { ProgressReportDialog } from './_features/progress-report-dialog';
 import { TaskItem } from './_features/task-item';
+import { useTaskTree } from './_hooks/use-task-tree';
+import { useTaskUpload } from './_hooks/use-task-upload';
+import { TaskWithChildren } from './_types/types';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;

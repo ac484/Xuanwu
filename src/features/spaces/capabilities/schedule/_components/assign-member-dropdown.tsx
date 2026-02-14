@@ -1,6 +1,8 @@
 "use client";
 
-import { MemberReference, ScheduleItem } from "@/types/domain";
+import { UserPlus } from "lucide-react";
+
+import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { Button } from "@/app/_components/ui/button";
-import { UserPlus } from "lucide-react";
+import { MemberReference, ScheduleItem } from "@/types/domain";
+
 
 interface AssignMemberDropdownProps {
   item: ScheduleItem;

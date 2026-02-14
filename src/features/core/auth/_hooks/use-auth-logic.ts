@@ -2,12 +2,15 @@
 'use client';
 
 import { useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useI18n } from '@/context/i18n-context';
-import { toast } from '@/hooks/ui/use-toast';
 import { authAdapter } from '@/features/core/firebase/auth/auth.adapter';
+import { toast } from '@/hooks/ui/use-toast';
+
 import { loginSchema, registerSchema, resetPasswordSchema, type LoginFormValues, type RegisterFormValues, type ResetPasswordFormValues } from '../_schemas/auth.schema';
 
 export function useAuthLogic(defaultTab: 'login' | 'register', mode: 'page' | 'modal') {

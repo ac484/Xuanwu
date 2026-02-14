@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
+
+import { Search, Command } from "lucide-react";
+
 import { Button } from "@/app/_components/ui/button";
 import { SidebarTrigger } from "@/app/_components/ui/sidebar";
-import { Search, Command } from "lucide-react";
-import { NotificationCenter } from "../_components/notification-center";
-import { GlobalSearch } from "../_components/global-search";
-import { useApp } from "@/hooks/state/use-app";
-import { useAccount } from "@/hooks/state/use-account";
 import { useAuth } from '@/context/auth-context';
+import { useAccount } from "@/hooks/state/use-account";
+import { useApp } from "@/hooks/state/use-app";
 import { Organization, SwitchableAccount, Workspace } from '@/types/domain';
+
 import { LanguageSwitcher } from '../';
+import { GlobalSearch } from "../_components/global-search";
+import { NotificationCenter } from "../_components/notification-center";
 
 /**
  * HeaderPage - The main "smart" component for the global header.

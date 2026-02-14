@@ -1,6 +1,7 @@
 "use client";
 
 import { Zap, Shield, Activity, Terminal } from "lucide-react";
+
 import { AuditLog } from "@/types/domain";
 
 interface AuditTypeIconProps {

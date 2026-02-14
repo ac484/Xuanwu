@@ -5,6 +5,7 @@
  * It ensures Messaging is only initialized on the client side.
  */
 import { getMessaging, Messaging } from 'firebase/messaging';
+
 import { app } from '../app.client';
 
 let messaging: Messaging | null = null;

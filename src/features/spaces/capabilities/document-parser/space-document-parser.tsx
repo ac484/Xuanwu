@@ -1,16 +1,20 @@
 'use client';
 
 import { useActionState, useTransition, useRef, useEffect } from 'react';
+
 import { Loader2, UploadCloud, File } from 'lucide-react';
-import { useToast } from '@/hooks/ui/use-toast';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/_components/ui/card';
+
+import type { WorkItem } from '@/ai/schemas/docu-parse';
 import { Button } from '@/app/_components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/_components/ui/card';
+import { useSpace } from '@/features/spaces';
+import { useToast } from '@/hooks/ui/use-toast';
+
 import {
   extractDataFromDocument,
   type ActionState,
 } from './_actions/actions';
-import type { WorkItem } from '@/ai/schemas/docu-parse';
-import { useSpace } from '@/features/spaces';
+
 
 const initialState: ActionState = {
   data: undefined,

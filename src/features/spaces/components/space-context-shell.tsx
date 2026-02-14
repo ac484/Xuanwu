@@ -3,20 +3,22 @@
 "use client";
 
 import React, { useMemo, useReducer } from 'react';
-import { Space } from '@/types/domain';
-import { useAccount } from '@/hooks/state/use-account';
-import { useFirebase } from '@/context/firebase-context';
+
 import { Loader2 } from 'lucide-react';
-import { SpaceEventBus } from '@/features/spaces/_events/space-event-bus';
-import { SpaceEventHandler } from '@/features/spaces/_events/space-event-handler';
+
+import { useFirebase } from '@/context/firebase-context';
 import { 
   SpaceContext, 
   localReducer, 
   SpaceState, 
   SpaceContextType 
 } from '@/features/spaces/_context/space-context';
-import { useSpaceSync } from '@/features/spaces/_hooks/use-space-sync';
+import { SpaceEventBus } from '@/features/spaces/_events/space-event-bus';
+import { SpaceEventHandler } from '@/features/spaces/_events/space-event-handler';
 import { useLogger } from '@/features/spaces/_hooks/shell/use-logger';
+import { useSpaceSync } from '@/features/spaces/_hooks/use-space-sync';
+import { useAccount } from '@/hooks/state/use-account';
+import { Space } from '@/types/domain';
 
 interface SpaceContextShellProps {
   spaceId: string;

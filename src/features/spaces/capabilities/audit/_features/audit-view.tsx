@@ -1,16 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
+
 import { AlertCircle, Terminal, Activity } from "lucide-react";
-import { AuditLog } from "@/types/domain";
-import { AuditTimeline } from "./audit-timeline";
-import { AuditEventItem } from "./audit-event-item";
-import { AuditDetailSheet } from "./audit-detail-sheet";
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
-import { useApp } from "@/hooks/state/use-app";
-import { useAccount } from "@/hooks/state/use-account";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
+import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useAccount } from "@/hooks/state/use-account";
+import { useApp } from "@/hooks/state/use-app";
+import { AuditLog } from "@/types/domain";
+
+import { AuditDetailSheet } from "./audit-detail-sheet";
+import { AuditEventItem } from "./audit-event-item";
+import { AuditTimeline } from "./audit-timeline";
 import { AuditTypeIcon } from "./audit-type-icon";
 
 

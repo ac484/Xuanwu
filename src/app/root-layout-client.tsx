@@ -2,12 +2,13 @@
 "use client";
 
 import { useEffect, type ReactNode, useState } from "react";
-import { usePathname, useRouter }from "next/navigation";
+
 import { Loader2 } from "lucide-react";
+import { usePathname, useRouter }from "next/navigation";
 
 import { SidebarProvider, SidebarInset } from "@/app/_components/ui/sidebar";
-import { useAuth } from "@/context/auth-context";
 import { AccountProvider } from "@/context/account-context";
+import { useAuth } from "@/context/auth-context";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 
 const LoadingScreen = () => {

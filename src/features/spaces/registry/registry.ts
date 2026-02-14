@@ -1,6 +1,6 @@
-import { shellCapabilities } from './shell.registry';
-import { governanceCapabilities } from './governance.registry';
 import { businessCapabilities } from './business.registry';
+import { governanceCapabilities } from './governance.registry';
+import { shellCapabilities } from './shell.registry';
 
 /**
  * The final, aggregated registry of all capabilities available in the system.

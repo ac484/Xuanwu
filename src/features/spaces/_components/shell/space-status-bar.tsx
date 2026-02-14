@@ -1,8 +1,9 @@
 // [職責] 顯示 Mounted/Isolated 狀態
 "use client";
 
-import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff } from "lucide-react";
+
+import { Badge } from "@/app/_components/ui/badge";
 import { useSpace } from "@/features/spaces";
 
 export function SpaceStatusBar() {

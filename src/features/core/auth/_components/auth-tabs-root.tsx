@@ -1,17 +1,20 @@
 
 'use client';
 
-import dynamic from 'next/dynamic';
-import { Card, CardContent, CardFooter, CardHeader } from "@/app/_components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { Button } from "@/app/_components/ui/button";
 import { Ghost, Loader2 } from "lucide-react";
+import dynamic from 'next/dynamic';
+import { FormProvider } from 'react-hook-form';
+
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/app/_components/ui/card";
+import { Skeleton } from '@/app/_components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
 import { useI18n } from "@/context/i18n-context";
 import { LanguageSwitcher } from "@/features/layout";
-import { Skeleton } from '@/app/_components/ui/skeleton';
-import { FormProvider } from 'react-hook-form';
-import type { UseFormReturn } from 'react-hook-form';
+
+
 import type { LoginFormValues, RegisterFormValues } from '../_schemas/auth.schema';
+import type { UseFormReturn } from 'react-hook-form';
 
 const LoadingSkeleton = () => (
   <div className="space-y-4 flex-1 flex flex-col pt-4">

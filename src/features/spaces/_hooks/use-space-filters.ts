@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useDeferredValue } from "react";
+
 import type { Space } from "@/types/domain";
 
 export function useSpaceFilters(

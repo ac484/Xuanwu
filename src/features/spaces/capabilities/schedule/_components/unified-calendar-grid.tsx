@@ -1,11 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
+
+import { format, isWeekend, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isToday } from "date-fns";
+import { Plus, Check, X, Layers, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { MemberReference, ScheduleItem } from "@/types/domain";
+
+import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
@@ -13,8 +16,7 @@ import {
   TooltipTrigger,
 } from "@/app/_components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { format, isWeekend, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isToday } from "date-fns";
-import { Plus, Check, X, Layers, ChevronLeft, ChevronRight } from "lucide-react";
+import { MemberReference, ScheduleItem } from "@/types/domain";
 
 const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
