@@ -3,7 +3,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { CAPABILITIES } from "@/features/spaces/registry";
+import { CAPABILITIES } from "@/features/spaces/registry/registry";
 
 function CapabilityRenderer() {
   const searchParams = useSearchParams();
@@ -25,11 +25,11 @@ function CapabilityRenderer() {
 }
 
 /**
- * WorkspaceCapabilityRenderer - The entry point for rendering a specific capability.
+ * SpaceCapabilityRenderer - The entry point for rendering a specific capability.
  * Its SOLE RESPONSIBILITY is to dynamically render the correct capability component
  * based on the URL search parameter, wrapped in a Suspense boundary.
  */
-export function WorkspaceCapabilityRenderer() {
+export function SpaceCapabilityRenderer() {
   return (
     // This Suspense is for Next.js to handle the boundary between the layout and the page
     // while search params are being read on the client.

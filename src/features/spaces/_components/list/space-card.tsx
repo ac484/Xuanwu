@@ -1,4 +1,4 @@
-// [職責] 單個 Workspace 的卡片展示
+// [職責] 單個 Space 的卡片展示
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import {
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import { MoreVertical, Eye, EyeOff, Shield, MapPin } from "lucide-react";
-import type { Workspace } from "@/types/domain";
+import type { Space } from "@/types/domain";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 import {
   DropdownMenu,
@@ -22,20 +22,20 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 
-interface WorkspaceCardProps {
-  workspace: Workspace;
-  onOpenDelete: (workspace: Workspace) => void;
+interface SpaceCardProps {
+  space: Space;
+  onOpenDelete: (space: Space) => void;
 }
 
-export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
+export function SpaceCard({ space, onOpenDelete }: SpaceCardProps) {
   const router = useRouter();
   const { t } = useI18n();
 
   const handleClick = () => {
-    router.push(`/workspaces/${workspace.id}`);
+    router.push(`/spaces/${space.id}`);
   };
   
-  const formattedAddress = workspace.address ? [workspace.address.street, workspace.address.city, workspace.address.state, workspace.address.country, workspace.address.postalCode].filter(Boolean).join(', ') : 'No address defined.';
+  const formattedAddress = space.address ? [space.address.street, space.address.city, space.address.state, space.address.country, space.address.postalCode].filter(Boolean).join(', ') : 'No address defined.';
 
 
   return (
@@ -52,7 +52,7 @@ export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
               variant="ghost"
               className="h-6 w-6 p-0 flex items-center justify-center text-muted-foreground"
             >
-              {workspace.visibility === "visible" ? (
+              {space.visibility === "visible" ? (
                 <Eye className="w-3.5 h-3.5" />
               ) : (
                 <EyeOff className="w-3.5 h-3.5" />
@@ -70,10 +70,10 @@ export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={() => router.push(`/workspaces/${workspace.id}?capability=settings`)}>
+                <DropdownMenuItem onSelect={() => router.push(`/spaces/${space.id}?capability=settings`)}>
                   Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onOpenDelete(workspace); }} className="text-destructive">
+                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onOpenDelete(space); }} className="text-destructive">
                   Destroy
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -81,15 +81,15 @@ export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
           </div>
         </div>
         <CardTitle className="mt-4 font-headline text-lg group-hover:text-primary transition-colors truncate">
-          {workspace.name}
+          {space.name}
         </CardTitle>
         <CardDescription className="text-[9px] uppercase tracking-widest font-bold opacity-60">
-          {t("workspaces.lifecycleState")}: {workspace.lifecycleState}
+          {t("spaces.lifecycleState")}: {space.lifecycleState}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow cursor-pointer" onClick={handleClick}>
         <div className="flex flex-wrap gap-1.5 mt-1 min-h-[20px]">
-          {(workspace.scope || []).slice(0, 3).map((s) => (
+          {(space.scope || []).slice(0, 3).map((s) => (
             <Badge
               key={s}
               variant="secondary"
@@ -98,13 +98,13 @@ export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
               {s}
             </Badge>
           ))}
-          {(workspace.scope || []).length > 3 && (
+          {(space.scope || []).length > 3 && (
             <span className="text-[8px] text-muted-foreground opacity-60">
-              +{(workspace.scope || []).length - 3}
+              +{(space.scope || []).length - 3}
             </span>
           )}
         </div>
-         {workspace.address && (
+         {space.address && (
           <div className="mt-3 flex items-start gap-2 text-muted-foreground">
             <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
             <p className="text-xs leading-snug">{formattedAddress}</p>
@@ -114,14 +114,14 @@ export function WorkspaceCard({ workspace, onOpenDelete }: WorkspaceCardProps) {
       <CardFooter className="pt-0 flex justify-between items-center border-t border-border/20 mt-4 py-4 cursor-pointer" onClick={handleClick}>
         <div className="flex flex-col">
           <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-tighter leading-none">
-            [{t("workspaces.defaultProtocol")}]
+            [{t("spaces.defaultProtocol")}]
           </span>
           <span className="text-[10px] font-mono truncate max-w-[120px]">
-            {workspace.protocol || t("workspaces.standard")}
+            {space.protocol || t("spaces.standard")}
           </span>
         </div>
         <div className="flex -space-x-1.5">
-          {(workspace.grants || [])
+          {(space.grants || [])
             .filter((g) => g.status === "active")
             .slice(0, 3)
             .map((g, i) => (

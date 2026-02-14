@@ -13,16 +13,16 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
-import { handleCreateWorkspace } from "../../_actions/workspace-actions";
+import { handleCreateSpace } from "../../_actions/space-actions";
 import { useApp } from "@/hooks/state/use-app";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 
-interface CreateWorkspaceDialogProps {
+interface CreateSpaceDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function CreateWorkspaceDialog({ open, onOpenChange }: CreateWorkspaceDialogProps) {
+export function CreateSpaceDialog({ open, onOpenChange }: CreateSpaceDialogProps) {
   const {
     state: { activeAccount },
   } = useApp();
@@ -32,7 +32,7 @@ export function CreateWorkspaceDialog({ open, onOpenChange }: CreateWorkspaceDia
 
   const onCreate = async () => {
     setLoading(true);
-    await handleCreateWorkspace(name, activeAccount, () => {
+    await handleCreateSpace(name, activeAccount, () => {
       setName("");
       onOpenChange(false);
     }, t);
@@ -44,10 +44,10 @@ export function CreateWorkspaceDialog({ open, onOpenChange }: CreateWorkspaceDia
       <DialogContent className="rounded-2xl">
         <DialogHeader>
           <DialogTitle className="font-headline text-2xl">
-            {t("workspaces.createLogicalSpace")}
+            {t("spaces.createLogicalSpace")}
           </DialogTitle>
           <DialogDescription>
-            {t("workspaces.createDescription").replace(
+            {t("spaces.createDescription").replace(
               "{name}",
               activeAccount?.name || ""
             )}
@@ -55,12 +55,12 @@ export function CreateWorkspaceDialog({ open, onOpenChange }: CreateWorkspaceDia
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="workspace-name">{t("workspaces.spaceName")}</Label>
+            <Label htmlFor="space-name">{t("spaces.spaceName")}</Label>
             <Input
-              id="workspace-name"
+              id="space-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t("workspaces.spaceNamePlaceholder")}
+              placeholder={t("spaces.spaceNamePlaceholder")}
               className="rounded-xl h-11"
             />
           </div>

@@ -11,7 +11,7 @@ import type { SwitchableAccount } from "@/types/domain";
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
-export const handleCreateWorkspace = async (
+export const handleCreateSpace = async (
   name: string,
   activeAccount: SwitchableAccount | null,
   onSuccess: () => void,
@@ -20,8 +20,8 @@ export const handleCreateWorkspace = async (
   if (!name.trim() || !activeAccount) {
     toast({
       variant: "destructive",
-      title: t("workspaces.creationFailed"),
-      description: t("workspaces.accountNotFound"),
+      title: t("spaces.creationFailed"),
+      description: t("spaces.accountNotFound"),
     });
     return;
   }
@@ -29,30 +29,30 @@ export const handleCreateWorkspace = async (
   try {
     await createWorkspace(name, activeAccount);
     toast({
-      title: t("workspaces.logicalSpaceCreated"),
-      description: t("workspaces.spaceSynchronized").replace("{name}", name),
+      title: t("spaces.logicalSpaceCreated"),
+      description: t("spaces.spaceSynchronized").replace("{name}", name),
     });
     onSuccess();
   } catch (error: unknown) {
-    console.error("Error creating workspace:", error);
+    console.error("Error creating space:", error);
     toast({
       variant: "destructive",
-      title: t("workspaces.failedToCreateSpace"),
+      title: t("spaces.failedToCreateSpace"),
       description: getErrorMessage(error, t("common.unknownError")),
     });
   }
 };
 
-export const handleDeleteWorkspace = async (
-  workspaceId: string,
-  workspaceName: string,
+export const handleDeleteSpace = async (
+  spaceId: string,
+  spaceName: string,
   onSuccess: () => void
 ) => {
   try {
-    await deleteWorkspaceFacade(workspaceId);
-    toast({ title: "Workspace node destroyed" });
+    await deleteWorkspaceFacade(spaceId);
+    toast({ title: "Space node destroyed" });
     onSuccess();
   } catch (error: unknown) {
-    toast({ variant: "destructive", title: "Failed to destroy workspace", description: getErrorMessage(error, "Unknown error") });
+    toast({ variant: "destructive", title: "Failed to destroy space", description: getErrorMessage(error, "Unknown error") });
   }
 };

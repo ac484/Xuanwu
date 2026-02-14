@@ -2,8 +2,8 @@
 "use client";
 
 import { ReactNode, Suspense } from "react";
-import { WorkspaceContext, useWorkspaceController } from "@/features/workspaces/_context";
-import { WorkspaceHeader } from "@/features/workspaces/_components/shell/workspace-header";
+import { SpaceContext, useSpaceController } from "@/features/spaces/_context";
+import { SpaceHeader } from "@/features/spaces/_components/shell/space-header";
 import { Loader2 } from "lucide-react";
 
 /**
@@ -18,26 +18,26 @@ function PageLoading() {
 }
 
 /**
- * WorkspaceLayout - The main layout component.
- * Its sole responsibility is to provide the WorkspaceContext and a Suspense boundary for page transitions.
+ * SpaceLayout - The main layout component.
+ * Its sole responsibility is to provide the SpaceContext and a Suspense boundary for page transitions.
  */
-export function WorkspaceLayout({
+export function SpaceLayout({
   children,
-  workspaceId,
+  spaceId,
 }: {
   children: React.ReactNode;
-  workspaceId: string;
+  spaceId: string;
 }) {
-  const { state, dispatch } = useWorkspaceController(workspaceId);
+  const { state, dispatch } = useSpaceController(spaceId);
 
   return (
-    <WorkspaceContext.Provider value={{ state, dispatch }}>
+    <SpaceContext.Provider value={{ state, dispatch }}>
       <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20 gpu-accelerated">
-        <WorkspaceHeader />
+        <SpaceHeader />
         <Suspense fallback={<PageLoading />}>
           {children}
         </Suspense>
       </div>
-    </WorkspaceContext.Provider>
+    </SpaceContext.Provider>
   );
 }

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
-import { CreateWorkspaceDialog } from "./create-workspace-dialog";
+import { CreateSpaceDialog } from "./create-space-dialog";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 
 interface PageHeaderProps {
@@ -34,7 +34,7 @@ function PageHeader({ title, description, children }: PageHeaderProps) {
     );
 }
 
-interface WorkspaceListHeaderProps {
+interface SpaceListHeaderProps {
   activeAccountName: string;
   viewMode: "grid" | "list";
   onViewModeChange: (mode: "grid" | "list") => void;
@@ -42,21 +42,21 @@ interface WorkspaceListHeaderProps {
   onSearchQueryChange: (query: string) => void;
 }
 
-export function WorkspaceListHeader({
+export function SpaceListHeader({
   activeAccountName,
   viewMode,
   onViewModeChange,
   searchQuery,
   onSearchQueryChange,
-}: WorkspaceListHeaderProps) {
+}: SpaceListHeaderProps) {
   const { t } = useI18n();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   return (
     <>
       <PageHeader
-        title={t("workspaces.title")}
-        description={t("workspaces.description").replace(
+        title={t("spaces.title")}
+        description={t("spaces.description").replace(
           "{name}",
           activeAccountName
         )}
@@ -81,7 +81,7 @@ export function WorkspaceListHeader({
             </Button>
           </div>
           <Button className="gap-2 shadow-sm font-bold uppercase tracking-widest text-[11px] h-10 px-4" onClick={() => setIsCreateOpen(true)}>
-            <Plus className="w-4 h-4" /> {t("workspaces.createSpace")}
+            <Plus className="w-4 h-4" /> {t("spaces.createSpace")}
           </Button>
         </div>
       </PageHeader>
@@ -89,7 +89,7 @@ export function WorkspaceListHeader({
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder={t("workspaces.searchPlaceholder")}
+            placeholder={t("spaces.searchPlaceholder")}
             className="pl-10 h-10 bg-background border-border/40 focus-visible:ring-primary/30 rounded-xl"
             value={searchQuery}
             onChange={(e) => onSearchQueryChange(e.target.value)}
@@ -103,7 +103,7 @@ export function WorkspaceListHeader({
           <Filter className="w-3.5 h-3.5" /> {t("common.filter")}
         </Button>
       </div>
-      <CreateWorkspaceDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
+      <CreateSpaceDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
     </>
   );
 }

@@ -4,7 +4,7 @@
 import { useMemo, useDeferredValue } from "react";
 import type { Workspace } from "@/types/domain";
 
-export function useWorkspaceFilters(
+export function useSpaceFilters(
   workspaces: Workspace[],
   searchQuery: string
 ) {

@@ -5,8 +5,8 @@ import { useMemo } from "react";
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { useWorkspace } from "@/features/workspaces";
-import { CAPABILITIES } from "@/features/workspaces/registry/registry";
+import { useSpace } from "@/features/spaces";
+import { CAPABILITIES } from "@/features/spaces/registry/registry";
 import { cn } from "@/lib/utils";
 
 const CORE_CAPABILITIES = [
@@ -15,14 +15,14 @@ const CORE_CAPABILITIES = [
   { id: "settings", name: "Settings" }
 ];
 
-export function WorkspaceTabs() {
-  const { workspace } = useWorkspace();
+export function SpaceTabs() {
+  const { state } = useSpace();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentCapability = searchParams?.get('capability') || 'overview';
 
   const mountedCapabilities = useMemo(() => {
-    const dynamicCapabilities = (workspace.capabilities || []).map(
+    const dynamicCapabilities = (state.space?.capabilities || []).map(
       (capability: any) => ({
         id: capability.id,
         name: capability.name,
@@ -55,11 +55,11 @@ export function WorkspaceTabs() {
 
 
     return finalCaps;
-  }, [workspace.capabilities]);
+  }, [state.space?.capabilities]);
 
   return (
     <Tabs value={currentCapability} className="w-full">
-      <TabsList className="bg-muted/40 p-1 border border-border/50 rounded-xl w-full flex overflow-x-auto justify-start no-scrollbar">
+      <TabsList className="bg-muted/40 p-1 border-border/50 rounded-xl w-full flex overflow-x-auto justify-start no-scrollbar">
         {mountedCapabilities.map((cap: any) => {
           const detail = CAPABILITIES[cap.id];
           return detail ? (

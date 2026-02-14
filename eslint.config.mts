@@ -4,16 +4,33 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 // @ts-ignore
 import importPlugin from "eslint-plugin-import";
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
 export default [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends("next/core-web-vitals"),
   {
-    plugins: { import: importPlugin },
+    files: ["**/*.ts", "**/*.tsx"],
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
+      import: importPlugin
+    },
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        project: "./tsconfig.json",
+      },
+    },
     rules: {
+      ...typescriptEslint.configs.recommended.rules,
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+
       "import/no-restricted-paths": [
         "error",
         {

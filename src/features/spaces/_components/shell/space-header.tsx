@@ -4,9 +4,9 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/_components/ui/button";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import { WorkspaceStatusBar } from "./workspace-status-bar";
-import { WorkspaceTabs } from "./workspace-tabs";
-import { useWorkspace } from "@/features/workspaces";
+import { SpaceStatusBar } from "./space-status-bar";
+import { SpaceTabs } from "./space-tabs";
+import { useSpace } from "@/features/spaces";
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (
@@ -21,11 +21,11 @@ function PageHeader({ title, description }: { title: string; description?: strin
   );
 }
 
-export function WorkspaceHeader() {
-    const { state } = useWorkspace();
+export function SpaceHeader() {
+    const { state } = useSpace();
     const router = useRouter();
 
-    if (!state.workspace) {
+    if (!state.space) {
         return null; // Or a loading state
     }
 
@@ -44,22 +44,22 @@ export function WorkspaceHeader() {
                     <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                         <span>Dimension Space</span>
                         <ChevronRight className="w-3 h-3 opacity-30" />
-                        <span className="text-foreground">{state.workspace.name}</span>
+                        <span className="text-foreground">{state.space.name}</span>
                     </div>
                 </div>
             </div>
 
             <PageHeader
-                title={state.workspace.name}
+                title={state.space.name}
                 description="Manage this space's atomic capability stack, data exchange, and governance protocols."
             />
             
             <div className="mb-2">
-                <WorkspaceStatusBar />
+                <SpaceStatusBar />
             </div>
             
             <div className="mt-6">
-                <WorkspaceTabs />
+                <SpaceTabs />
             </div>
         </>
     );

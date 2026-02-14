@@ -3,23 +3,23 @@
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff } from "lucide-react";
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 
-export function WorkspaceStatusBar() {
-  const { state } = useWorkspace();
+export function SpaceStatusBar() {
+  const { state } = useSpace();
 
-  if (!state.workspace) {
+  if (!state.space) {
       return null; // Or a loading state
   }
 
-  const isVisible = state.workspace.visibility === "visible";
+  const isVisible = state.space.visibility === "visible";
 
   return (
     <div className="flex items-center gap-2">
       <Badge
         className="bg-primary/10 text-primary border-primary/20 uppercase text-[9px] tracking-[0.2em] font-bold px-2 py-0.5"
       >
-        ID: {state.workspace.id.toUpperCase()}
+        ID: {state.space.id.toUpperCase()}
       </Badge>
       <Badge
         variant="outline"
