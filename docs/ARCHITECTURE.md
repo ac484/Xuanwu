@@ -1,6 +1,3 @@
-# Architecture Diagrams
-
-```mermaid
 classDiagram
 
 %% ==================================================
@@ -118,6 +115,7 @@ class TaskAggregate {
   +taskId
   +workspaceId
   +status: proposed | scheduled | completed
+  +assigneePrincipalId
 }
 
 class QaAggregate {
@@ -161,6 +159,7 @@ class FileAggregate {
   +name
   +type
   +url
+  +sizeBytes
 }
 
 WorkspaceAggregate --> FileAggregate
@@ -181,7 +180,6 @@ class DiaryAggregate {
 }
 
 WorkspaceAggregate --> DiaryAggregate
-DiaryAggregate --> DomainEvent
 
 
 %% ==================================================
@@ -191,7 +189,7 @@ DiaryAggregate --> DomainEvent
 class DocumentParserService {
   +serviceId
   +supportedFileTypes[]
-  +parse(fileId) -> TaskDraft[]
+  +parse(fileId) TaskDraft[]
 }
 
 class TaskDraft {
@@ -213,14 +211,23 @@ class DomainCommand {
   +principalId
   +workspaceId
   +payload
+  +issuedAt
 }
 
 class CommandHandler {
-  +handle(command)
+  +handle(command) Result~Event[]~
+  +validate(command) ValidationResult
+}
+
+class CommandResult {
+  +success: boolean
+  +events: Event[]
+  +error?: DomainError
 }
 
 AccessPrincipal --> DomainCommand
 DomainCommand --> CommandHandler
+CommandHandler --> CommandResult
 
 CommandHandler --> TaskAggregate
 CommandHandler --> QaAggregate
@@ -245,15 +252,25 @@ class DomainEvent {
   +principalId
   +payload
   +occurredAt
+  +version: number
 }
 
 class EventStore {
-  +append(event)
-  +load(aggregateId)
+  +append(event) void
+  +load(aggregateId) Event[]
+  +loadFromVersion(aggregateId, version) Event[]
 }
 
-class ProjectionSubscriber {
-  +handle(event)
+class EventSchema {
+  +schemaId
+  +eventType
+  +version: number
+  +fields[]
+}
+
+class EventUpgrader {
+  +upgrade(oldEvent, targetVersion) Event
+  +canUpgrade(fromVersion, toVersion) boolean
 }
 
 TaskAggregate --> DomainEvent
@@ -267,11 +284,255 @@ TenantAggregate --> DomainEvent
 DiaryAggregate --> DomainEvent
 
 DomainEvent --> EventStore
-EventStore --> ProjectionSubscriber
+DomainEvent --> EventSchema
+EventSchema --> EventUpgrader
 
 
 %% ==================================================
-%% 1️⃣1️⃣ Audit Boundary (System-level Tracking)
+%% 1️⃣1️⃣ Query Boundary (Read Model Access)
+%% ==================================================
+
+class DomainQuery {
+  +queryId
+  +principalId
+  +workspaceId?
+  +filters: FilterCriteria
+  +pagination: Pagination
+}
+
+class QueryHandler {
+  +handle(query) ReadModel
+  +validate(query) ValidationResult
+}
+
+class ReadModel {
+  +modelId
+  +modelType
+  +data
+  +lastUpdatedAt
+  +version: number
+}
+
+class FilterCriteria {
+  +field: string
+  +operator: eq | gt | lt | in
+  +value: any
+}
+
+class Pagination {
+  +page: number
+  +pageSize: number
+  +totalCount?: number
+}
+
+AccessPrincipal --> DomainQuery
+DomainQuery --> QueryHandler
+QueryHandler --> ReadModel
+DomainQuery --> FilterCriteria
+DomainQuery --> Pagination
+
+
+%% ==================================================
+%% 1️⃣2️⃣ Projection Boundary (Event → Read Model)
+%% ==================================================
+
+class Projection {
+  +projectionId
+  +name
+  +eventTypes[]
+  +status: active | rebuilding | failed
+  +rebuild() void
+}
+
+class ProjectionSubscriber {
+  +handle(event) void
+  +updateReadModel(event) void
+}
+
+class ProjectionState {
+  +projectionId
+  +lastProcessedEventId
+  +lastProcessedAt
+  +checkpointData
+}
+
+class ProjectionCheckpoint {
+  +save(state) void
+  +load(projectionId) ProjectionState
+}
+
+EventStore --> ProjectionSubscriber
+ProjectionSubscriber --> Projection
+Projection --> ProjectionState
+ProjectionState --> ProjectionCheckpoint
+ProjectionSubscriber --> ReadModel
+
+
+%% ==================================================
+%% 1️⃣3️⃣ Error Boundary (Failure Handling)
+%% ==================================================
+
+class DomainError {
+  +errorId
+  +commandId?
+  +aggregateId?
+  +code: string
+  +message: string
+  +occurredAt
+  +stackTrace?
+}
+
+class ErrorHandler {
+  +handle(error) void
+  +retry(commandId) CommandResult
+  +canRetry(error) boolean
+}
+
+class DeadLetterQueue {
+  +queueId
+  +failedCommandId
+  +error: DomainError
+  +retryCount: number
+  +maxRetries: number
+}
+
+CommandHandler --> DomainError
+DomainError --> ErrorHandler
+ErrorHandler --> DeadLetterQueue
+
+
+%% ==================================================
+%% 1️⃣4️⃣ Process Manager Boundary (Workflow Orchestration)
+%% ==================================================
+
+class ProcessManager {
+  +processId
+  +taskId
+  +currentStage: task | qa | acceptance | finance
+  +status: running | completed | failed | compensating
+  +startedAt
+  +completedAt?
+}
+
+class ProcessStep {
+  +stepId
+  +processId
+  +stageName
+  +status: pending | completed | failed
+  +retriesCount: number
+}
+
+class CompensationHandler {
+  +compensate(processId) void
+  +rollback(stepId) void
+}
+
+TaskAggregate --> ProcessManager
+ProcessManager --> ProcessStep
+ProcessManager --> CompensationHandler
+ProcessStep --> DomainCommand
+
+
+%% ==================================================
+%% 1️⃣5️⃣ Notification Boundary (User Communication)
+%% ==================================================
+
+class NotificationAggregate {
+  +notificationId
+  +recipientPrincipalId
+  +type: email | push | in_app
+  +title
+  +body
+  +payload
+  +status: pending | sent | failed | read
+  +createdAt
+  +sentAt?
+}
+
+class NotificationSubscriber {
+  +handle(event) void
+  +createNotification(event) NotificationAggregate
+}
+
+class NotificationTemplate {
+  +templateId
+  +eventType
+  +channelType
+  +template: string
+}
+
+DomainEvent --> NotificationSubscriber
+NotificationSubscriber --> NotificationAggregate
+NotificationSubscriber --> NotificationTemplate
+
+
+%% ==================================================
+%% 1️⃣6️⃣ Search Boundary (Full-text Search)
+%% ==================================================
+
+class SearchIndex {
+  +indexId
+  +workspaceId
+  +aggregateType
+  +aggregateId
+  +content: string
+  +metadata
+  +lastIndexedAt
+}
+
+class SearchService {
+  +index(event) void
+  +search(query) SearchResult[]
+  +reindex(aggregateId) void
+}
+
+class SearchResult {
+  +resultId
+  +aggregateType
+  +aggregateId
+  +score: number
+  +highlights[]
+}
+
+DomainEvent --> SearchService
+SearchService --> SearchIndex
+SearchService --> SearchResult
+
+
+%% ==================================================
+%% 1️⃣7️⃣ Quota Boundary (Resource Limiting)
+%% ==================================================
+
+class QuotaPolicy {
+  +policyId
+  +tenantId
+  +resourceType: task | file | workspace | storage
+  +limit: number
+  +period: daily | monthly | total
+}
+
+class QuotaUsage {
+  +usageId
+  +tenantId
+  +resourceType
+  +currentUsage: number
+  +resetAt?
+}
+
+class QuotaEnforcer {
+  +check(principalId, resourceType) boolean
+  +increment(tenantId, resourceType) void
+  +decrement(tenantId, resourceType) void
+}
+
+TenantAggregate --> QuotaPolicy
+QuotaPolicy --> QuotaUsage
+QuotaUsage --> QuotaEnforcer
+CommandHandler --> QuotaEnforcer
+
+
+%% ==================================================
+%% 1️⃣8️⃣ Audit Boundary (System-level Tracking)
 %% ==================================================
 
 class AuditLog {
@@ -282,10 +543,13 @@ class AuditLog {
   +principalId
   +action
   +occurredAt
+  +ipAddress?
+  +userAgent?
 }
 
 class AuditSubscriber {
-  +handle(event)
+  +handle(event) void
+  +createAuditLog(event) AuditLog
 }
 
 DomainEvent --> AuditSubscriber
@@ -304,6 +568,7 @@ end note
 note for DomainEvent
   不能被外部 new
   只能由 Aggregate apply()
+  必須包含 version 欄位
 end note
 
 note for DocumentParserService
@@ -313,15 +578,78 @@ end note
 
 note for CommandHandler
   唯一可變更 Aggregate 的入口
+  必須先通過 QuotaEnforcer 檢查
+  失敗時產生 DomainError
+end note
+
+note for QueryHandler
+  只能讀取 ReadModel
+  不能直接存取 EventStore
+  必須通過 AccessPolicy 檢查
 end note
 
 note for AuditLog
   只讀紀錄，不影響 Domain
+  每個 Event 必須產生 AuditLog
 end note
 
 note for DiaryAggregate
   屬於內容型 Aggregate
   可被 Command 建立與更新
   不參與 Task 流程鏈
+  可被全文檢索
+end note
+
+note for ProcessManager
+  唯一協調 Task 流程鏈的組件
+  失敗時觸發 CompensationHandler
+  不直接操作 Aggregate
+end note
+
+note for NotificationAggregate
+  由 Event 觸發產生
+  不影響核心 Domain
+  失敗不影響業務流程
+end note
+
+note for ReadModel
+  由 Projection 維護
+  不可被 Command 直接修改
+  可以被刪除並重建
+end note
+
+note for QuotaEnforcer
+  在 Command 執行前檢查
+  超過限制時拒絕 Command
+  不可被繞過
 end note
 ```
+
+---
+
+## 📝 關鍵變更說明
+
+### ✅ **新增的邊界**
+
+1. **Query Boundary** - 完整的查詢機制
+2. **Projection Boundary** - Event → Read Model 投影
+3. **Error Boundary** - 錯誤處理與重試
+4. **Process Manager** - 流程協調與補償
+5. **Notification Boundary** - 用戶通知
+6. **Search Boundary** - 全文檢索
+7. **Quota Boundary** - 資源限制
+
+### ✅ **強化的不變式 (Invariants)**
+
+- CommandHandler 必須通過 QuotaEnforcer
+- QueryHandler 只能讀 ReadModel
+- ProcessManager 是唯一流程協調者
+- Event 必須包含 version
+
+### ✅ **補充的屬性**
+
+- `TaskAggregate.assigneePrincipalId` (用於通知)
+- `FileAggregate.sizeBytes` (用於配額計算)
+- `DomainEvent.version` (用於事件升級)
+
+---
