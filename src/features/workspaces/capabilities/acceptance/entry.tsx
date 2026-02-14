@@ -1,6 +1,7 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useContext } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { Button } from "@/app/_components/ui/button";
 import { Trophy, CheckCircle2, Search, XCircle, AlertTriangle } from "lucide-react";
 import { toast } from "@/hooks/ui/use-toast";
@@ -12,52 +13,55 @@ import { useAuth } from "@/context/auth-context";
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+}
+
 /**
  * WorkspaceAcceptance - A-Track final delivery threshold.
  * Determines if a task truly qualifies for "Accepted" status.
  * ARCHITECTURE REFACTORED: Now consumes state from context and events.
  */
 export default function WorkspaceAcceptance() {
-  const { workspace, logAuditEvent, eventBus, updateTask } = useWorkspace();
+  const { state: workspace, logAuditEvent, eventBus, updateTask } = useWorkspace() as any;
   const { state: { user } } = useAuth();
   
   const [verifiedTasks, setVerifiedTasks] = useState<WorkspaceTask[]>([]);
 
-  // 1. Independent State Hydration: Consumes task data from the parent context on mount.
   useEffect(() => {
     const initialTasks = Object.values(workspace.tasks || {}).filter(
-      (task) => task.progressState === "verified"
+      (task: any) => task.progressState === "verified"
     );
-    setVerifiedTasks(initialTasks);
+    setVerifiedTasks(initialTasks as any[]);
   }, [workspace.tasks]);
 
 
-  // 2. Event-Driven Updates: Subscribes to events for real-time changes.
   useEffect(() => {
-    // A task enters this queue when QA approves it.
     const unsubApprove = eventBus.subscribe(
       'workspace:qa:approved',
-      (payload) => {
-        setVerifiedTasks(prev => {
-            if (prev.some(t => t.id === payload.task.id)) return prev;
+      (payload: any) => {
+        setVerifiedTasks((prev: any) => {
+            if (prev.some((t: any) => t.id === payload.task.id)) return prev;
             return [...prev, payload.task];
         });
       }
     );
     
-    // A task leaves this queue when it is failed (sent back to todo).
     const unsubFail = eventBus.subscribe(
       'workspace:acceptance:failed',
-      (payload) => {
-        setVerifiedTasks(prev => prev.filter(t => t.id !== payload.task.id));
+      (payload: any) => {
+        setVerifiedTasks((prev: any) => prev.filter((t: any) => t.id !== payload.task.id));
       }
     );
     
-    // A task also leaves this queue when it is passed (accepted).
      const unsubPass = eventBus.subscribe(
       'workspace:acceptance:passed',
-      (payload) => {
-        setVerifiedTasks(prev => prev.filter(t => t.id !== payload.task.id));
+      (payload: any) => {
+        setVerifiedTasks((prev: any) => prev.filter((t: any) => t.id !== payload.task.id));
       }
     );
 

@@ -1,20 +1,28 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import {
   assignMemberToScheduleItem,
   unassignMemberFromScheduleItem,
 } from "@/infra/firebase/firestore/firestore.facade";
 import { ScheduleItem } from "@/types/domain";
 import { toast } from "@/hooks/ui/use-toast";
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context.state;
+}
 
 /**
  * ARCHITECTURAL NOTE: This is a workspace-level action hook.
  * It operates on the `workspace.id` and `workspace.dimensionId` derived from the `useWorkspace` context.
  */
 export function useWorkspaceScheduleActions() {
-  const { workspace } = useWorkspace();
+  const { workspace } = useWorkspace() as any;
   const orgId = workspace.dimensionId;
 
   const performAction = useCallback(async (action: () => Promise<void>, successMessage: string) => {

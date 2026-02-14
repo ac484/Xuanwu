@@ -1,6 +1,7 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useContext, useState, useEffect } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { Card, CardDescription, CardHeader, CardTitle, CardFooter, CardContent } from "@/app/_components/ui/card";
 import { Button } from "@/app/_components/ui/button";
 import { 
@@ -10,7 +11,6 @@ import {
   EyeOff
 } from "lucide-react";
 import { toast } from "@/hooks/ui/use-toast";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { WorkspaceLifecycleState, Address } from "@/types/domain";
 import { Label } from "@/app/_components/ui/label";
@@ -19,8 +19,16 @@ import { Switch } from "@/app/_components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
 import { Textarea } from "@/app/_components/ui/textarea";
 
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+}
+
 function WorkspaceSettingsForm() {
-    const { workspace, updateWorkspaceSettings, deleteWorkspace } = useWorkspace();
+    const { state: workspace, updateWorkspaceSettings, deleteWorkspace } = useWorkspace() as any;
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     
@@ -119,7 +127,7 @@ function WorkspaceSettingsForm() {
                             <Input placeholder="Postal Code" value={address?.postalCode || ''} onChange={(e) => handleAddressChange('postalCode', e.target.value)} className="rounded-xl h-11" />
                         </div>
                         <Input placeholder="Street Address" value={address?.street || ''} onChange={(e) => handleAddressChange('street', e.target.value)} className="rounded-xl h-11" />
-                        <Textarea placeholder="Additional Details (e.g. Building, Floor)" value={address?.details || ''} onChange={(e) => handleAddressChange('details', e.target.value)} className="rounded-xl" />
+                        <Textarea placeholder="Additional Details (e.g. Building, Floor)" value={address?.description || ''} onChange={(e) => handleAddressChange('description', e.target.value)} className="rounded-xl" />
                     </div>
                     <div className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border border-border/60">
                         <div className="space-y-0.5">

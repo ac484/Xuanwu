@@ -4,9 +4,18 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/_components/ui/button";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
 import { WorkspaceStatusBar } from "./workspace-status-bar";
 import { WorkspaceTabs } from "./workspace-tabs";
+import { useContext } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context.state;
+}
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (

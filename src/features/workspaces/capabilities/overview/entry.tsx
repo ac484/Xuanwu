@@ -1,10 +1,19 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useContext } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Progress } from "@/app/_components/ui/progress";
 import { Layers, ListTodo, AlertCircle } from "lucide-react";
 import { useMemo } from "react";
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context.state;
+}
 
 function StatCard({ icon, title, value, description, progress }: { icon: React.ReactNode, title: string, value: string, description: string, progress?: number }) {
   return (
@@ -27,13 +36,13 @@ function StatCard({ icon, title, value, description, progress }: { icon: React.R
 }
 
 export default function WorkspaceOverview() {
-  const { workspace } = useWorkspace();
+  const { workspace } = useWorkspace() as any;
 
   const taskStats = useMemo(() => {
     const tasks = Object.values(workspace.tasks || {});
     const total = tasks.length;
     if (total === 0) return { total: 0, completed: 0, progress: 0 };
-    const completed = tasks.filter(t => ['completed', 'verified', 'accepted'].includes(t.progressState)).length;
+    const completed = tasks.filter((t: any) => ['completed', 'verified', 'accepted'].includes(t.progressState)).length;
     const progress = Math.round((completed / total) * 100);
     return { total, completed, progress };
   }, [workspace.tasks]);
@@ -41,7 +50,7 @@ export default function WorkspaceOverview() {
   const issueStats = useMemo(() => {
     const issues = Object.values(workspace.issues || {});
     const total = issues.length;
-    const open = issues.filter(i => i.issueState === 'open').length;
+    const open = issues.filter((i: any) => i.issueState === 'open').length;
     return { total, open };
   }, [workspace.issues]);
 

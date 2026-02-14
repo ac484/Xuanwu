@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useTransition, useRef, useEffect } from 'react';
+import { useActionState, useTransition, useRef, useEffect, useContext } from 'react';
 import { Loader2, UploadCloud, File } from 'lucide-react';
 import { useToast } from '@/hooks/ui/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/_components/ui/card';
@@ -10,7 +10,15 @@ import {
   type ActionState,
 } from './_actions/actions';
 import type { WorkItem } from '@/ai/schemas/docu-parse';
-import { useWorkspace } from '@/features/workspaces/_context/workspace-context';
+import { WorkspaceContext } from '@/features/workspaces/_context/workspace-context';
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+}
 
 const initialState: ActionState = {
   data: undefined,
@@ -44,7 +52,7 @@ export default function WorkspaceDocumentParser() {
     extractDataFromDocument,
     initialState
   );
-  const { eventBus, logAuditEvent } = useWorkspace();
+  const { eventBus, logAuditEvent } = useWorkspace() as any;
   const [isPending, startTransition] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -81,8 +89,6 @@ export default function WorkspaceDocumentParser() {
   const handleImport = () => {
     if (!state.data?.workItems) return;
     
-    // Publish the event. The component's responsibility ends here.
-    // The WorkspaceEventHandler will listen for this and handle user confirmation.
     eventBus.publish('workspace:document-parser:itemsExtracted', {
         sourceDocument: state.fileName || 'Unknown Document',
         items: state.data.workItems.map(item => ({
@@ -96,11 +102,6 @@ export default function WorkspaceDocumentParser() {
 
     logAuditEvent('Triggered Task Import', `From document: ${state.fileName}`, 'create');
 
-    // This toast is removed as it is misleading. The event handler will provide feedback.
-    // toast({
-    //     title: 'Import Triggered',
-    //     description: `${state.data.workItems.length} items have been sent to the Tasks capability.`,
-    // });
   }
 
   return (

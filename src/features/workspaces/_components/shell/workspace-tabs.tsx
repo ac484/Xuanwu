@@ -1,13 +1,21 @@
 // [職責] 能力 (Capabilities) 導覽：只負責渲染頁籤，不關心內容
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { CAPABILITIES } from "@/features/workspaces/registry/registry";
 import { cn } from "@/lib/utils";
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context.state;
+}
 
 const CORE_CAPABILITIES = [
   { id: "overview", name: "Overview" },
@@ -19,11 +27,11 @@ export function WorkspaceTabs() {
   const { workspace } = useWorkspace();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentCapability = searchParams.get('capability') || 'overview';
+  const currentCapability = searchParams?.get('capability') || 'overview';
 
   const mountedCapabilities = useMemo(() => {
     const dynamicCapabilities = (workspace.capabilities || []).map(
-      (capability) => ({
+      (capability: any) => ({
         id: capability.id,
         name: capability.name,
       })
@@ -36,19 +44,16 @@ export function WorkspaceTabs() {
     
     const uniqueCapsMap = new Map();
     allCaps.forEach(item => {
-        // Only include if it's a valid, registered capability
         if (CAPABILITIES[item.id]) {
           uniqueCapsMap.set(item.id, item);
         }
     });
 
-    // Ensure core capabilities are ordered correctly
-    const finalCaps = [];
+    const finalCaps: any[] = [];
     if (uniqueCapsMap.has('overview')) finalCaps.push(uniqueCapsMap.get('overview'));
     if (uniqueCapsMap.has('capabilities')) finalCaps.push(uniqueCapsMap.get('capabilities'));
     
-    // Add dynamic capabilities
-    dynamicCapabilities.forEach(cap => {
+    dynamicCapabilities.forEach((cap: any) => {
       if(uniqueCapsMap.has(cap.id) && !['overview', 'capabilities', 'settings'].includes(cap.id)) {
         finalCaps.push(cap);
       }
@@ -63,10 +68,10 @@ export function WorkspaceTabs() {
   return (
     <Tabs value={currentCapability} className="w-full">
       <TabsList className="bg-muted/40 p-1 border border-border/50 rounded-xl w-full flex overflow-x-auto justify-start no-scrollbar">
-        {mountedCapabilities.map((cap) => {
+        {mountedCapabilities.map((cap: any) => {
           const detail = CAPABILITIES[cap.id];
           return detail ? (
-            <Link key={cap.id} href={{ pathname, query: { capability: cap.id } }} legacyBehavior passHref>
+            <Link key={cap.id} href={{ pathname: pathname || '', query: { capability: cap.id } }} legacyBehavior passHref>
               <TabsTrigger
                 value={cap.id}
                 className={cn(

@@ -3,7 +3,16 @@
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff } from "lucide-react";
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useContext } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context.state;
+}
 
 export function WorkspaceStatusBar() {
   const { workspace } = useWorkspace();

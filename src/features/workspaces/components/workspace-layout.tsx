@@ -2,7 +2,7 @@
 "use client";
 
 import { ReactNode, Suspense } from "react";
-import { WorkspaceContextShell } from "@/features/workspaces/_context/workspace-context";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { WorkspaceHeader } from "@/features/workspaces/_components/shell/workspace-header";
 import { Loader2 } from "lucide-react";
 
@@ -19,7 +19,7 @@ function PageLoading() {
 
 /**
  * WorkspaceLayout - The main layout component.
- * Its sole responsibility is to provide the WorkspaceContextShell and a Suspense boundary for page transitions.
+ * Its sole responsibility is to provide the WorkspaceContext and a Suspense boundary for page transitions.
  */
 export function WorkspaceLayout({
   children,
@@ -30,13 +30,13 @@ export function WorkspaceLayout({
 }) {
   
   return (
-    <WorkspaceContextShell workspaceId={workspaceId}>
+    <WorkspaceContext.Provider value={null}>
       <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20 gpu-accelerated">
         <WorkspaceHeader />
         <Suspense fallback={<PageLoading />}>
           {children}
         </Suspense>
       </div>
-    </WorkspaceContextShell>
+    </WorkspaceContext.Provider>
   );
 }

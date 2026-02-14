@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import { useWorkspace } from '@/features/workspaces/_context/workspace-context';
+import { useState, useMemo, useEffect, useCallback, useContext } from 'react';
+import { WorkspaceContext } from '@/features/workspaces/_context/workspace-context';
 import { Button } from '@/app/_components/ui/button';
 import { Input } from '@/app/_components/ui/input';
 import { Textarea } from '@/app/_components/ui/textarea';
@@ -52,8 +52,16 @@ import { TaskItem } from './_features/task-item';
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+}
+
 export default function WorkspaceTasks() {
-  const { workspace, logAuditEvent, eventBus, createTask, updateTask, deleteTask } = useWorkspace();
+  const { state: workspace, logAuditEvent, eventBus, createTask, updateTask, deleteTask } = useWorkspace() as any;
   const { uploadTaskAttachment } = useTaskUpload();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -72,7 +80,7 @@ export default function WorkspaceTasks() {
   const tasks = useMemo(
     () =>
       Object.values(workspace.tasks || {}).sort(
-        (a, b) => (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
+        (a: any, b: any) => (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
       ),
     [workspace.tasks]
   );
@@ -113,13 +121,13 @@ export default function WorkspaceTasks() {
         (Number(editingTask.unitPrice) || 0) - (Number(editingTask.discount) || 0);
 
       if (editingTask.parentId) {
-        const parent = tasks.find((t) => t.id === editingTask.parentId);
+        const parent = tasks.find((t: any) => t.id === editingTask.parentId);
         if (parent) {
           const currentChildrenSum = tasks
             .filter(
-              (t) => t.parentId === editingTask.parentId && t.id !== editingTask.id
+              (t: any) => t.parentId === editingTask.parentId && t.id !== editingTask.id
             )
-            .reduce((acc, t) => acc + (t.subtotal || 0), 0);
+            .reduce((acc: any, t: any) => acc + (t.subtotal || 0), 0);
 
           if (currentChildrenSum + subtotal > (parent.subtotal || 0)) {
             toast({
@@ -135,8 +143,8 @@ export default function WorkspaceTasks() {
 
       if (editingTask.id) {
         const childSum = tasks
-          .filter((t) => t.parentId === editingTask.id)
-          .reduce((acc, t) => acc + (t.subtotal || 0), 0);
+          .filter((t: any) => t.parentId === editingTask.id)
+          .reduce((acc: any, t: any) => acc + (t.subtotal || 0), 0);
         if (subtotal < childSum) {
           toast({
             variant: 'destructive',
@@ -154,14 +162,14 @@ export default function WorkspaceTasks() {
         photoURLs: finalPhotoURLs,
         progressState: editingTask.progressState || 'todo',
       };
-      delete finalData.progress; // Ensure calculated progress is not saved
+      delete (finalData as any).progress; // Ensure calculated progress is not saved
 
       if (editingTask.id) {
         await updateTask(editingTask.id, finalData);
         logAuditEvent('Calibrated WBS Node', `${editingTask.name} [Subtotal: ${subtotal}]`, 'update');
       } else {
         const taskToCreate: Omit<WorkspaceTask, 'id' | 'createdAt' | 'updatedAt'> = {
-            ...finalData,
+            ...(finalData as any),
             name: finalData.name!,
             progressState: finalData.progressState!,
             subtotal: finalData.subtotal!,

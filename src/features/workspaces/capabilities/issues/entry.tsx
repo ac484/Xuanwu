@@ -1,6 +1,7 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useContext } from "react";
+import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { Button } from "@/app/_components/ui/button";
 import { Badge } from "@/app/_components/ui/badge";
 import { AlertCircle, Plus, ArrowRight, ShieldAlert, DollarSign, PenTool, MessageSquare, CornerUpLeft } from "lucide-react";
@@ -20,8 +21,16 @@ import { Textarea } from "@/app/_components/ui/textarea";
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
+function useWorkspace() {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+}
+
 export default function WorkspaceIssues() {
-  const { workspace, logAuditEvent, protocol, createIssue, addCommentToIssue } = useWorkspace();
+  const { state: workspace, logAuditEvent, protocol, createIssue, addCommentToIssue } = useWorkspace() as any;
   const { state: authState } = useAuth();
   
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -29,7 +38,7 @@ export default function WorkspaceIssues() {
   const [selectedIssue, setSelectedIssue] = useState<WorkspaceIssue | null>(null);
   const [newComment, setNewComment] = useState("");
 
-  const issues = useMemo(() => Object.values(workspace.issues || {}).sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)), [workspace.issues]);
+  const issues = useMemo(() => Object.values(workspace.issues || {}).sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)), [workspace.issues]);
 
   const handleAddIssue = async () => {
     if (!newIssue.title.trim()) return;
@@ -91,8 +100,8 @@ export default function WorkspaceIssues() {
       </div>
 
       <div className="grid grid-cols-1 gap-3">
-        {issues?.map(issue => (
-          <div key={issue.id} className="p-4 bg-card/40 border-l-4 border-l-accent border border-border/60 rounded-r-2xl flex items-center justify-between cursor-pointer hover:bg-muted/30" onClick={() => setSelectedIssue(issue)}>
+        {issues?.map((issue: any) => (
+          <div key={issue.id} className="p-4 bg-card/40 border-l-4 border-l-accent border border-border/60 rounded-r-2xl flex items-center justify-between cursor-pointer hover:bg-muted/30" onClick={() => setSelectedIssue(issue as any)}>
             <div className="flex items-center gap-3">
               <div className="p-2 bg-accent/10 rounded-lg text-accent">
                 {getIssueIcon(issue.type)}
@@ -126,7 +135,7 @@ export default function WorkspaceIssues() {
               <ScrollArea className="flex-1">
                 <div className="p-6 space-y-6">
                   {(selectedIssue.comments || []).length > 0 ? (
-                    selectedIssue.comments?.map(comment => (
+                    selectedIssue.comments?.map((comment: any) => (
                       <div key={comment.id} className="flex items-start gap-3">
                         <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold mt-1 border border-primary/20">{comment.author[0]}</div>
                         <div className="flex-1 p-4 rounded-2xl bg-muted/40 border border-border/40">
