@@ -12,7 +12,7 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { CreateWorkspaceDialog } from "./create-workspace-dialog";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 
 interface PageHeaderProps {
   title: string;

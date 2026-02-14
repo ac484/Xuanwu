@@ -6,7 +6,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff, Shield, MoreVertical } from "lucide-react";
 import type { Workspace } from "@/types/domain";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import {
   DropdownMenu,
   DropdownMenuContent,

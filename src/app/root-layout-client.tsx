@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { SidebarProvider, SidebarInset } from "@/app/_components/ui/sidebar";
 import { useAuth } from "@/context/auth-context";
 import { AccountProvider } from "@/context/account-context";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 
 const LoadingScreen = () => {
   const { t, isLoading } = useI18n();

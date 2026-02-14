@@ -6,6 +6,7 @@ import { PreferencesCard } from "../_components/settings/preferences-card";
 import { SecurityCard } from "../_components/settings/security-card";
 import { DangerZoneCard } from "../_components/settings/danger-zone-card";
 import { useSettingsLogic } from "../_hooks/use-settings-logic";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 
 export function SettingsPage() {
   const {
@@ -25,8 +26,8 @@ export function SettingsPage() {
     handleDeleteOrganization, // This will be added in the hook later
     handleAvatarUpload,
     avatarInputRef,
-    t,
   } = useSettingsLogic();
+  const { t } = useI18n();
 
   if (!isMounted || !user) {
     return null; // Or a loading skeleton

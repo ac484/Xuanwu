@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { useI18n } from '@/context/i18n-context';
+import { useI18n } from '@/features/core/i18n/i18n-context';
 import { useUser } from '@/hooks/state/use-user';
 import type { ExpertiseBadge } from '@/types/domain';
 

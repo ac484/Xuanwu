@@ -34,7 +34,7 @@ import {
 // Contexts & Hooks
 // ============================================================================
 import { useAuth } from "@/context/auth-context";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from '@/features/core/i18n/i18n-context';
 import { useApp } from "@/hooks/state/use-app";
 import { useUser } from "@/hooks/state/use-user";
 import { useVisibleWorkspaces } from '@/hooks/state/use-visible-workspaces';

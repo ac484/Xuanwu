@@ -50,11 +50,8 @@ export function setLocalePreference(locale: Locale): void {
  */
 export async function loadMessages(locale: Locale) {
   try {
-    const response = await fetch(`/localized-files/${locale}.json`);
-    if (!response.ok) {
-      throw new Error(`Failed to load locale: ${locale}`);
-    }
-    return await response.json();
+    const messages = await import(`./localized-files/${locale}.json`);
+    return messages.default;
   } catch (error) {
     console.error(`Error loading locale ${locale}:`, error);
     // Fallback to default locale

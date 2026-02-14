@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/context/theme-context';
 import { FirebaseClientProvider } from '@/context/firebase-context';
 import { AuthProvider } from '@/context/auth-context';
 import { AppProvider } from '@/context/app-context';
-import { I18nProvider } from '@/context/i18n-context';
+import { I18nProvider } from '@/features/core/i18n/i18n-context';
 import { RootLayoutClient } from './root-layout-client';
 
 export const metadata: Metadata = {

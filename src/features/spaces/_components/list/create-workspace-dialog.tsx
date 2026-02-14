@@ -15,7 +15,7 @@ import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { handleCreateWorkspace } from "../../_actions/workspace-actions";
 import { useApp } from "@/hooks/state/use-app";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 
 interface CreateWorkspaceDialogProps {
   open: boolean;

@@ -9,7 +9,7 @@ import { useState, useEffect, useMemo } from "react";
 import { MemberReference } from "@/types/domain";
 import { useApp } from "@/hooks/state/use-app";
 import { useOrganization } from "@/hooks/state/use-organization";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { PageHeader } from "../_components/shared/page-header";
 
 export function MembersPage() {

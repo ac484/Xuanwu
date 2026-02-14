@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/ui/use-toast";
 import { useApp } from "@/hooks/state/use-app";
 import { useOrganization } from "@/hooks/state/use-organization";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { PageHeader } from "../_components/shared/page-header";
 
 /**

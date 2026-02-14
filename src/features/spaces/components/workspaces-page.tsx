@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { Terminal } from "lucide-react";
 import { useApp } from "@/hooks/state/use-app";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useVisibleWorkspaces } from "@/hooks/state/use-visible-workspaces";
 import { useWorkspaceFilters } from "../_hooks/use-workspace-filters";
 import { WorkspaceListHeader } from "../_components/list/workspace-list-header";

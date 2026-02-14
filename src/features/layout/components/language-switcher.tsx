@@ -1,6 +1,6 @@
 "use client";
 
-import { useI18n } from '@/context/i18n-context';
+import { useI18n } from '@/features/core/i18n/i18n-context';
 import { Locale } from '@/types/i18n';
 import { Button } from '@/app/_components/ui/button';
 import {
