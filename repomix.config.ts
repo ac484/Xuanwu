@@ -11,10 +11,6 @@ export default defineConfig({
   analysis: {
     include: [
       'src/**/*.{js,jsx,ts,tsx}',
-      'app/**/*.{js,jsx,ts,tsx}',
-      'pages/**/*.{js,jsx,ts,tsx}',
-      'components/**/*.{js,jsx,ts,tsx}',
-      'lib/**/*.{js,jsx,ts,tsx}',
     ],
     exclude: [
       '**/*.d.ts',
@@ -28,6 +24,10 @@ export default defineConfig({
       'build/**',
       '.next/**',
       'coverage/**',
+      'docs/**',
+      '.idx/**',
+      'public/**',
+      'src/app/_components/ui/**'
     ],
     maxFileSize: 1024 * 1024,
     allowSymlinks: true,
