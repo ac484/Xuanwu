@@ -1,11 +1,11 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { Button } from "@/app/_components/ui/button";
 import { Trophy, CheckCircle2, Search, XCircle, AlertTriangle } from "lucide-react";
 import { toast } from "@/hooks/ui/use-toast";
 import { Badge } from "@/app/_components/ui/badge";
-import { WorkspaceTask } from "@/types/domain";
+import { SpaceTask } from "@/types/domain";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/auth-context";
 
@@ -13,27 +13,27 @@ const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
 /**
- * WorkspaceAcceptance - A-Track final delivery threshold.
+ * SpaceAcceptance - A-Track final delivery threshold.
  * Determines if a task truly qualifies for "Accepted" status.
  * ARCHITECTURE REFACTORED: Now consumes state from context and events.
  */
-export default function WorkspaceAcceptance() {
-  const { state: workspace, logAuditEvent, eventBus, updateTask } = useWorkspace() as any;
+export default function SpaceAcceptance() {
+  const { state: space, logAuditEvent, eventBus, updateTask } = useSpace() as any;
   const { state: { user } } = useAuth();
   
-  const [verifiedTasks, setVerifiedTasks] = useState<WorkspaceTask[]>([]);
+  const [verifiedTasks, setVerifiedTasks] = useState<SpaceTask[]>([]);
 
   useEffect(() => {
-    const initialTasks = Object.values(workspace.tasks || {}).filter(
+    const initialTasks = Object.values(space.tasks || {}).filter(
       (task: any) => task.progressState === "verified"
     );
     setVerifiedTasks(initialTasks as any[]);
-  }, [workspace.tasks]);
+  }, [space.tasks]);
 
 
   useEffect(() => {
     const unsubApprove = eventBus.subscribe(
-      'workspace:qa:approved',
+      'space:qa:approved',
       (payload: any) => {
         setVerifiedTasks((prev: any) => {
             if (prev.some((t: any) => t.id === payload.task.id)) return prev;
@@ -43,14 +43,14 @@ export default function WorkspaceAcceptance() {
     );
     
     const unsubFail = eventBus.subscribe(
-      'workspace:acceptance:failed',
+      'space:acceptance:failed',
       (payload: any) => {
         setVerifiedTasks((prev: any) => prev.filter((t: any) => t.id !== payload.task.id));
       }
     );
     
      const unsubPass = eventBus.subscribe(
-      'workspace:acceptance:passed',
+      'space:acceptance:passed',
       (payload: any) => {
         setVerifiedTasks((prev: any) => prev.filter((t: any) => t.id !== payload.task.id));
       }
@@ -64,12 +64,12 @@ export default function WorkspaceAcceptance() {
   }, [eventBus]);
 
 
-  const handleAccept = async (task: WorkspaceTask) => {
+  const handleAccept = async (task: SpaceTask) => {
     const updates = { progressState: 'accepted' as const };
     
     try {
       await updateTask(task.id, updates);
-      eventBus.publish('workspace:acceptance:passed', {
+      eventBus.publish('space:acceptance:passed', {
           task: {...task, ...updates},
           acceptedBy: user?.name || "System"
       });
@@ -85,12 +85,12 @@ export default function WorkspaceAcceptance() {
     }
   };
 
-  const handleFail = async (task: WorkspaceTask) => {
+  const handleFail = async (task: SpaceTask) => {
     const updates = { progressState: 'todo' as const };
     
     try {
       await updateTask(task.id, updates);
-      eventBus.publish('workspace:acceptance:failed', {
+      eventBus.publish('space:acceptance:failed', {
           task: {...task, ...updates},
           rejectedBy: user?.name || "System"
       });

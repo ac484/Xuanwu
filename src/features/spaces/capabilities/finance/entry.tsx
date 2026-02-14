@@ -1,34 +1,34 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Wallet, Landmark, TrendingUp, CheckCircle2, AlertCircle, ArrowUpRight } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
-import { WorkspaceTask } from "@/types/domain";
+import { SpaceTask } from "@/types/domain";
 
 /**
- * WorkspaceFinance - Handles fund disbursement and budget tracking after acceptance.
+ * SpaceFinance - Handles fund disbursement and budget tracking after acceptance.
  * ARCHITECTURE REFACTORED: Now consumes state from context and events.
  */
-export default function WorkspaceFinance() {
-  const { workspace, logAuditEvent, eventBus } = useWorkspace();
+export default function SpaceFinance() {
+  const { space, logAuditEvent, eventBus } = useSpace();
   
-  const [acceptedTasks, setAcceptedTasks] = useState<WorkspaceTask[]>([]);
+  const [acceptedTasks, setAcceptedTasks] = useState<SpaceTask[]>([]);
   const totalAcceptedTasks = acceptedTasks.length;
 
   // 1. Independent State Hydration: Consumes task data from the parent context on mount.
   useEffect(() => {
-    const initialTasks = Object.values(workspace.tasks || {}).filter(
+    const initialTasks = Object.values(space.tasks || {}).filter(
       (task) => task.progressState === "accepted"
     );
     setAcceptedTasks(initialTasks);
-  }, [workspace.tasks]);
+  }, [space.tasks]);
 
   // 2. Event-Driven Updates: Subscribes to events for real-time changes.
   useEffect(() => {
     const unsubscribe = eventBus.subscribe(
-      'workspace:acceptance:passed',
+      'space:acceptance:passed',
       (payload) => {
         setAcceptedTasks(prev => {
           if (prev.some(t => t.id === payload.task.id)) return prev;

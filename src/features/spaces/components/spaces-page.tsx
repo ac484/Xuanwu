@@ -12,7 +12,7 @@ import { SpaceGridView } from "../_components/list/space-grid-view";
 import { SpaceTableView } from "../_components/list/space-table-view";
 import { Button } from "@/app/_components/ui/button";
 import { CreateSpaceDialog } from "../_components/list/create-space-dialog";
-import { Workspace } from "@/types/domain";
+import { Space } from "@/types/domain";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
 import { handleDeleteSpace } from "../_actions/space-actions";
 
@@ -23,7 +23,7 @@ export function SpacesPage() {
   const [mounted, setMounted] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   
-  const [spaceToDelete, setSpaceToDelete] = useState<Workspace | null>(null);
+  const [spaceToDelete, setSpaceToDelete] = useState<Space | null>(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const { t } = useI18n();
@@ -39,7 +39,7 @@ export function SpacesPage() {
     setMounted(true);
   }, []);
 
-  const handleOpenDelete = (space: Workspace) => {
+  const handleOpenDelete = (space: Space) => {
     setSpaceToDelete(space);
   };
   
