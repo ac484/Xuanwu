@@ -5,7 +5,7 @@ This project's architecture is defined and enforced by the contents of `docs/ARC
 ## Core Principles
 
 - **Tenant-First:** All data is strictly partitioned by `tenantId`.
-- **Workspace Containment:** Core business logic resides within a `Workspace`.
+- **Space Containment:** Core business logic resides within a `Space`.
 - **Immutable IDs:** All primary keys are immutable.
 
 ## System Overview
@@ -14,7 +14,7 @@ The system is designed around a set of clearly defined boundaries:
 
 1.  **Authentication & Authorization:** Manages identity and access control.
 2.  **Tenant Governance:** Manages the top-level tenants and their members.
-3.  **Workspace:** The primary container for all work-related data and logic.
+3.  **Space:** The primary container for all work-related data and logic.
 4.  **Work Domain Aggregates:** The core chain of business processes (`Task` -> `QA` -> `Acceptance` -> `Finance`).
 5.  **Supporting Boundaries:** Includes resources (`File`), content (`Diary`), and system-level logging (`AuditLog`).
 
