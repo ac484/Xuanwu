@@ -11,7 +11,7 @@ export const governanceCapabilities: Record<string, CapabilityDetail> = {
     label: "Audit",
     icon: Activity,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/audit/entry')) },
+      single: { component: dynamic(() => import('@/features/workspaces/capabilities/audit').then(mod => mod.WorkspaceAuditPage)) },
       aggregated: { component: dynamic(() => import('@/features/workspaces/capabilities/audit').then(mod => mod.OrganizationAuditPage)) }
     },
   },

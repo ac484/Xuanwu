@@ -11,6 +11,3 @@ export const CAPABILITIES = {
   ...governanceCapabilities,
   ...businessCapabilities,
 };
-
-// Re-export the core types for convenience across the app.
-export type { CapabilityDetail, CapabilityView } from '../capability.model';

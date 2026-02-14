@@ -18,7 +18,7 @@ export const businessCapabilities: Record<string, CapabilityDetail> = {
     label: "Tasks",
     icon: ListTodo,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/tasks/entry')) },
+      single: { component: dynamic(() => import('@/features/workspaces/capabilities/tasks').then(mod => mod.WorkspaceTasks)) },
     },
   },
   finance: {
