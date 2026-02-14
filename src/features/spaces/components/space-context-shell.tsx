@@ -56,7 +56,7 @@ export function SpaceContextShell({ spaceId, children }: SpaceContextShellProps)
     space: { ...space, ...localState }, // Combine top-level doc with sub-collections
     ...localState,
     localAuditLogs,
-_    db,
+    db,
     protocol: space.protocol || 'Default',
     scope: space.scope || [],
   };

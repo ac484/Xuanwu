@@ -1,12 +1,12 @@
 // [職責] 提供所有操作函式。
-// 所有先前在 WorkspaceContextShell 中的操作函式都將移到這裡。
+// 所有先前在 SpaceContextShell 中的操作函式都將移到這裡。
 import { useCallback } from 'react';
 import { 
-  Workspace, 
-  WorkspaceTask, 
-  WorkspaceRole, 
+  Space, 
+  SpaceTask, 
+  SpaceRole, 
   Capability, 
-  WorkspaceLifecycleState, 
+  SpaceLifecycleState, 
   Address, 
   ScheduleItem 
 } from '@/types/domain';
@@ -14,75 +14,75 @@ import {
   createTask as createTaskFacade,
   updateTask as updateTaskFacade,
   deleteTask as deleteTaskFacade,
-  authorizeWorkspaceTeam as authorizeWorkspaceTeamFacade,
-  revokeWorkspaceTeam as revokeWorkspaceTeamFacade,
-  grantIndividualWorkspaceAccess as grantIndividualWorkspaceAccessFacade,
-  revokeIndividualWorkspaceAccess as revokeIndividualWorkspaceAccessFacade,
+  authorizeSpaceTeam as authorizeSpaceTeamFacade,
+  revokeSpaceTeam as revokeSpaceTeamFacade,
+  grantIndividualSpaceAccess as grantIndividualSpaceAccessFacade,
+  revokeIndividualSpaceAccess as revokeIndividualSpaceAccessFacade,
   mountCapabilities as mountCapabilitiesFacade,
   unmountCapability as unmountCapabilityFacade,
-  updateWorkspaceSettings as updateWorkspaceSettingsFacade,
-  deleteWorkspace as deleteWorkspaceFacade,
+  updateSpaceSettings as updateSpaceSettingsFacade,
+  deleteSpace as deleteSpaceFacade,
   createIssue as createIssueFacade,
   addCommentToIssue as addCommentToIssueFacade,
   createScheduleItem as createScheduleItemFacade,
 } from '@/features/core/firebase/firestore/firestore.facade';
-import { useLogger } from '@/features/workspaces/_hooks/shell/use-logger';
+import { useLogger } from '@/features/spaces/_hooks/shell/use-logger';
 
-interface UseWorkspaceActionsProps {
-  workspaceId: string;
-  workspaceName?: string;
+interface UseSpaceActionsProps {
+  spaceId: string;
+  spaceName?: string;
 }
 
-export const useWorkspaceActions = ({ workspaceId, workspaceName }: UseWorkspaceActionsProps) => {
-  const { logAudit } = useLogger(workspaceId, workspaceName);
+export const useSpaceActions = ({ spaceId, spaceName }: UseSpaceActionsProps) => {
+  const { logAudit } = useLogger(spaceId, spaceName);
 
   const logAuditEvent = useCallback((action: string, detail: string, type: 'create' | 'update' | 'delete') => {
     logAudit(action, detail, type);
   }, [logAudit]);
 
   // Task specific actions
-  const createTask = useCallback(async (task: Omit<WorkspaceTask, 'id' | 'createdAt' | 'updatedAt'>) => 
-    createTaskFacade(workspaceId, task), [workspaceId]);
+  const createTask = useCallback(async (task: Omit<SpaceTask, 'id' | 'createdAt' | 'updatedAt'>) => 
+    createTaskFacade(spaceId, task), [spaceId]);
 
-  const updateTask = useCallback(async (taskId: string, updates: Partial<WorkspaceTask>) => 
-    updateTaskFacade(workspaceId, taskId, updates), [workspaceId]);
+  const updateTask = useCallback(async (taskId: string, updates: Partial<SpaceTask>) => 
+    updateTaskFacade(spaceId, taskId, updates), [spaceId]);
 
   const deleteTask = useCallback(async (taskId: string) => 
-    deleteTaskFacade(workspaceId, taskId), [workspaceId]);
+    deleteTaskFacade(spaceId, taskId), [spaceId]);
 
   // Member management actions
-  const authorizeWorkspaceTeam = useCallback(async (teamId: string) => 
-    authorizeWorkspaceTeamFacade(workspaceId, teamId), [workspaceId]);
+  const authorizeSpaceTeam = useCallback(async (teamId: string) => 
+    authorizeSpaceTeamFacade(spaceId, teamId), [spaceId]);
 
-  const revokeWorkspaceTeam = useCallback(async (teamId: string) => 
-    revokeWorkspaceTeamFacade(workspaceId, teamId), [workspaceId]);
+  const revokeSpaceTeam = useCallback(async (teamId: string) => 
+    revokeSpaceTeamFacade(spaceId, teamId), [spaceId]);
 
-  const grantIndividualWorkspaceAccess = useCallback(async (userId: string, role: WorkspaceRole, protocol?: string) => 
-    grantIndividualWorkspaceAccessFacade(workspaceId, userId, role, protocol), [workspaceId]);
+  const grantIndividualSpaceAccess = useCallback(async (userId: string, role: SpaceRole, protocol?: string) => 
+    grantIndividualSpaceAccessFacade(spaceId, userId, role, protocol), [spaceId]);
 
-  const revokeIndividualWorkspaceAccess = useCallback(async (grantId: string) => 
-    revokeIndividualWorkspaceAccessFacade(workspaceId, grantId), [workspaceId]);
+  const revokeIndividualSpaceAccess = useCallback(async (grantId: string) => 
+    revokeIndividualSpaceAccessFacade(spaceId, grantId), [spaceId]);
 
   // Capability management
   const mountCapabilities = useCallback(async (capabilities: Capability[]) => 
-    mountCapabilitiesFacade(workspaceId, capabilities), [workspaceId]);
+    mountCapabilitiesFacade(spaceId, capabilities), [spaceId]);
 
   const unmountCapability = useCallback(async (capability: Capability) => 
-    unmountCapabilityFacade(workspaceId, capability), [workspaceId]);
+    unmountCapabilityFacade(spaceId, capability), [spaceId]);
 
-  // Workspace settings
-  const updateWorkspaceSettings = useCallback(async (settings: { name: string; visibility: 'visible' | 'hidden'; lifecycleState: WorkspaceLifecycleState, address: Address }) => 
-    updateWorkspaceSettingsFacade(workspaceId, settings), [workspaceId]);
+  // Space settings
+  const updateSpaceSettings = useCallback(async (settings: { name: string; visibility: 'visible' | 'hidden'; lifecycleState: SpaceLifecycleState, address: Address }) => 
+    updateSpaceSettingsFacade(spaceId, settings), [spaceId]);
 
-  const deleteWorkspace = useCallback(async () => 
-    deleteWorkspaceFacade(workspaceId), [workspaceId]);
+  const deleteSpace = useCallback(async () => 
+    deleteSpaceFacade(spaceId), [spaceId]);
 
   // Issue Management
   const createIssue = useCallback(async (title: string, type: 'technical' | 'financial', priority: 'high' | 'medium') => 
-    createIssueFacade(workspaceId, title, type, priority), [workspaceId]);
+    createIssueFacade(spaceId, title, type, priority), [spaceId]);
 
   const addCommentToIssue = useCallback(async (issueId: string, author: string, content: string) => 
-    addCommentToIssueFacade(workspaceId, issueId, author, content), [workspaceId]);
+    addCommentToIssueFacade(spaceId, issueId, author, content), [spaceId]);
 
   // Schedule Management
   const createScheduleItem = useCallback(async (itemData: Omit<ScheduleItem, 'id' | 'createdAt'>) => 
@@ -91,18 +91,5 @@ export const useWorkspaceActions = ({ workspaceId, workspaceName }: UseWorkspace
   return {
     logAuditEvent,
     createTask,
-    updateTask,
-    deleteTask,
-    authorizeWorkspaceTeam,
-    revokeWorkspaceTeam,
-    grantIndividualWorkspaceAccess,
-    revokeIndividualWorkspaceAccess,
-    mountCapabilities,
-    unmountCapability,
-    updateWorkspaceSettings,
-    deleteWorkspace,
-    createIssue,
-    addCommentToIssue,
-    createScheduleItem,
   };
 };

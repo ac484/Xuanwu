@@ -2,20 +2,20 @@
 "use client";
 
 import { useMemo, useDeferredValue } from "react";
-import type { Workspace } from "@/types/domain";
+import type { Space } from "@/types/domain";
 
 export function useSpaceFilters(
-  workspaces: Workspace[],
+  spaces: Space[],
   searchQuery: string
 ) {
   const deferredSearch = useDeferredValue(searchQuery);
   const searchValue = deferredSearch.toLowerCase();
 
-  const filteredWorkspaces = useMemo(
+  const filteredSpaces = useMemo(
     () =>
-      workspaces.filter((w) => w.name.toLowerCase().includes(searchValue)),
-    [workspaces, searchValue]
+      spaces.filter((s) => s.name.toLowerCase().includes(searchValue)),
+    [spaces, searchValue]
   );
 
-  return filteredWorkspaces;
+  return filteredSpaces;
 }

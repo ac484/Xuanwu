@@ -1,4 +1,4 @@
-// [職責] 組合顯示工作區的標題、狀態列與能力導覽頁籤
+// [職責] 組合顯示空間的標題、狀態列與能力導覽頁籤
 "use client";
 
 import { useRouter } from "next/navigation";
