@@ -90,19 +90,11 @@ module.exports = {
         ],
     }],
     "@typescript-eslint/naming-convention": [
-      "warn",
+      "error",
       {
-        "selector": "variable",
-        "types": ["function"],
-        "filter": {
-          "regex": "^(use[A-Z])",
-          "match": false
-        },
-        "custom": {
-          "regex": "^use[A-Z].*",
-          "match": true
-        },
-        "message": "Hooks must start with 'use' and be in PascalCase (e.g., useMyHook)."
+        "selector": "function",
+        "prefix": ["use"],
+        "format": ["camelCase"]
       }
     ]
   },
