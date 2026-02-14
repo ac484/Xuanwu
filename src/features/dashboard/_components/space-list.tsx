@@ -5,36 +5,36 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/app/_components/ui/button";
 import { Badge } from "@/app/_components/ui/badge";
 import { Eye, EyeOff, Shield, Trash2, ArrowUpRight, Terminal } from "lucide-react";
-import { Workspace } from "@/types/domain";
+import { Space } from "@/types/space";
 
-interface WorkspaceListItemProps {
-  workspace: Workspace;
+interface SpaceListItemProps {
+  space: Space;
   onDelete?: (id: string) => void;
 }
 
-function WorkspaceListItem({ workspace, onDelete }: WorkspaceListItemProps) {
+function SpaceListItem({ space, onDelete }: SpaceListItemProps) {
   const router = useRouter();
-  const isVisible = workspace.visibility === "visible";
+  const isVisible = space.visibility === "visible";
   const visibilityLabel = isVisible ? "Visible" : "Hidden";
-  const protocolLabel = workspace.protocol || "Default Protocol";
+  const protocolLabel = space.protocol || "Default Protocol";
 
   return (
     <div 
       className="flex items-center justify-between p-4 bg-card border border-border/60 rounded-xl hover:bg-muted/30 transition-colors group cursor-pointer"
-      onClick={() => router.push(`/workspaces/${workspace.id}`)}
+      onClick={() => router.push(`/spaces/${space.id}`)}
     >
       <div className="flex items-center gap-4">
         <div className="p-2 bg-primary/5 rounded-lg text-primary">
           <Shield className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-semibold text-sm">{workspace.name}</h3>
+          <h3 className="font-semibold text-sm">{space.name}</h3>
           <div className="flex items-center gap-2 mt-0.5">
             <Badge variant="outline" className="text-[9px] uppercase tracking-tighter px-1.5 h-4 flex items-center gap-1">
               {isVisible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
               {visibilityLabel}
             </Badge>
-            <span className="text-[10px] text-muted-foreground">ID: {workspace.id.toUpperCase()}</span>
+            <span className="text-[10px] text-muted-foreground">ID: {space.id.toUpperCase()}</span>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ function WorkspaceListItem({ workspace, onDelete }: WorkspaceListItemProps) {
             variant="ghost" 
             size="icon" 
             className="h-8 w-8 text-muted-foreground hover:text-destructive"
-            onClick={(e) => { e.stopPropagation(); onDelete?.(workspace.id); }}
+            onClick={(e) => { e.stopPropagation(); onDelete?.(space.id); }}
           >
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -62,33 +62,33 @@ function WorkspaceListItem({ workspace, onDelete }: WorkspaceListItemProps) {
 }
 
 
-export function WorkspaceList({ workspaces }: { workspaces: Workspace[] }) {
+export function SpaceList({ spaces }: { spaces: Space[] }) {
   const router = useRouter();
-  const recentOnes = useMemo(() => workspaces.slice(0, 4), [workspaces]);
+  const recentOnes = useMemo(() => spaces.slice(0, 4), [spaces]);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold font-headline tracking-tight">Recent Workspaces</h2>
+        <h2 className="text-xl font-bold font-headline tracking-tight">Recent Spaces</h2>
         <Button 
           variant="ghost" 
           size="sm"
-          onClick={() => router.push('/workspaces')}
+          onClick={() => router.push('/spaces')}
           className="text-xs text-primary font-bold uppercase tracking-widest hover:bg-primary/5"
         >
           View All <ArrowUpRight className="ml-1 w-3 h-3" />
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-3">
-        {recentOnes.length > 0 ? recentOnes.map(w => (
-          <WorkspaceListItem key={w.id} workspace={w} />
+        {recentOnes.length > 0 ? recentOnes.map(s => (
+          <SpaceListItem key={s.id} space={s} />
         )) : (
           <div className="p-8 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center text-center bg-muted/5 border-border/40">
             <Terminal className="w-8 h-8 text-muted-foreground mb-3 opacity-20" />
-            <p className="text-sm text-muted-foreground">No workspace nodes have been created yet.</p>
+            <p className="text-sm text-muted-foreground">No space nodes have been created yet.</p>
             <Button 
               variant="link"
-              onClick={() => router.push('/workspaces')}
+              onClick={() => router.push('/spaces')}
               className="mt-2 text-xs font-bold text-primary uppercase tracking-widest"
             >
               + Create First Node

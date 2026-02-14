@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { uploadDailyPhoto as uploadDailyPhotoFacade } from '@/infra/firebase/storage/storage.facade';
+import { uploadDailyPhoto as uploadDailyPhotoFacade } from '@/features/core/firebase/storage/storage.facade';
 import { useWorkspace } from "@/features/workspaces";
 import { useApp } from "@/hooks/state/use-app";
 

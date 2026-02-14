@@ -2,7 +2,7 @@
 
 import React, { createContext, useReducer, useContext, useEffect, ReactNode } from 'react';
 import { type User as FirebaseUser } from "firebase/auth";
-import { authAdapter } from '@/infra/firebase/auth/auth.adapter';
+import { authAdapter } from '@/features/core/firebase/auth/auth.adapter';
 import { User } from '@/types/domain';
 
 interface AuthState {

@@ -108,8 +108,8 @@ export interface IssueComment {
 export interface ScheduleItem {
   id: string;
   accountId: string; // The owning Organization ID
-  workspaceId: string;
-  workspaceName?: string;
+  spaceId: string;
+  spaceName?: string;
   title: string;
   description?: string;
   createdAt: any; // Firestore Timestamp
@@ -138,8 +138,8 @@ export interface DailyLogComment {
 export interface DailyLog {
   id: string;
   accountId: string;
-  workspaceId: string;
-  workspaceName: string;
+  spaceId: string;
+  spaceName: string;
   author: {
     uid: string;
     name: string;
@@ -158,7 +158,7 @@ export interface DailyLog {
 export interface AuditLog {
   id: string;
   orgId: string;
-  workspaceId?: string;
+  spaceId?: string;
   recordedAt: any; // Event Timestamp
   actor: string;
   actorId?: string;

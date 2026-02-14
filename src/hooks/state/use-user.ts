@@ -8,8 +8,8 @@ import { useFirebase } from '@/context/firebase-context';
 import {
   updateUserProfile,
   getUserProfile,
-} from '@/infra/firebase/firestore/firestore.facade';
-import { uploadProfilePicture } from '@/infra/firebase/storage/storage.facade';
+} from '@/features/core/firebase/firestore/firestore.facade';
+import { uploadProfilePicture } from '@/features/core/firebase/storage/storage.facade';
 import type { UserProfile } from '@/types/domain';
 
 /**

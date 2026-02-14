@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { Button } from "@/app/_components/ui/button";
 import { Badge } from "@/app/_components/ui/badge";
 import { 
@@ -43,7 +43,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import { formatBytes } from "@/lib/format";
-import type { WorkspaceFile, WorkspaceFileVersion } from "@/types/domain";
+import type { SpaceFile, SpaceFileVersion } from "@/types/domain";
 import {
   Table,
   TableBody,
@@ -58,19 +58,19 @@ const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
 /**
- * WorkspaceFiles - High-sensory file version governance center.
+ * SpaceFiles - High-sensory file version governance center.
  * Features: Smart type detection, version history visualization, and instant sovereignty restoration.
  */
-export default function WorkspaceFiles() {
-  const { workspace, logAuditEvent } = useWorkspace();
+export default function SpaceFiles() {
+  const { space, logAuditEvent } = useSpace();
   const { state: { user } } = useAuth();
   const { db, storage } = useFirebase();
   
-  const [historyFile, setHistoryFile] = useState<WorkspaceFile | null>(null);
+  const [historyFile, setHistoryFile] = useState<SpaceFile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const files = useMemo(() => Object.values(workspace.files || {}).sort((a,b) => (b.updatedAt?.seconds ?? 0) - (a.updatedAt?.seconds ?? 0)), [workspace.files]);
+  const files = useMemo(() => Object.values(space.files || {}).sort((a,b) => (b.updatedAt?.seconds ?? 0) - (a.updatedAt?.seconds ?? 0)), [space.files]);
 
   const getFileIcon = (fileName: string) => {
     const ext = fileName.split('.').pop()?.toLowerCase();
@@ -100,13 +100,13 @@ export default function WorkspaceFiles() {
         // --- Versioning Logic ---
         const nextVer = (existingFile.versions?.length || 0) + 1;
         const versionId = Math.random().toString(36).slice(-6);
-        const storagePath = `workspace-files/${workspace.id}/${existingFile.id}/${versionId}/${file.name}`;
+        const storagePath = `space-files/${space.id}/${existingFile.id}/${versionId}/${file.name}`;
         const storageRef = ref(storage, storagePath);
         
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
 
-        const newVersion: WorkspaceFileVersion = {
+        const newVersion: SpaceFileVersion = {
           versionId: versionId,
           versionNumber: nextVer,
           versionName: `Revision #${nextVer}`,
@@ -116,7 +116,7 @@ export default function WorkspaceFiles() {
           downloadURL: downloadURL
         };
 
-        const fileRef = doc(db, "workspaces", workspace.id, "files", existingFile.id);
+        const fileRef = doc(db, "spaces", space.id, "files", existingFile.id);
         await updateDoc(fileRef, {
           versions: arrayUnion(newVersion),
           currentVersionId: versionId,
@@ -130,13 +130,13 @@ export default function WorkspaceFiles() {
         // --- New File Logic ---
         const fileId = Math.random().toString(36).slice(2, 11);
         const versionId = Math.random().toString(36).slice(-6);
-        const storagePath = `workspace-files/${workspace.id}/${fileId}/${versionId}/${file.name}`;
+        const storagePath = `space-files/${space.id}/${fileId}/${versionId}/${file.name}`;
         const storageRef = ref(storage, storagePath);
 
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
 
-        const newFileData: Omit<WorkspaceFile, 'id'> = {
+        const newFileData: Omit<SpaceFile, 'id'> = {
           name: file.name,
           type: file.type,
           currentVersionId: versionId,
@@ -152,7 +152,7 @@ export default function WorkspaceFiles() {
           }]
         };
 
-        await addDoc(collection(db, "workspaces", workspace.id, "files"), newFileData);
+        await addDoc(collection(db, "spaces", space.id, "files"), newFileData);
         logAuditEvent("Mounted New Document", file.name, 'create');
         toast({ title: "Document Uploaded", description: `${file.name} has been mounted to the space.` });
       }
@@ -170,8 +170,8 @@ export default function WorkspaceFiles() {
     }
   };
 
-  const handleRestore = async (file: WorkspaceFile, versionId: string) => {
-    const fileRef = doc(db, "workspaces", workspace.id, "files", file.id);
+  const handleRestore = async (file: SpaceFile, versionId: string) => {
+    const fileRef = doc(db, "spaces", space.id, "files", file.id);
     const updates = { 
       currentVersionId: versionId, 
       updatedAt: serverTimestamp() 
@@ -289,7 +289,7 @@ export default function WorkspaceFiles() {
           
           <ScrollArea className="flex-1 p-8">
             <div className="relative pl-8 space-y-8 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-primary/20">
-              {historyFile?.versions?.slice().reverse().map((v: WorkspaceFileVersion) => (
+              {historyFile?.versions?.slice().reverse().map((v: SpaceFileVersion) => (
                 <div key={v.versionId} className="relative">
                   <div className={cn(
                     "absolute -left-10 top-1 w-5 h-5 rounded-full border-4 border-background ring-2 transition-all",

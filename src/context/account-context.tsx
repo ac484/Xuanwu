@@ -1,15 +1,15 @@
-
 "use client";
 
-import React, { createContext, useReducer, useEffect, ReactNode, useMemo } from 'react';
+import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
 import { useFirebase } from "@/context/firebase-context";
 import { collection, query, where, onSnapshot, QuerySnapshot, orderBy, limit } from "firebase/firestore";
-import { Workspace, DailyLog, AuditLog, PartnerInvite, ScheduleItem } from '@/types/domain';
+import { DailyLog, AuditLog, PartnerInvite, ScheduleItem } from '@/types/domain';
+import { Space } from '@/types/space';
 import { useApp } from '@/hooks/state/use-app';
 
 // State and Action Types
 interface AccountState {
-  workspaces: Record<string, Workspace>;
+  spaces: Record<string, Space>;
   dailyLogs: Record<string, DailyLog>;
   auditLogs: Record<string, AuditLog>;
   invites: Record<string, PartnerInvite>;
@@ -17,7 +17,7 @@ interface AccountState {
 }
 
 type Action =
-  | { type: 'SET_WORKSPACES'; payload: QuerySnapshot }
+  | { type: 'SET_SPACES'; payload: QuerySnapshot }
   | { type: 'SET_DAILY_LOGS'; payload: QuerySnapshot }
   | { type: 'SET_AUDIT_LOGS'; payload: QuerySnapshot }
   | { type: 'SET_INVITES'; payload: QuerySnapshot }
@@ -26,7 +26,7 @@ type Action =
 
 // Initial State
 const initialState: AccountState = {
-  workspaces: {},
+  spaces: {},
   dailyLogs: {},
   auditLogs: {},
   invites: {},
@@ -49,25 +49,22 @@ const accountReducer = (state: AccountState, action: Action): AccountState => {
     case 'RESET_STATE':
         return initialState;
 
-    case 'SET_WORKSPACES': {
-        if (!action.payload?.docs) return { ...state, workspaces: {} };
-        const newWorkspaces = snapshotToRecord<Workspace>(action.payload);
-        // Preserve subcollections from old state when workspace list is updated
-        // This is important because subcollection listeners are in WorkspaceProvider now
-        const updatedWorkspaces = { ...state.workspaces };
-        Object.keys(newWorkspaces).forEach(id => {
-            updatedWorkspaces[id] = {
-                ...(state.workspaces[id] || {}), // Keep existing sub-collection data
-                ...newWorkspaces[id], // Overwrite with fresh top-level data
+    case 'SET_SPACES': {
+        if (!action.payload?.docs) return { ...state, spaces: {} };
+        const newSpaces = snapshotToRecord<Space>(action.payload);
+        const updatedSpaces = { ...state.spaces };
+        Object.keys(newSpaces).forEach(id => {
+            updatedSpaces[id] = {
+                ...(state.spaces[id] || {}), 
+                ...newSpaces[id], 
             };
         });
-        // Also handle deletions
-        Object.keys(state.workspaces).forEach(id => {
-          if (!newWorkspaces[id]) {
-            delete updatedWorkspaces[id];
+        Object.keys(state.spaces).forEach(id => {
+          if (!newSpaces[id]) {
+            delete updatedSpaces[id];
           }
         })
-        return { ...state, workspaces: updatedWorkspaces };
+        return { ...state, spaces: updatedSpaces };
     }
     
     case 'SET_DAILY_LOGS':
@@ -110,7 +107,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
 
         const unsubs: (() => void)[] = [];
 
-        // 1. Listen to top-level collections for the active account
         if (activeAccount.type === 'organization') {
             const dailyLogsQuery = query(collection(db, "organizations", activeAccount.id, "dailyLogs"), orderBy("recordedAt", "desc"), limit(50));
             unsubs.push(onSnapshot(dailyLogsQuery, (snap) => dispatch({ type: 'SET_DAILY_LOGS', payload: snap })));
@@ -125,8 +121,8 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
             unsubs.push(onSnapshot(scheduleQuery, (snap) => dispatch({ type: 'SET_SCHEDULE_ITEMS', payload: snap })));
         }
         
-        const wsQuery = query(collection(db, "workspaces"), where("dimensionId", "==", activeAccount.id));
-        unsubs.push(onSnapshot(wsQuery, (snap) => dispatch({ type: 'SET_WORKSPACES', payload: snap })));
+        const spQuery = query(collection(db, "spaces"), where("dimensionId", "==", activeAccount.id));
+        unsubs.push(onSnapshot(spQuery, (snap) => dispatch({ type: 'SET_SPACES', payload: snap })));
         
         return () => {
             unsubs.forEach(unsub => unsub());

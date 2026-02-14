@@ -14,7 +14,7 @@ import { collection, onSnapshot, query } from 'firebase/firestore';
 import { 
     addBookmark as addBookmarkRepo,
     removeBookmark as removeBookmarkRepo
-} from '@/infra/firebase/firestore/repositories/user.repository';
+} from '@/features/core/firebase/firestore/repositories/user.repository';
 import { toast } from '@/hooks/ui/use-toast';
 
 export function useBookmarkActions() {

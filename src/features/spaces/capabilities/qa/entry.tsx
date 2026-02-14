@@ -1,11 +1,11 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { Button } from "@/app/_components/ui/button";
 import { ShieldCheck, XCircle, CheckCircle, Search, AlertTriangle } from "lucide-react";
 import { toast } from "@/hooks/ui/use-toast";
 import { Badge } from "@/app/_components/ui/badge";
-import { WorkspaceTask } from "@/types/domain";
+import { SpaceTask } from "@/types/domain";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/auth-context";
 
@@ -13,30 +13,30 @@ const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
 /**
- * WorkspaceQA - A-Track quality threshold.
+ * SpaceQA - A-Track quality threshold.
  * Determines if a task is qualified to enter the "Verified" stage.
  * ARCHITECTURE REFACTORED: Now stateful and fully event-driven.
  */
-export default function WorkspaceQA() {
-  const { workspace, logAuditEvent, eventBus, updateTask } = useWorkspace();
+export default function SpaceQA() {
+  const { space, logAuditEvent, eventBus, updateTask } = useSpace();
   const { state: { user } } = useAuth();
   
-  const [qaTasks, setQaTasks] = useState<WorkspaceTask[]>([]);
+  const [qaTasks, setQaTasks] = useState<SpaceTask[]>([]);
 
   // 1. Independent State Hydration: Consumes task data from the parent context on mount.
   useEffect(() => {
-    const initialTasks = Object.values(workspace.tasks || {}).filter(
+    const initialTasks = Object.values(space.tasks || {}).filter(
       (task) => task.progressState === "completed"
     );
     setQaTasks(initialTasks);
-  }, [workspace.tasks]);
+  }, [space.tasks]);
 
 
   // 2. Event-Driven Updates: Subscribes to events for real-time changes.
   useEffect(() => {
     // When a task is marked as completed, add it to our QA queue.
     const unsubComplete = eventBus.subscribe(
-      'workspace:tasks:completed',
+      'space:tasks:completed',
       (payload) => {
         setQaTasks(prev => {
           if (prev.some(t => t.id === payload.task.id)) return prev;
@@ -47,7 +47,7 @@ export default function WorkspaceQA() {
 
     // When a task is approved in QA, remove it from our queue.
     const unsubApprove = eventBus.subscribe(
-      'workspace:qa:approved',
+      'space:qa:approved',
       (payload) => {
         setQaTasks(prev => prev.filter(t => t.id !== payload.task.id));
       }
@@ -55,7 +55,7 @@ export default function WorkspaceQA() {
 
     // When a task is rejected in QA, remove it from our queue.
     const unsubReject = eventBus.subscribe(
-      'workspace:qa:rejected',
+      'space:qa:rejected',
       (payload) => {
         setQaTasks(prev => prev.filter(t => t.id !== payload.task.id));
       }
@@ -70,12 +70,12 @@ export default function WorkspaceQA() {
   }, [eventBus]);
 
 
-  const handleApprove = async (task: WorkspaceTask) => {
+  const handleApprove = async (task: SpaceTask) => {
     const updates = { progressState: 'verified' as const };
     
     try {
       await updateTask(task.id, updates);
-      eventBus.publish('workspace:qa:approved', {
+      eventBus.publish('space:qa:approved', {
           task: {...task, ...updates},
           approvedBy: user?.name || "System"
       });
@@ -91,13 +91,13 @@ export default function WorkspaceQA() {
     }
   };
 
-  const handleReject = async (task: WorkspaceTask) => {
+  const handleReject = async (task: SpaceTask) => {
     const updates = { progressState: 'todo' as const };
     
     try {
       await updateTask(task.id, updates);
       // Step 1: Publish an event. Decouples QA from Issue creation.
-      eventBus.publish('workspace:qa:rejected', {
+      eventBus.publish('space:qa:rejected', {
           task: {...task, ...updates},
           rejectedBy: user?.name || 'System'
       });

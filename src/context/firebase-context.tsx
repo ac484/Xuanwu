@@ -5,10 +5,10 @@ import { FirebaseApp } from 'firebase/app';
 import { Firestore } from 'firebase/firestore';
 import { Auth } from 'firebase/auth';
 import { FirebaseStorage } from 'firebase/storage';
-import { app } from '@/infra/firebase/app.client';
-import { db } from '@/infra/firebase/firestore/firestore.client';
-import { auth } from '@/infra/firebase/auth/auth.client';
-import { storage } from '@/infra/firebase/storage/storage.client';
+import { app } from '@/features/core/firebase/app.client';
+import { db } from '@/features/core/firebase/firestore/firestore.client';
+import { auth } from '@/features/core/firebase/auth/auth.client';
+import { storage } from '@/features/core/firebase/storage/storage.client';
 
 interface FirebaseContextType {
   app: FirebaseApp;

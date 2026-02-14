@@ -13,7 +13,7 @@ import {
   dismissPartnerMember as dismissPartnerMemberFacade,
   updateOrganizationSettings as updateOrganizationSettingsFacade,
   deleteOrganization as deleteOrganizationFacade,
-} from '@/infra/firebase/firestore/firestore.facade';
+} from '@/features/core/firebase/firestore/firestore.facade';
 import type { MemberReference, User, ThemeConfig } from '@/types/domain';
 
 /**

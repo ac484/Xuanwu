@@ -5,7 +5,7 @@ import {
   updateScheduleItemStatus,
   assignMemberToScheduleItem,
   unassignMemberFromScheduleItem,
-} from "@/infra/firebase/firestore/firestore.facade";
+} from "@/features/core/firebase/firestore/firestore.facade";
 import { ScheduleItem } from "@/types/domain";
 import { toast } from "@/hooks/ui/use-toast";
 

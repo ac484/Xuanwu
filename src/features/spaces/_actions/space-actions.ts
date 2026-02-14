@@ -5,7 +5,7 @@ import { toast } from "@/hooks/ui/use-toast";
 import {
   createWorkspace,
   deleteWorkspace as deleteWorkspaceFacade,
-} from "@/infra/firebase/firestore/firestore.facade";
+} from "@/features/core/firebase/firestore/firestore.facade";
 import type { SwitchableAccount } from "@/types/domain";
 
 const getErrorMessage = (error: unknown, fallback: string) =>

@@ -10,7 +10,7 @@
 import { useCallback } from "react";
 import { useApp } from "@/hooks/state/use-app";
 import { useAuth } from "@/context/auth-context";
-import { toggleDailyLogLike } from "@/infra/firebase/firestore/repositories/account.repository";
+import { toggleDailyLogLike } from "@/features/core/firebase/firestore/repositories/account.repository";
 import { toast } from "@/hooks/ui/use-toast";
 
 export function useDailyActions() {

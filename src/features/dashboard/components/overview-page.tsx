@@ -14,14 +14,14 @@ import { useAuth } from "@/context/auth-context";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useApp } from "@/hooks/state/use-app";
 import { useAccount } from "@/hooks/state/use-account";
-import type { Workspace } from "@/types/domain";
+import type { Space } from "@/types/space";
 
 // ============================================================================
 // Internal Dependencies - Overview Components
 // ============================================================================
 import { StatCards } from "../_components/stat-cards";
 import { OrgGrid } from "../_components/org-grid";
-import { WorkspaceList } from "../_components/workspace-list";
+import { SpaceList } from "../_components/space-list";
 import { PermissionTree } from "../_components/permission-tree";
 
 // ============================================================================
@@ -64,31 +64,27 @@ export default function OverviewPage() {
 
   const { organizations, activeAccount } = appState;
   const { user } = authState;
-  const { workspaces } = accountState;
+  const { spaces } = accountState;
 
   const organizationsArray = useMemo(() => Object.values(organizations), [organizations]);
   
-  const dimensionWorkspaces = useMemo(() => {
-    if (!activeAccount || !user || !workspaces) return [];
+  const dimensionSpaces = useMemo(() => {
+    if (!activeAccount || !user || !spaces) return [];
 
-    // Filter workspaces that belong to the active dimension.
-    const accountWorkspaces = Object.values(workspaces).filter((workspace: Workspace) => {
-      return workspace.dimensionId === activeAccount.id;
+    const accountSpaces = Object.values(spaces).filter((space: Space) => {
+      return space.dimensionId === activeAccount.id;
     });
 
-    // If the active account is a user's personal account, they see all their own workspaces.
     if (activeAccount.type === 'user') {
-      return accountWorkspaces;
+      return accountSpaces;
     }
     
-    // If the active account is an organization, apply visibility logic.
     if (activeAccount.type === 'organization') {
       const activeOrg = organizations[activeAccount.id];
       if (!activeOrg) return [];
       
-      // Org owners can see everything in their org
       if (activeOrg.ownerId === user.id) {
-        return accountWorkspaces;
+        return accountSpaces;
       }
       
       const userTeamIds = new Set(
@@ -97,19 +93,16 @@ export default function OverviewPage() {
           .map(team => team.id)
       );
 
-      return accountWorkspaces.filter(workspace => {
-        // Check for explicit access (direct grant or team grant)
-        const hasDirectGrant = (workspace.grants || []).some(g => g.userId === user.id && g.status === 'active');
-        const hasTeamGrant = (workspace.teamIds || []).some(teamId => userTeamIds.has(teamId));
+      return accountSpaces.filter(space => {
+        const hasDirectGrant = (space.grants || []).some(g => g.userId === user.id && g.status === 'active');
+        const hasTeamGrant = (space.teamIds || []).some(teamId => userTeamIds.has(teamId));
         const hasExplicitAccess = hasDirectGrant || hasTeamGrant;
         
-        // If workspace is 'visible', all org members can see it.
-        if (workspace.visibility === 'visible') {
+        if (space.visibility === 'visible') {
           return true;
         }
 
-        // If workspace is 'hidden', only users with explicit access can see it.
-        if (workspace.visibility === 'hidden') {
+        if (space.visibility === 'hidden') {
           return hasExplicitAccess;
         }
 
@@ -118,7 +111,7 @@ export default function OverviewPage() {
     }
 
     return [];
-  }, [workspaces, activeAccount, organizations, user]);
+  }, [spaces, activeAccount, organizations, user]);
   
   useEffect(() => {
     setMounted(true);
@@ -149,8 +142,8 @@ export default function OverviewPage() {
         {isOrgContext && (
           <div className="flex items-center gap-6 bg-muted/40 p-4 rounded-2xl border border-border/50 shadow-sm backdrop-blur-sm">
             <div className="text-center px-4 border-r border-border/50">
-              <p className="text-2xl font-bold font-headline">{dimensionWorkspaces.length}</p>
-              <p className="text-[10px] text-muted-foreground uppercase font-bold">Workspace Nodes</p>
+              <p className="text-2xl font-bold font-headline">{dimensionSpaces.length}</p>
+              <p className="text-[10px] text-muted-foreground uppercase font-bold">Space Nodes</p>
             </div>
             <div className="text-center px-4">
               <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1">Your Role</p>
@@ -178,7 +171,7 @@ export default function OverviewPage() {
       )}
 
       <div className={`grid grid-cols-1 ${isOrgContext ? 'lg:grid-cols-2' : ''} gap-8`}>
-        <WorkspaceList workspaces={dimensionWorkspaces} />
+        <SpaceList spaces={dimensionSpaces} />
         {isOrgContext && <PermissionTree currentRole={currentUserRoleInOrg} t={t} />}
       </div>
     </div>

@@ -5,7 +5,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { uploadTaskAttachment as uploadTaskAttachmentFacade } from '@/infra/firebase/storage/storage.facade';
+import { uploadTaskAttachment as uploadTaskAttachmentFacade } from '@/features/core/firebase/storage/storage.facade';
 import { useWorkspace } from '@/features/workspaces/_context/workspace-context';
 
 export function useTaskUpload() {

@@ -2,7 +2,7 @@
 
 import { useFirebase } from "@/context/firebase-context";
 import { serverTimestamp } from "firebase/firestore";
-import { addDocument } from "@/infra/firebase/firestore/firestore.write.adapter";
+import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
 import { useCallback } from "react";
 import type { AuditLog, User } from "@/types/domain";
 import { useApp } from "@/hooks/state/use-app";

@@ -3,7 +3,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { CAPABILITIES } from "@/features/spaces/registry/registry";
+import { CAPABILITIES } from "@/features/spaces/registry";
 
 function CapabilityRenderer() {
   const searchParams = useSearchParams();

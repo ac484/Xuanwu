@@ -8,7 +8,7 @@ import { collection, doc, writeBatch, serverTimestamp, addDoc } from 'firebase/f
 import type { SpaceEventPayloadMap } from "./space-events";
 import { SpaceTask } from "@/types/domain";
 import { useSpace } from "@/features/spaces/_hooks/use-space";
-import { addDocument } from "@/infra/firebase/firestore/firestore.write.adapter";
+import { addDocument } from "@/features/core/firebase/firestore/firestore.write.adapter";
 
 /**
  * @fileoverview Global event handler for space-level events.

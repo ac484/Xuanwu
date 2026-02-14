@@ -37,7 +37,7 @@ import { useAuth } from "@/context/auth-context";
 import { useI18n } from '@/features/core/i18n/i18n-context';
 import { useApp } from "@/hooks/state/use-app";
 import { useUser } from "@/hooks/state/use-user";
-import { useVisibleWorkspaces } from '@/hooks/state/use-visible-workspaces';
+import { useVisibleSpaces } from '@/hooks/state/use-visible-spaces';
 import { useOrganization } from "@/hooks/state/use-organization";
 
 // ============================================================================
@@ -45,7 +45,7 @@ import { useOrganization } from "@/hooks/state/use-organization";
 // ============================================================================
 import { AccountSwitcher } from "../_components/account-switcher";
 import { NavMain } from "../_components/nav-main";
-import { NavWorkspaces } from "../_components/nav-workspaces";
+import { NavSpaces } from "../_components/nav-spaces";
 import { NavUser } from "../_components/nav-user";
 
 /**
@@ -64,7 +64,7 @@ export function SidebarPage() {
   const { profile: userProfile } = useUser();
   const { state: appState, dispatch } = useApp();
   const { organizations, activeAccount } = appState;
-  const visibleWorkspaces = useVisibleWorkspaces();
+  const visibleSpaces = useVisibleSpaces();
   const { createOrganization } = useOrganization();
 
   // ========================================
@@ -103,9 +103,9 @@ export function SidebarPage() {
         
         <SidebarSeparator className="mx-4 opacity-50" />
         
-        {/* Quick access section for visible workspaces */}
-        <NavWorkspaces
-          workspaces={visibleWorkspaces}
+        {/* Quick access section for visible spaces */}
+        <NavSpaces
+          spaces={visibleSpaces}
           pathname={pathname}
           t={t}
         />

@@ -64,7 +64,7 @@ export interface TranslationMessages {
     settings: string;
     profile: string;
     account: string;
-    workspaces: string;
+    spaces: string;
     teams: string;
     internalTeams: string;
     partnerTeams: string;
@@ -85,7 +85,7 @@ export interface TranslationMessages {
     newDimensionCreated: string;
     failedToCreate: string;
   };
-  workspaces: {
+  spaces: {
     title: string;
     description: string;
     createSpace: string;
@@ -107,7 +107,7 @@ export interface TranslationMessages {
     failedToCreateSpace: string;
     standard: string;
   };
-  workspace: {
+  space: {
     capabilities: string;
     tasks: string;
     acceptance: string;

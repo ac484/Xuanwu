@@ -25,7 +25,7 @@ import {
   createIssue as createIssueFacade,
   addCommentToIssue as addCommentToIssueFacade,
   createScheduleItem as createScheduleItemFacade,
-} from '@/infra/firebase/firestore/firestore.facade';
+} from '@/features/core/firebase/firestore/firestore.facade';
 import { useLogger } from '@/features/workspaces/_hooks/shell/use-logger';
 
 interface UseWorkspaceActionsProps {

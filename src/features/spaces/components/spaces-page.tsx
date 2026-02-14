@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Terminal } from "lucide-react";
 import { useApp } from "@/hooks/state/use-app";
 import { useI18n } from "@/features/core/i18n/i18n-context";
-import { useVisibleWorkspaces } from "@/hooks/state/use-visible-workspaces";
+import { useVisibleSpace } from "@/hooks/state/use-visible-spaces";
 import { useSpaceFilters } from "../_hooks/use-space-filters";
 import { SpaceListHeader } from "../_components/list/space-list-header";
 import { SpaceGridView } from "../_components/list/space-grid-view";
@@ -29,7 +29,7 @@ export function SpacesPage() {
   const { t } = useI18n();
   const { state: appState } = useApp();
   const { activeAccount } = appState;
-  const allVisibleSpaces = useVisibleWorkspaces();
+  const allVisibleSpaces = useVisibleSpace();
   const filteredSpaces = useSpaceFilters(
     allVisibleSpaces,
     searchQuery
