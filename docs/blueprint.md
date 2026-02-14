@@ -27,38 +27,38 @@ This document outlines the system design, ensuring that the `blueprint.md` is in
   - `/tenants/{tenantId}/members/{principalId}` (Schema: `TenantMember`)
   - `/partnerships/{partnershipId}` (Schema: `TenantPartnership`)
 
-## 4. Workspace Boundary
+## 4. Space Boundary
 
-- **Architecture:** `WorkspaceAggregate`, `WorkspaceMember`
-- **Backend:** The `Workspace` entity represents the `WorkspaceAggregate`. `WorkspaceMember` is a distinct entity.
+- **Architecture:** `SpaceAggregate`, `SpaceMember`
+- **Backend:** The `Space` entity represents the `SpaceAggregate`. `SpaceMember` is a distinct entity.
 - **Firestore Collections:**
-  - `/tenants/{tenantId}/workspaces/{workspaceId}` (Schema: `Workspace`)
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/members/{principalId}` (Schema: `WorkspaceMember`)
+  - `/tenants/{tenantId}/spaces/{spaceId}` (Schema: `Space`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/members/{principalId}` (Schema: `SpaceMember`)
 
 ## 5. Work Domain Aggregates
 
-This boundary contains the core business logic aggregates, all stored as sub-collections within a workspace.
+This boundary contains the core business logic aggregates, all stored as sub-collections within a space.
 
 - **Architecture:** `TaskAggregate`, `QaAggregate`, `AcceptanceAggregate`, `FinanceAggregate`, `IssueAggregate`
 - **Backend Entities:** `Task`, `QA`, `Acceptance`, `Finance`, `Issue`
 - **Firestore Sub-collections:**
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/tasks/{taskId}` (Schema: `Task`)
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/qas/{qaId}` (Schema: `QA`)
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/acceptances/{acceptanceId}` (Schema: `Acceptance`)
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/finances/{financeId}` (Schema: `Finance`)
-  - `/tenants/{tenantId}/workspaces/{workspaceId}/issues/{issueId}` (Schema: `Issue`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/tasks/{taskId}` (Schema: `Task`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/qas/{qaId}` (Schema: `QA`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/acceptances/{acceptanceId}` (Schema: `Acceptance`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/finances/{financeId}` (Schema: `Finance`)
+  - `/tenants/{tenantId}/spaces/{spaceId}/issues/{issueId}` (Schema: `Issue`)
 
 ## 6. Resource Boundary
 
 - **Architecture:** `FileAggregate`
 - **Backend:** The `File` entity represents a passive resource.
-- **Firestore Sub-collection:** `/tenants/{tenantId}/workspaces/{workspaceId}/files/{fileId}`
+- **Firestore Sub-collection:** `/tenants/{tenantId}/spaces/{spaceId}/files/{fileId}`
 
 ## 7. Diary Aggregate
 
 - **Architecture:** `DiaryAggregate`
 - **Backend:** The `Diary` entity represents a content/social entry.
-- **Firestore Sub-collection:** `/tenants/{tenantId}/workspaces/{workspaceId}/diaries/{diaryId}`
+- **Firestore Sub-collection:** `/tenants/{tenantId}/spaces/{spaceId}/diaries/{diaryId}`
 
 ## 8. External Service Boundary (Conceptual)
 

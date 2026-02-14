@@ -41,7 +41,7 @@ class AccessRoleAssignment {
   +assignmentId
   +principalId
   +roleId
-  +scopeType: tenant | workspace
+  +scopeType: tenant | space
   +scopeId
 }
 
@@ -88,23 +88,23 @@ TenantAggregate --> TenantPartnership
 
 
 %% ==================================================
-%% 4️⃣ Workspace Boundary (Execution Context)
+%% 4️⃣ Space Boundary (Execution Context)
 %% ==================================================
 
-class WorkspaceAggregate {
-  +workspaceId
+class SpaceAggregate {
+  +spaceId
   +tenantId
   +status
   +visibility
 }
 
-class WorkspaceMember {
-  +workspaceId
+class SpaceMember {
+  +spaceId
   +principalId
 }
 
-TenantAggregate --> WorkspaceAggregate
-WorkspaceAggregate --> WorkspaceMember
+TenantAggregate --> SpaceAggregate
+SpaceAggregate --> SpaceMember
 
 
 %% ==================================================
@@ -113,7 +113,7 @@ WorkspaceAggregate --> WorkspaceMember
 
 class TaskAggregate {
   +taskId
-  +workspaceId
+  +spaceId
   +status: proposed | scheduled | completed
   +assigneePrincipalId
 }
@@ -143,7 +143,7 @@ class IssueAggregate {
   +status: open | resolved | closed
 }
 
-WorkspaceAggregate --> TaskAggregate
+SpaceAggregate --> TaskAggregate
 TaskAggregate --> QaAggregate
 QaAggregate --> AcceptanceAggregate
 AcceptanceAggregate --> FinanceAggregate
@@ -155,14 +155,14 @@ AcceptanceAggregate --> FinanceAggregate
 
 class FileAggregate {
   +fileId
-  +workspaceId
+  +spaceId
   +name
   +type
   +url
   +sizeBytes
 }
 
-WorkspaceAggregate --> FileAggregate
+SpaceAggregate --> FileAggregate
 
 
 %% ==================================================
@@ -171,15 +171,15 @@ WorkspaceAggregate --> FileAggregate
 
 class DiaryAggregate {
   +diaryId
-  +workspaceId
+  +spaceId
   +authorPrincipalId
   +content
-  +visibility: public | workspace | private
+  +visibility: public | space | private
   +createdAt
   +status: active | archived
 }
 
-WorkspaceAggregate --> DiaryAggregate
+SpaceAggregate --> DiaryAggregate
 
 
 %% ==================================================
@@ -194,7 +194,7 @@ class DocumentParserService {
 
 class TaskDraft {
   +draftId
-  +workspaceId
+  +spaceId
   +data
 }
 
@@ -209,7 +209,7 @@ DocumentParserService --> TaskDraft
 class DomainCommand {
   +commandId
   +principalId
-  +workspaceId
+  +spaceId
   +payload
   +issuedAt
 }
@@ -235,7 +235,7 @@ CommandHandler --> AcceptanceAggregate
 CommandHandler --> FinanceAggregate
 CommandHandler --> IssueAggregate
 CommandHandler --> FileAggregate
-CommandHandler --> WorkspaceAggregate
+CommandHandler --> SpaceAggregate
 CommandHandler --> TenantAggregate
 CommandHandler --> DiaryAggregate
 
@@ -248,7 +248,7 @@ class DomainEvent {
   +eventId
   +aggregateType
   +aggregateId
-  +workspaceId
+  +spaceId
   +principalId
   +payload
   +occurredAt
@@ -279,7 +279,7 @@ AcceptanceAggregate --> DomainEvent
 FinanceAggregate --> DomainEvent
 IssueAggregate --> DomainEvent
 FileAggregate --> DomainEvent
-WorkspaceAggregate --> DomainEvent
+SpaceAggregate --> DomainEvent
 TenantAggregate --> DomainEvent
 DiaryAggregate --> DomainEvent
 
@@ -295,7 +295,7 @@ EventSchema --> EventUpgrader
 class DomainQuery {
   +queryId
   +principalId
-  +workspaceId?
+  +spaceId?
   +filters: FilterCriteria
   +pagination: Pagination
 }
@@ -472,7 +472,7 @@ NotificationSubscriber --> NotificationTemplate
 
 class SearchIndex {
   +indexId
-  +workspaceId
+  +spaceId
   +aggregateType
   +aggregateId
   +content: string
@@ -506,7 +506,7 @@ SearchService --> SearchResult
 class QuotaPolicy {
   +policyId
   +tenantId
-  +resourceType: task | file | workspace | storage
+  +resourceType: task | file | space | storage
   +limit: number
   +period: daily | monthly | total
 }
@@ -562,7 +562,7 @@ AuditSubscriber --> AuditLog
 
 note for TaskAggregate
   tenantId 不存在
-  僅透過 workspaceId 推導
+  僅透過 spaceId 推導
 end note
 
 note for DomainEvent
