@@ -63,6 +63,18 @@ module.exports = {
             target: 'src/features/(*)',
             from: 'src/features/(*)',
             allow: true
+          },
+          // 新增：防止平行路由之間互相引用
+          {
+            target: 'src/app/**/@*/**',
+            from: 'src/app/**/@*/**',
+            message: '平行路由之間不應直接互相引用。請透過父層的 layout 或 page 進行組合。'
+          },
+          // 新增：允許平行路由引用自己的子模組
+          {
+            target: 'src/app/**/@(*)/**',
+            from: 'src/app/**/@$1/**',
+            allow: true
           }
         ],
       },
