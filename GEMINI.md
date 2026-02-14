@@ -15,9 +15,9 @@ This guide provides instructions for Gemini on how to interact with the codebase
 These are non-negotiable rules that must be maintained at all times:
 
 - **Tenant as the Root:** All data is partitioned by `tenantId`. Every Firestore collection path must begin with `/tenants/{tenantId}` or be a global, tenant-agnostic collection like `/principals` or `/roles`.
-- **Workspace Containment:** All core business aggregates (`Task`, `File`, `Diary`, etc.) are contained within a `Workspace`. Their collection paths must always be nested under `/tenants/{tenantId}/workspaces/{workspaceId}`.
+- **Space Containment:** All core business aggregates (`Task`, `File`, `Diary`, etc.) are contained within a `Space`. Their collection paths must always be nested under `/tenants/{tenantId}/spaces/{spaceId}`.
 - **Aggregate Boundaries:** Each aggregate (e.g., `TaskAggregate`, `TenantAggregate`) is a consistency boundary. Mutations should only happen within a single aggregate in a single transaction.
-- **Immutable IDs:** All primary identifiers (e.g., `tenantId`, `workspaceId`, `taskId`) are immutable once created.
+- **Immutable IDs:** All primary identifiers (e.g., `tenantId`, `spaceId`, `taskId`) are immutable once created.
 
 ## 3. Firestore Interaction Rules
 
