@@ -10,7 +10,7 @@ import {
   type ActionState,
 } from './_actions/actions';
 import type { WorkItem } from '@/ai/schemas/docu-parse';
-import { useWorkspace } from '@/features/workspaces';
+import { useSpace } from '@/features/spaces';
 
 const initialState: ActionState = {
   data: undefined,
@@ -39,12 +39,12 @@ function WorkItemsTable({
 }
 
 
-export default function WorkspaceDocumentParser() {
+export default function SpaceDocumentParser() {
   const [state, formAction] = useActionState(
     extractDataFromDocument,
     initialState
   );
-  const { eventBus, logAuditEvent } = useWorkspace() as any;
+  const { eventBus, logAuditEvent } = useSpace() as any;
   const [isPending, startTransition] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -81,7 +81,7 @@ export default function WorkspaceDocumentParser() {
   const handleImport = () => {
     if (!state.data?.workItems) return;
     
-    eventBus.publish('workspace:document-parser:itemsExtracted', {
+    eventBus.publish('space:document-parser:itemsExtracted', {
         sourceDocument: state.fileName || 'Unknown Document',
         items: state.data.workItems.map(item => ({
             name: item.item,

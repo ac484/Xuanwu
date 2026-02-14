@@ -2,11 +2,11 @@
 
 import { useState, useCallback } from "react";
 import { uploadDailyPhoto as uploadDailyPhotoFacade } from '@/features/core/firebase/storage/storage.facade';
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { useApp } from "@/hooks/state/use-app";
 
 export function useDailyUpload() {
-  const { workspace } = useWorkspace();
+  const { space } = useSpace();
   const { state: appState } = useApp();
   const { activeAccount } = appState;
   const [isUploading, setIsUploading] = useState(false);
@@ -19,7 +19,7 @@ export function useDailyUpload() {
     setIsUploading(true);
     try {
       const urls = await Promise.all(
-        files.map(file => uploadDailyPhotoFacade(activeAccount.id, workspace.id, file))
+        files.map(file => uploadDailyPhotoFacade(activeAccount.id, space.id, file))
       );
       return urls;
     } catch (error) {
@@ -28,7 +28,7 @@ export function useDailyUpload() {
     } finally {
       setIsUploading(false);
     }
-  }, [activeAccount, workspace.id]);
+  }, [activeAccount, space.id]);
 
   return { isUploading, upload };
 }

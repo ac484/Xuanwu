@@ -3,8 +3,8 @@
 
 import { toast } from "@/hooks/ui/use-toast";
 import {
-  createWorkspace,
-  deleteWorkspace as deleteWorkspaceFacade,
+  createSpace as createSpaceFacade,
+  deleteSpace as deleteSpaceFacade,
 } from "@/features/core/firebase/firestore/firestore.facade";
 import type { SwitchableAccount } from "@/types/domain";
 
@@ -27,7 +27,7 @@ export const handleCreateSpace = async (
   }
 
   try {
-    await createWorkspace(name, activeAccount);
+    await createSpaceFacade(name, activeAccount);
     toast({
       title: t("spaces.logicalSpaceCreated"),
       description: t("spaces.spaceSynchronized").replace("{name}", name),
@@ -49,7 +49,7 @@ export const handleDeleteSpace = async (
   onSuccess: () => void
 ) => {
   try {
-    await deleteWorkspaceFacade(spaceId);
+    await deleteSpaceFacade(spaceId);
     toast({ title: "Space node destroyed" });
     onSuccess();
   } catch (error: unknown) {

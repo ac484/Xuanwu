@@ -12,7 +12,7 @@ interface AppState {
   activeAccount: SwitchableAccount | null;
   notifications: Notification[];
   capabilitySpecs: CapabilitySpec[];
-  scheduleTaskRequest: { taskName: string; workspaceId: string } | null;
+  scheduleTaskRequest: { taskName: string; spaceId: string } | null;
 }
 
 type Action =
@@ -22,7 +22,7 @@ type Action =
   | { type: 'ADD_NOTIFICATION', payload: Omit<Notification, 'id' | 'timestamp' | 'read'> }
   | { type: 'MARK_NOTIFICATION_READ', payload: string }
   | { type: 'CLEAR_NOTIFICATIONS' }
-  | { type: 'REQUEST_SCHEDULE_TASK'; payload: { taskName: string; workspaceId: string; } }
+  | { type: 'REQUEST_SCHEDULE_TASK'; payload: { taskName: string; spaceId: string; } }
   | { type: 'CLEAR_SCHEDULE_TASK_REQUEST' };
 
 
@@ -32,17 +32,17 @@ const initialState: AppState = {
   activeAccount: null,
   notifications: [],
   capabilitySpecs: [
-    { id: 'capabilities', name: 'Capabilities', type: 'ui', status: 'stable', description: 'Manage the atomic capabilities mounted to this workspace.' },
+    { id: 'capabilities', name: 'Capabilities', type: 'ui', status: 'stable', description: 'Manage the atomic capabilities mounted to this space.' },
     { id: 'members', name: 'Members', type: 'governance', status: 'stable', description: 'Manages granular, grant-based authorization for teams and individuals.' },
     { id: 'audit', name: 'Audit', type: 'monitoring', status: 'stable', description: 'Provides a real-time event stream for all significant state changes.' },
-    { id: 'tasks', name: 'Tasks', type: 'ui', status: 'stable', description: 'Track concrete action items within the workspace node.' },
+    { id: 'tasks', name: 'Tasks', type: 'ui', status: 'stable', description: 'Track concrete action items within the space node.' },
     { id: 'qa', name: 'QA', type: 'ui', status: 'stable', description: 'Governance unit for verifying the quality of atomic data execution.' },
-    { id: 'acceptance', name: 'Acceptance', type: 'ui', status: 'stable', description: 'Accept workspace deliverables and terminate A-Track resonance.' },
+    { id: 'acceptance', name: 'Acceptance', type: 'ui', status: 'stable', description: 'Accept space deliverables and terminate A-Track resonance.' },
     { id: 'finance', name: 'Finance', type: 'ui', status: 'beta', description: 'Track dimension budgets and post-acceptance fund disbursement.' },
     { id: 'issues', name: 'Issues', type: 'ui', status: 'stable', description: 'Governance module for handling technical conflicts and B-Track anomalies.' },
     { id: 'daily', name: 'Daily', type: 'ui', status: 'stable', description: 'A minimalist activity wall for technical collaboration within the space.' },
     { id: 'files', name: 'Files', type: 'data', status: 'stable', description: 'Manage document sovereignty and technical assets within the dimension.' },
-    { id: 'schedule', name: 'Schedule', type: 'ui', status: 'stable', description: 'View and manage the adoption timeline for the workspace.' },
+    { id: 'schedule', name: 'Schedule', type: 'ui', status: 'stable', description: 'View and manage the adoption timeline for the space.' },
     { id: 'document-parser', name: 'Document Parser', type: 'ui', status: 'beta', description: 'Intelligently parse and extract data from documents like invoices and quotes.' },
   ],
   scheduleTaskRequest: null,

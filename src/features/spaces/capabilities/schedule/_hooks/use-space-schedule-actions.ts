@@ -7,23 +7,23 @@ import {
 } from "@/features/core/firebase/firestore/firestore.facade";
 import { ScheduleItem } from "@/types/domain";
 import { toast } from "@/hooks/ui/use-toast";
-import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+import { SpaceContext } from "@/features/spaces/_context/space-context";
 
-function useWorkspace() {
-  const context = useContext(WorkspaceContext);
+function useSpace() {
+  const context = useContext(SpaceContext);
   if (!context) {
-    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+    throw new Error("useSpace must be used within a SpaceProvider");
   }
   return context.state;
 }
 
 /**
- * ARCHITECTURAL NOTE: This is a workspace-level action hook.
- * It operates on the `workspace.id` and `workspace.dimensionId` derived from the `useWorkspace` context.
+ * ARCHITECTURAL NOTE: This is a space-level action hook.
+ * It operates on the `space.id` and `space.dimensionId` derived from the `useSpace` context.
  */
-export function useWorkspaceScheduleActions() {
-  const { workspace } = useWorkspace() as any;
-  const orgId = workspace.dimensionId;
+export function useSpaceScheduleActions() {
+  const { space } = useSpace() as any;
+  const orgId = space.dimensionId;
 
   const performAction = useCallback(async (action: () => Promise<void>, successMessage: string) => {
     try {

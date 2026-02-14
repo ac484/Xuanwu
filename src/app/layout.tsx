@@ -12,7 +12,7 @@ import { I18nProvider } from '@/features/core/i18n/i18n-context';
 import { RootLayoutClient } from './root-layout-client';
 
 export const metadata: Metadata = {
-  title: 'OrgVerse | Modern Workspace Architecture',
+  title: 'OrgVerse | Modern Space Architecture',
   description: 'From Single Identity to Multidimensional Organization',
 };
 

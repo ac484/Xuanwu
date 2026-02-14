@@ -9,11 +9,11 @@ import { LikeButton } from "./actions/like-button";
 import { CommentButton } from "./actions/comment-button";
 import { BookmarkButton } from "./actions/bookmark-button";
 
-function WorkspaceAvatar({ name }: { name: string }) {
+function SpaceAvatar({ name }: { name: string }) {
     return (
         <Avatar className="w-10 h-10 border-2 border-primary/20">
             <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                {name?.[0]?.toUpperCase() || 'W'}
+                {name?.[0]?.toUpperCase() || 'S'}
             </AvatarFallback>
         </Avatar>
     )
@@ -56,9 +56,9 @@ export function DailyLogCard({ log, currentUser, onOpen }: DailyLogCardProps) {
   return (
     <Card className="overflow-hidden border-border/60 shadow-sm transition-all duration-300">
       <div className="p-4 flex items-center gap-3">
-        <WorkspaceAvatar name={log.workspaceName} />
+        <SpaceAvatar name={log.spaceName} />
         <div className="flex flex-col">
-          <span className="font-bold text-sm">{log.workspaceName}</span>
+          <span className="font-bold text-sm">{log.spaceName}</span>
           <span className="text-xs text-muted-foreground">
             by {log.author.name} • <TimeAgo date={log.createdAt} />
           </span>
