@@ -1,14 +1,13 @@
 // [職責] 監聽事件並執行副作用 (The Orchestrator)
 "use client";
 import { useEffect } from "react";
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
 import { ToastAction } from "@/app/_components/ui/toast";
 import { collection, doc, writeBatch, serverTimestamp, addDoc } from 'firebase/firestore';
 import type { WorkspaceEventPayloadMap } from "./workspace-events";
 import { WorkspaceTask } from "@/types/domain";
-import { createIssue } from "@/infra/firebase/firestore/firestore.facade";
+import { useWorkspace } from "@/features/workspaces/_hooks/use-workspace";
 import { addDocument } from "@/infra/firebase/firestore/firestore.write.adapter";
 
 /**
@@ -19,7 +18,7 @@ import { addDocument } from "@/infra/firebase/firestore/firestore.write.adapter"
  * It coordinates system-wide reactions without coupling capabilities to each other.
  */
 export function WorkspaceEventHandler() {
-  const { eventBus, db, workspace, logAuditEvent } = useWorkspace();
+  const { eventBus, db, workspace, logAuditEvent, actions } = useWorkspace();
   const { dispatch } = useApp();
 
   useEffect(() => {
@@ -60,8 +59,7 @@ export function WorkspaceEventHandler() {
       "workspace:qa:rejected",
       async (payload) => {
         if (!db) return;
-        await createIssue(
-          workspace.id,
+        await actions.createIssue(
           `QA Rejected: ${payload.task.name}`,
           "technical",
           "high"
@@ -78,8 +76,7 @@ export function WorkspaceEventHandler() {
       "workspace:acceptance:failed",
       async (payload) => {
          if (!db) return;
-        await createIssue(
-          workspace.id,
+        await actions.createIssue(
           `Acceptance Failed: ${payload.task.name}`,
           "technical",
           "high"
@@ -236,7 +233,7 @@ export function WorkspaceEventHandler() {
       unsubTaskCompleted();
       unsubForwardRequested();
     };
-  }, [eventBus, dispatch, db, workspace.id, workspace.dimensionId, workspace.name, logAuditEvent]);
+  }, [eventBus, dispatch, db, workspace.id, workspace.dimensionId, workspace.name, logAuditEvent, actions]);
 
   return null;
 }
