@@ -1,4 +1,6 @@
 module.exports = {
+ "ignorePatterns": ["src/app/_components/"],
+  
   root: true,
   parser: '@typescript-eslint/parser',
   extends: [
