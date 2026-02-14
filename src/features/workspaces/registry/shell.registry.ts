@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import type { CapabilityDetail } from './capability.model';
+import type { CapabilityDetail } from '../capability.model';
 import { LayoutDashboard, Layers, Settings } from 'lucide-react';
 
 /**

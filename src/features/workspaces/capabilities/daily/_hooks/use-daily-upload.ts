@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { uploadDailyPhoto as uploadDailyPhotoFacade } from '@/infra/firebase/storage/storage.facade';
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useWorkspace } from "@/features/workspaces";
 import { useApp } from "@/hooks/state/use-app";
 
 export function useDailyUpload() {

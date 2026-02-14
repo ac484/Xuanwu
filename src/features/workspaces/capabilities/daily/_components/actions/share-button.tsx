@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useOptionalWorkspace } from "@/features/workspaces";
 import { DailyLog } from "@/types/domain";
 import { Button } from "@/app/_components/ui/button";
 import {

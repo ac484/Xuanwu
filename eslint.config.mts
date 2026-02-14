@@ -51,6 +51,14 @@ export default [
               target: "./src/app",
               from: "./src/features/**/_hooks",
               message: "\n❌ 物理邊界衝突：App Pages 應透過 Feature 的公開 hooks 存取邏輯，禁止直接讀取 Feature 內部私有 Hook。"
+            },
+
+            // 6. 【Workspaces 邊界】強制 Workspaces 功能只能從 index.ts 匯出
+            {
+              target: "./src",
+              from: "./src/features/workspaces/**",
+              except: ["./src/features/workspaces/index.ts"],
+              message: "\n❌ 物理邊界衝突：Workspaces 功能僅能從 src/features/workspaces/index.ts 匯出。\n請不要直接引用 Workspaces 的內部檔案。"
             }
           ]
         }

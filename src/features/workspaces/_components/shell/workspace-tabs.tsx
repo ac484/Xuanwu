@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
 import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
-import { CAPABILITIES } from "@/features/workspaces/registry";
+import { CAPABILITIES } from "@/features/workspaces/registry/registry";
 import { cn } from "@/lib/utils";
 
 const CORE_CAPABILITIES = [

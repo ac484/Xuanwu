@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useWorkspace } from "@/features/workspaces";
 import { Button } from "@/app/_components/ui/button";
 import { ShieldCheck, XCircle, CheckCircle, Search, AlertTriangle } from "lucide-react";
 import { toast } from "@/hooks/ui/use-toast";

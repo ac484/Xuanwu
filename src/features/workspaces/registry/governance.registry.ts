@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import type { CapabilityDetail } from './capability.model';
+import type { CapabilityDetail } from '../capability.model';
 import { Activity, Users, ShieldCheck, Trophy, AlertCircle } from 'lucide-react';
 
 /**

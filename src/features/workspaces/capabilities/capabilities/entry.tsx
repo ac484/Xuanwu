@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useWorkspace } from "@/features/workspaces";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/_components/ui/card";
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useWorkspace } from "@/features/workspaces";
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Wallet, Landmark, TrendingUp, CheckCircle2, AlertCircle, ArrowUpRight } from "lucide-react";

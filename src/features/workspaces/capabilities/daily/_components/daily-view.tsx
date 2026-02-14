@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { AlertCircle, MessageSquare } from "lucide-react";
-import { useOptionalWorkspace, WorkspaceContextShell } from "@/features/workspaces/_context/workspace-context";
+import { useOptionalWorkspace, WorkspaceContextShell } from "@/features/workspaces";
 import { useAccount } from "@/hooks/state/use-account";
 import { useAuth } from "@/context/auth-context";
 import { useApp } from "@/hooks/state/use-app";
@@ -12,7 +12,7 @@ import { DailyLogComposer } from "./composer";
 import { DailyLogCard } from "./daily-log-card";
 import { DailyLogDialog } from "./daily-log-dialog";
 import { useDailyUpload } from "../_hooks/use-daily-upload";
-import { useLogger } from "@/features/workspaces/_hooks/shell/use-logger";
+import { useLogger } from "@/features/workspaces";
 import { useAggregatedLogs } from "../_hooks/use-aggregated-logs";
 
 const getErrorMessage = (error: unknown, fallback: string) =>

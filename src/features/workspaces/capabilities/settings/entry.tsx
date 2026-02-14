@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useWorkspace } from "@/features/workspaces";
 import { Card, CardDescription, CardHeader, CardTitle, CardFooter, CardContent } from "@/app/_components/ui/card";
 import { Button } from "@/app/_components/ui/button";
 import { 
@@ -54,7 +54,7 @@ function WorkspaceSettingsForm() {
     };
 
     const onDelete = async () => {
-        if (confirm(`This action will permanently erase the workspace node "${workspace.name}". Are you sure?`)) {
+        if (confirm(`This action will permanently erase the workspace node \"${workspace.name}\". Are you sure?`)) {
             try {
                 await deleteWorkspace();
                 toast({ title: "Workspace node destroyed" });
