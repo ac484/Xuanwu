@@ -29,12 +29,14 @@ export function useUser() {
 
   useEffect(() => {
     if (!user || !db) {
-      setProfile(null);
-      setLoading(false);
+      // Only update state if it has changed to avoid unnecessary re-renders.
+      if (profile !== null) setProfile(null);
+      if (loading) setLoading(false);
       return;
     }
 
     // Set up a real-time listener for the user's profile document.
+    if (!loading) setLoading(true);
     const unsub = onSnapshot(doc(db, 'users', user.id), (doc) => {
       if (doc.exists()) {
         setProfile({ id: doc.id, ...doc.data() } as UserProfile);
@@ -47,6 +49,7 @@ export function useUser() {
 
     // Cleanup subscription on unmount
     return () => unsub();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, db]);
 
   const updateProfile = useCallback(
