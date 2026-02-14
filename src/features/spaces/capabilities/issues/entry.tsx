@@ -3,10 +3,9 @@
 import { useContext } from "react";
 import { useMemo, useState } from "react";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/app/_components/ui/sheet";
-import { WorkspaceIssue } from "@/types/domain";
 import { format } from "date-fns";
 import { AlertCircle, Plus, ArrowRight, ShieldAlert, DollarSign, PenTool, MessageSquare, CornerUpLeft } from "lucide-react";
+
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
@@ -14,10 +13,12 @@ import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/app/_components/ui/sheet";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { useAuth } from "@/context/auth-context";
 import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
 import { toast } from "@/hooks/ui/use-toast";
+import { WorkspaceIssue } from "@/types/domain";
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;

@@ -39,18 +39,6 @@ import {
   SheetHeader, 
   SheetTitle 
 } from "@/app/_components/ui/sheet";
-import { useFirebase } from "@/context/firebase-context";
-import { useSpace } from "@/features/spaces";
-
-
-import { toast } from "@/hooks/ui/use-toast";
-
-
-
-import { formatBytes } from "@/lib/format";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/auth-context";
-import type { SpaceFile, SpaceFileVersion } from "@/types/domain";
 import {
   Table,
   TableBody,
@@ -59,6 +47,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table";
+import { useAuth } from "@/context/auth-context";
+import { useFirebase } from "@/context/firebase-context";
+import { useSpace } from "@/features/spaces";
+import { toast } from "@/hooks/ui/use-toast";
+import { formatBytes } from "@/lib/format";
+import { cn } from "@/lib/utils";
+import type { SpaceFile, SpaceFileVersion } from "@/types/domain";
 
 
 const getErrorMessage = (error: unknown, fallback: string) =>
