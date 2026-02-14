@@ -93,6 +93,10 @@ export function useSettingsLogic() {
     });
   }, []);
 
+  const handleDeleteOrganization = useCallback(() => {
+    console.log("Deleting organization...");
+  }, []);
+
   return {
     isMounted,
     user,
@@ -107,6 +111,7 @@ export function useSettingsLogic() {
     isUploading,
     handleSaveProfile,
     handleWithdraw,
+    handleDeleteOrganization,
     handleAvatarUpload,
     avatarInputRef,
     t,

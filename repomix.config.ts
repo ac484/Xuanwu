@@ -1,6 +1,4 @@
-import { defineConfig } from '@repomix/config';
-
-export default defineConfig({
+export default {
   preset: 'frontend',
   project: {
     name: 'Ac-Xuanwu',
@@ -52,4 +50,4 @@ export default defineConfig({
     runOnPush: true,
     branches: ['main', 'develop'],
   },
-});
+};

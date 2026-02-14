@@ -4,6 +4,7 @@ import { PageHeader } from "../_components/shared/page-header";
 import { ProfileCard } from "../_components/settings/profile-card";
 import { PreferencesCard } from "../_components/settings/preferences-card";
 import { SecurityCard } from "../_components/settings/security-card";
+import { DangerZoneCard } from "../_components/settings/danger-zone-card";
 import { useSettingsLogic } from "../_hooks/use-settings-logic";
 
 export function SettingsPage() {
@@ -21,6 +22,7 @@ export function SettingsPage() {
     isUploading,
     handleSaveProfile,
     handleWithdraw,
+    handleDeleteOrganization, // This will be added in the hook later
     handleAvatarUpload,
     avatarInputRef,
     t,
@@ -54,6 +56,7 @@ export function SettingsPage() {
         />
         <PreferencesCard />
         <SecurityCard onWithdraw={handleWithdraw} t={t} />
+        <DangerZoneCard onDelete={handleDeleteOrganization} />
       </div>
     </div>
   );
