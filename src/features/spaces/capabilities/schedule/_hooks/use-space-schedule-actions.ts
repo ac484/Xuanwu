@@ -5,7 +5,7 @@ import { useCallback, useContext } from "react";
 import {
   assignMemberToScheduleItem,
   unassignMemberFromScheduleItem,
-} from "@/features/core/firebase/firestore/firestore.facade";
+} from "@/features/account/services/account.service";
 import { SpaceContext } from "@/features/spaces/_context/space-context";
 import { toast } from "@/hooks/ui/use-toast";
 import { ScheduleItem } from "@/types/domain";

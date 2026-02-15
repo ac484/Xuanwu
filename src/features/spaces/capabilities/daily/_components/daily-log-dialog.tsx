@@ -12,7 +12,7 @@ import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { useAuth } from "@/context/auth-context";
 import { useFirebase } from "@/context/firebase-context";
-import { addDailyLogComment } from "@/features/core/firebase/firestore/repositories/account.repository";
+import { addDailyLogComment } from "@/features/account/services/account.service";
 import { toast } from "@/hooks/ui/use-toast";
 import { DailyLog, DailyLogComment, User } from "@/types/domain";
 

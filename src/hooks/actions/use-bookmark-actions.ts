@@ -16,7 +16,7 @@ import { useFirebase } from '@/context/firebase-context';
 import { 
     addBookmark as addBookmarkRepo,
     removeBookmark as removeBookmarkRepo
-} from '@/features/core/firebase/firestore/repositories/user.repository';
+} from '@/features/user/services/user.service';
 import { toast } from '@/hooks/ui/use-toast';
 
 export function useBookmarkActions() {
