@@ -1,7 +1,7 @@
 "use client";
 
-import { WorkspaceSchedulePage } from ".";
+import { SpaceSchedulePage } from ".";
 
 export default function WorkspaceScheduleEntry() {
-  return <WorkspaceSchedulePage />;
+  return <SpaceSchedulePage />;
 }

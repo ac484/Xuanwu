@@ -11,21 +11,21 @@ export const shellCapabilities: Record<string, CapabilityDetail> = {
     label: "Overview",
     icon: LayoutDashboard,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/overview/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/overview/entry')) },
     },
   },
   capabilities: {
     label: "Capabilities",
     icon: Layers,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/capabilities/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/capabilities/entry')) },
     },
   },
   settings: {
     label: "Settings",
     icon: Settings,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/settings/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/settings/entry')) },
     },
   },
 };

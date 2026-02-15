@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -49,10 +50,10 @@ export function NavMain({ pathname, isOrganizationAccount, t }: NavMainProps) {
       </SidebarMenuItem>
 
       <SidebarMenuItem>
-        <SidebarMenuButton asChild isActive={isPartiallyActive("/workspaces")}>
-          <Link href="/workspaces">
+        <SidebarMenuButton asChild isActive={isPartiallyActive("/spaces")}>
+          <Link href="/spaces">
             <Layers />
-            <span className="font-semibold">{t("navigation.workspaces")}</span>
+            <span className="font-semibold">{t("navigation.spaces")}</span>
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>

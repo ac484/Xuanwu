@@ -1,7 +1,8 @@
+
 {
   "common": {
     "appName": "組織宇宙",
-    "appTitle": "組織宇宙 | 現代工作空間平台",
+    "appTitle": "組織宇宙 | 現代空間平台",
     "appDescription": "從個人生產力到組織協作",
     "greeting": "儀表板",
     "loading": "載入中...",
@@ -64,7 +65,7 @@
     "settings": "設定",
     "profile": "個人檔案",
     "account": "帳戶",
-    "workspaces": "工作空間",
+    "spaces": "空間",
     "teams": "團隊",
     "internalTeams": "內部團隊",
     "partnerTeams": "合作夥伴",
@@ -78,33 +79,33 @@
   },
   "dimension": {
     "createTitle": "建立組織",
-    "createDescription": "建立新的組織來管理工作空間和團隊成員。",
+    "createDescription": "建立新的組織來管理空間和團隊成員。",
     "dimensionName": "組織名稱",
     "dimensionNamePlaceholder": "例如：企業集團",
     "createDimension": "建立組織",
     "newDimensionCreated": "組織已建立",
     "failedToCreate": "建立組織失敗"
   },
-  "workspaces": {
-    "title": "工作空間",
-    "description": "管理「{name}」中的獨立工作空間。",
-    "createSpace": "建立工作空間",
-    "createLogicalSpace": "建立工作空間",
-    "createDescription": "在「{name}」中建立新的工作空間。",
-    "spaceName": "工作空間名稱",
+  "spaces": {
+    "title": "空間",
+    "description": "管理「{name}」中的獨立空間。",
+    "createSpace": "建立空間",
+    "createLogicalSpace": "建立空間",
+    "createDescription": "在「{name}」中建立新的空間。",
+    "spaceName": "空間名稱",
     "spaceNamePlaceholder": "例如：行銷專案",
-    "searchPlaceholder": "搜尋工作空間...",
+    "searchPlaceholder": "搜尋空間...",
     "accessProtocol": "存取政策",
     "defaultProtocol": "預設政策",
     "lifecycleState": "狀態",
-    "spaceVoid": "無工作空間",
-    "noSpacesFound": "沒有符合搜尋條件的工作空間。",
-    "createInitialSpace": "建立您的第一個工作空間",
+    "spaceVoid": "無空間",
+    "noSpacesFound": "沒有符合搜尋條件的空間。",
+    "createInitialSpace": "建立您的第一個空間",
     "creationFailed": "建立失敗",
-    "accountNotFound": "找不到帳戶或工作空間名稱為空。",
-    "logicalSpaceCreated": "工作空間已建立",
+    "accountNotFound": "找不到帳戶或空間名稱為空。",
+    "logicalSpaceCreated": "空間已建立",
     "spaceSynchronized": "{name} 已建立。",
-    "failedToCreateSpace": "建立工作空間失敗",
+    "failedToCreateSpace": "建立空間失敗",
     "standard": "標準"
   },
   "settings": {
@@ -142,7 +143,7 @@
     "confirmDestroy": "您確定要刪除「{name}」嗎？此操作無法復原。",
     "dimensionDestroyed": "組織已刪除",
     "failedToDestroyDimension": "刪除組織失敗",
-    "personalDimensionDescription": "這是您的個人工作空間。在此建立的專案由您擁有。",
+    "personalDimensionDescription": "這是您的個人空間。在此建立的專案由您擁有。",
     "dimensionManagementDescription": "管理組織設定和成員存取權限。"
   },
   "dashboard": {
@@ -152,7 +153,7 @@
     "roleAdmin": "管理員",
     "roleAdminDescription": "管理成員、團隊及資源分配。",
     "roleMember": "成員",
-    "roleMemberDescription": "對指派的工作空間具有完整讀寫權限。",
+    "roleMemberDescription": "對指派的空間具有完整讀寫權限。",
     "roleGuest": "訪客",
     "roleGuestDescription": "受限的唯讀存取權限。"
   },

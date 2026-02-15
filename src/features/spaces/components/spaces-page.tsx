@@ -1,3 +1,4 @@
+
 // [職責] 列表頁入口：負責 Data Fetching 與佈局組合
 "use client";
 
@@ -9,7 +10,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
 import { useI18n } from "@/features/core/i18n/i18n-context";
 import { useApp } from "@/hooks/state/use-app";
-import { useVisibleSpace } from "@/hooks/state/use-visible-spaces";
+import { useVisibleSpaces } from "@/hooks/state/use-visible-spaces";
 import { Space } from "@/types/domain";
 
 import { handleDeleteSpace } from "../_actions/space-actions";
@@ -34,7 +35,7 @@ export function SpacesPage() {
   const { t } = useI18n();
   const { state: appState } = useApp();
   const { activeAccount } = appState;
-  const allVisibleSpaces = useVisibleSpace();
+  const allVisibleSpaces = useVisibleSpaces();
   const filteredSpaces = useSpaceFilters(
     allVisibleSpaces,
     searchQuery

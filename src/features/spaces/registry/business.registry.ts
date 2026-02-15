@@ -12,44 +12,44 @@ export const businessCapabilities: Record<string, CapabilityDetail> = {
     label: "Files",
     icon: FileText,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/files/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/files/entry')) },
     },
   },
   tasks: {
     label: "Tasks",
     icon: ListTodo,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/tasks').then(mod => mod.WorkspaceTasks)) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/tasks').then(mod => mod.WorkspaceTasks)) },
     },
   },
   finance: {
     label: "Finance",
     icon: Landmark,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/finance/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/finance/entry')) },
     },
   },
   daily: {
     label: "Daily",
     icon: MessageSquare,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/daily').then(mod => mod.WorkspaceDailyPage)) },
-      aggregated: { component: dynamic(() => import('@/features/workspaces/capabilities/daily').then(mod => mod.OrganizationDailyPage)) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/daily').then(mod => mod.SpaceDailyPage)) },
+      aggregated: { component: dynamic(() => import('@/features/spaces/capabilities/daily').then(mod => mod.OrganizationDailyPage)) },
     },
   },
   schedule: {
     label: "Schedule",
     icon: Calendar,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/schedule').then(mod => mod.WorkspaceSchedulePage)) },
-      aggregated: { component: dynamic(() => import('@/features/workspaces/capabilities/schedule').then(mod => mod.OrganizationSchedulePage)) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/schedule').then(mod => mod.SpaceSchedulePage)) },
+      aggregated: { component: dynamic(() => import('@/features/spaces/capabilities/schedule').then(mod => mod.OrganizationSchedulePage)) },
     },
   },
   'document-parser': {
     label: "Document Parser",
     icon: FileScan,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/document-parser/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/document-parser/space-document-parser')) },
     },
   },
 };

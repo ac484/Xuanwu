@@ -1,7 +1,8 @@
+
 {
   "common": {
     "appName": "OrgVerse",
-    "appTitle": "OrgVerse | Modern Workspace Platform",
+    "appTitle": "OrgVerse | Modern Space Platform",
     "appDescription": "From Individual Productivity to Organizational Collaboration",
     "greeting": "Dashboard",
     "loading": "Loading...",
@@ -64,7 +65,7 @@
     "settings": "Settings",
     "profile": "Profile",
     "account": "Account",
-    "workspaces": "Workspaces",
+    "spaces": "Spaces",
     "teams": "Teams",
     "internalTeams": "Internal Teams",
     "partnerTeams": "Partner Teams",
@@ -78,33 +79,33 @@
   },
   "dimension": {
     "createTitle": "Create Organization",
-    "createDescription": "Create a new organization to manage workspaces and team members.",
+    "createDescription": "Create a new organization to manage spaces and team members.",
     "dimensionName": "Organization Name",
     "dimensionNamePlaceholder": "e.g., Acme Corporation",
     "createDimension": "Create Organization",
     "newDimensionCreated": "Organization created",
     "failedToCreate": "Failed to create organization"
   },
-  "workspaces": {
-    "title": "Workspaces",
-    "description": "Manage independent workspaces within \"{name}\".",
-    "createSpace": "Create Workspace",
-    "createLogicalSpace": "Create Workspace",
-    "createDescription": "Create a new workspace within \"{name}\".",
-    "spaceName": "Workspace Name",
+  "spaces": {
+    "title": "Spaces",
+    "description": "Manage independent spaces within \"{name}\".",
+    "createSpace": "Create Space",
+    "createLogicalSpace": "Create Space",
+    "createDescription": "Create a new space within \"{name}\".",
+    "spaceName": "Space Name",
     "spaceNamePlaceholder": "e.g., Marketing Campaign",
-    "searchPlaceholder": "Search workspaces...",
+    "searchPlaceholder": "Search spaces...",
     "accessProtocol": "Access Policy",
     "defaultProtocol": "Default Policy",
     "lifecycleState": "Status",
-    "spaceVoid": "No Workspaces",
-    "noSpacesFound": "No workspaces match your search criteria.",
-    "createInitialSpace": "Create Your First Workspace",
+    "spaceVoid": "No Spaces",
+    "noSpacesFound": "No spaces match your search criteria.",
+    "createInitialSpace": "Create Your First Space",
     "creationFailed": "Creation Failed",
-    "accountNotFound": "Account not found or workspace name is empty.",
-    "logicalSpaceCreated": "Workspace Created",
+    "accountNotFound": "Account not found or space name is empty.",
+    "logicalSpaceCreated": "Space Created",
     "spaceSynchronized": "{name} has been created.",
-    "failedToCreateSpace": "Failed to create workspace",
+    "failedToCreateSpace": "Failed to create space",
     "standard": "Standard"
   },
   "settings": {
@@ -142,7 +143,7 @@
     "confirmDestroy": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
     "dimensionDestroyed": "Organization Deleted",
     "failedToDestroyDimension": "Failed to delete organization",
-    "personalDimensionDescription": "This is your personal workspace. Projects created here are owned by you.",
+    "personalDimensionDescription": "This is your personal space. Projects created here are owned by you.",
     "dimensionManagementDescription": "Manage organization settings and member access."
   },
   "dashboard": {
@@ -152,7 +153,7 @@
     "roleAdmin": "Admin",
     "roleAdminDescription": "Manage members, teams, and resource allocation.",
     "roleMember": "Member",
-    "roleMemberDescription": "Full read and write access to assigned workspaces.",
+    "roleMemberDescription": "Full read and write access to assigned spaces.",
     "roleGuest": "Guest",
     "roleGuestDescription": "Limited read-only access."
   },

@@ -1,3 +1,4 @@
+
 {
   "common": {
     "appName": "OrgVerse",
@@ -64,7 +65,7 @@
     "settings": "Einstellungen",
     "profile": "Profil",
     "account": "Konto",
-    "workspaces": "Workspaces",
+    "spaces": "Spaces",
     "teams": "Teams",
     "internalTeams": "Interne Teams",
     "partnerTeams": "Partner-Teams",
@@ -85,7 +86,7 @@
     "newDimensionCreated": "Neue Dimension erstellt.",
     "failedToCreate": "Dimension konnte nicht erstellt werden"
   },
-  "workspaces": {
+  "spaces": {
     "title": "Logische Räume",
     "description": "Projektknoten innerhalb der {name}-Dimension.",
     "createSpace": "Raum erstellen",
@@ -100,7 +101,7 @@
     "spaceVoid": "Leerer Raum",
     "noSpacesFound": "In dieser Dimension wurden noch keine logischen Räume definiert.",
     "createInitialSpace": "+ Ersten Raum erstellen",
-    "creationFailed": "Workspace-Erstellung fehlgeschlagen",
+    "creationFailed": "Space-Erstellung fehlgeschlagen",
     "accountNotFound": "Aktives Konto nicht gefunden oder angegeben.",
     "logicalSpaceCreated": "Logischer Raum erstellt",
     "spaceSynchronized": "Der Raum '{name}' wurde mit der Dimension synchronisiert.",
@@ -151,9 +152,9 @@
     "createPartnerTeamDescription": "Eine logische Grenze für eine externe Partnerorganisation definieren.",
     "partnerTeamNamePlaceholder": "z.B. 'Externe Prüfer'",
     "matrixTitle": "Berechtigungsresonanzmatrix",
-    "matrixDescription": "Zugriffszuordnungen zwischen Teams und Workspaces visualisieren.",
+    "matrixDescription": "Zugriffszuordnungen zwischen Teams und Spaces visualisieren.",
     "scheduleTitle": "Dimensionszeitplan",
-    "scheduleDescription": "Globaler Zeitplan für alle Workspace-Knoten.",
+    "scheduleDescription": "Globaler Zeitplan für alle Space-Knoten.",
     "dailyTitle": "Täglicher Puls",
     "dailyDescription": "Aggregierter Ereignisstrom von allem Personal.",
     "auditTitle": "Audit-Protokoll",
@@ -204,9 +205,9 @@
     "roleOwner": "Eigentümer",
     "roleOwnerDescription": "Volle Kontrolle über die Dimension, einschließlich Abrechnung und Sicherheit.",
     "roleAdmin": "Administrator",
-    "roleAdminDescription": "Kann Mitglieder, Teams und Workspaces verwalten.",
+    "roleAdminDescription": "Kann Mitglieder, Teams und Spaces verwalten.",
     "roleMember": "Mitglied",
-    "roleMemberDescription": "Kann in autorisierten Workspaces zusammenarbeiten.",
+    "roleMemberDescription": "Kann in autorisierten Spaces zusammenarbeiten.",
     "roleGuest": "Gast",
     "roleGuestDescription": "Eingeschränkter Zugriff auf bestimmte Ressourcen, typischerweise für externe Partner."
   },

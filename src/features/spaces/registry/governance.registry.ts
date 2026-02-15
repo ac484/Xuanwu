@@ -12,36 +12,36 @@ export const governanceCapabilities: Record<string, CapabilityDetail> = {
     label: "Audit",
     icon: Activity,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/audit').then(mod => mod.WorkspaceAuditPage)) },
-      aggregated: { component: dynamic(() => import('@/features/workspaces/capabilities/audit').then(mod => mod.OrganizationAuditPage)) }
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/audit').then(mod => mod.WorkspaceAuditPage)) },
+      aggregated: { component: dynamic(() => import('@/features/spaces/capabilities/audit').then(mod => mod.OrganizationAuditPage)) }
     },
   },
   members: {
     label: "Members",
     icon: Users,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/members/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/members/entry')) },
     },
   },
   qa: {
     label: "QA",
     icon: ShieldCheck,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/qa/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/qa/entry')) },
     },
   },
   acceptance: {
     label: "Acceptance",
     icon: Trophy,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/acceptance/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/acceptance/entry')) },
     },
   },
   issues: {
     label: "Issues",
     icon: AlertCircle,
     views: {
-      single: { component: dynamic(() => import('@/features/workspaces/capabilities/issues/entry')) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/issues/entry')) },
     },
   },
 };

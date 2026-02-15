@@ -1,7 +1,8 @@
+
 {
   "common": {
     "appName": "組織界",
-    "appTitle": "組織界 | モダンなワークスペースアーキテクチャ",
+    "appTitle": "組織界 | モダンなスペースアーキテクチャ",
     "appDescription": "単一のアイデンティティから多次元組織へ",
     "greeting": "こんにちは、{name}さん！",
     "loading": "読み込み中...",
@@ -64,7 +65,7 @@
     "settings": "設定",
     "profile": "プロフィール",
     "account": "アカウント",
-    "workspaces": "ワークスペース",
+    "spaces": "スペース",
     "teams": "内部チーム",
     "internalTeams": "内部チーム",
     "partnerTeams": "パートナーチーム",
@@ -85,12 +86,12 @@
     "newDimensionCreated": "新しい次元が作成されました",
     "failedToCreate": "次元の作成に失敗しました"
   },
-  "workspaces": {
+  "spaces": {
     "title": "論理空間",
-    "description": "{name}次元にマウントされたワークスペースノード。",
+    "description": "{name}次元にマウントされたスペースノード。",
     "createSpace": "空間を作成",
     "createLogicalSpace": "新しい論理空間を作成",
-    "createDescription": "ワークスペースは、「{name}」次元内のタスク、ファイル、および機能のための独立したコンテナです。",
+    "createDescription": "スペースは、「{name}」次元内のタスク、ファイル、および機能のための独立したコンテナです。",
     "spaceName": "空間名",
     "spaceNamePlaceholder": "例：「コアエンジニアリング」",
     "searchPlaceholder": "空間名で検索...",
@@ -100,7 +101,7 @@
     "spaceVoid": "空間ヴォイド",
     "noSpacesFound": "この次元にはまだ論理空間が作成されていません。",
     "createInitialSpace": "最初の空間を作成",
-    "creationFailed": "ワークスペースの作成に失敗しました。",
+    "creationFailed": "スペースの作成に失敗しました。",
     "accountNotFound": "アクティブなアカウントが見つかりません。",
     "logicalSpaceCreated": "論理空間が作成されました",
     "spaceSynchronized": "{name}は同期されました。",
@@ -151,7 +152,7 @@
     "createPartnerTeamDescription": "外部パートナーとの協力のための新しい境界を定義します。",
     "partnerTeamNamePlaceholder": "例：「プロジェクトプロメテウスパートナー」",
     "matrixTitle": "権限共鳴マトリックス",
-    "matrixDescription": "チームとワークスペース間のアクセス権を視覚化します。",
+    "matrixDescription": "チームとスペース間のアクセス権を視覚化します。",
     "scheduleTitle": "組織スケジュール",
     "scheduleDescription": "次元全体のすべてのイベントの集約ビュー。",
     "dailyTitle": "デイリーフィード",
@@ -161,7 +162,7 @@
   },
   "tasks": {
     "title": "タスク",
-    "description": "このワークスペースの作業分解構造を管理します。",
+    "description": "このスペースの作業分解構造を管理します。",
     "addRootTask": "ルートタスクを追加",
     "addSubtask": "サブタスクを追加",
     "progressReport": "進捗報告",
@@ -216,9 +217,9 @@
     "roleOwner": "所有者",
     "roleOwnerDescription": "請求やセキュリティを含む、次元に対する完全な制御。",
     "roleAdmin": "管理者",
-    "roleAdminDescription": "メンバー、チーム、ワークスペースを管理できます。",
+    "roleAdminDescription": "メンバー、チーム、スペースを管理できます。",
     "roleMember": "メンバー",
-    "roleMemberDescription": "承認されたワークスペース内で協力できます。",
+    "roleMemberDescription": "承認されたスペース内で協力できます。",
     "roleGuest": "ゲスト",
     "roleGuestDescription": "特定のアイテムへの限定的なアクセス。"
   },
