@@ -157,7 +157,7 @@
     "roleGuest": "Guest",
     "roleGuestDescription": "Limited read-only access."
   },
-  "workspace": {
+  "space": {
     "capabilities": "Features",
     "tasks": "Tasks",
     "acceptance": "Acceptance",

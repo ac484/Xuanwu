@@ -31,7 +31,7 @@ export function GovernanceSidebar({ proposals, onApprove, onReject }: Governance
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-xs font-bold">{item.title}</p>
-                    <Badge variant="outline" className="text-[9px] mt-1">{item.workspaceName}</Badge>
+                    <Badge variant="outline" className="text-[9px] mt-1">{item.spaceName}</Badge>
                   </div>
                   <div className="flex gap-1">
                     <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive" onClick={() => onReject(item)}>

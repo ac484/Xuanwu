@@ -157,7 +157,7 @@
     "roleGuest": "訪客",
     "roleGuestDescription": "受限的唯讀存取權限。"
   },
-  "workspace": {
+  "space": {
     "capabilities": "功能",
     "tasks": "任務",
     "acceptance": "驗收",

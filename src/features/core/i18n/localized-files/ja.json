@@ -108,7 +108,7 @@
     "failedToCreateSpace": "空間の作成に失敗しました。",
     "standard": "標準"
   },
-  "workspace": {
+  "space": {
     "capabilities": "機能",
     "tasks": "タスク",
     "acceptance": "驗收",

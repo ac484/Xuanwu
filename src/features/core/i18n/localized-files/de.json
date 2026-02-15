@@ -2,7 +2,7 @@
 {
   "common": {
     "appName": "OrgVerse",
-    "appTitle": "OrgVerse | Moderne Workspace-Architektur",
+    "appTitle": "OrgVerse | Moderne Space-Architektur",
     "appDescription": "Von der Einzelidentität zur multidimensionalen Organisation",
     "greeting": "Hallo, {name}!",
     "loading": "Wird geladen...",
@@ -108,7 +108,7 @@
     "failedToCreateSpace": "Raum konnte nicht erstellt werden",
     "standard": "Standard"
   },
-  "workspace": {
+  "space": {
     "capabilities": "Fähigkeiten",
     "tasks": "Aufgaben",
     "acceptance": "Abnahme",

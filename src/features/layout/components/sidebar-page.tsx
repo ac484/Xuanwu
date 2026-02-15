@@ -85,7 +85,7 @@ export function SidebarPage() {
         />
       </SidebarHeader>
 
-      {/* Sidebar Content: Contains the main navigation and workspace quick links */}
+      {/* Sidebar Content: Contains the main navigation and space quick links */}
       <SidebarContent>
         {/* Main navigation section for core dashboard areas */}
         <SidebarGroup>
