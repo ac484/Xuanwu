@@ -9,7 +9,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/app/_components/ui/card";
 import { Skeleton } from '@/app/_components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 import { LanguageSwitcher } from "@/features/layout";
 
 

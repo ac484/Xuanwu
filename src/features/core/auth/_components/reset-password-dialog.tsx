@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogD
 import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/app/_components/ui/input-group";
 import { Label } from '@/app/_components/ui/label';
-import { useI18n } from '@/context/i18n-context';
+import { useI18n } from '@/features/core/i18n/i18n-context';
 
 import type { ResetPasswordFormValues } from '../_schemas/auth.schema';
 import type { UseFormReturn } from 'react-hook-form';

@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
-import { useI18n } from '@/context/i18n-context';
+import { useI18n } from '@/features/core/i18n/i18n-context';
 import { authAdapter } from '@/features/core/firebase/auth/auth.adapter';
 import { toast } from '@/hooks/ui/use-toast';
 
