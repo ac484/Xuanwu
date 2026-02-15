@@ -6,7 +6,7 @@ import { addMonths, subMonths } from "date-fns";
 import { History, Calendar, ListChecks, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useOptionalSpace } from "@/features/spaces";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
 import type { ScheduleItem, Location, MemberReference } from "@/types/domain";
@@ -35,7 +35,7 @@ function PageHeader({ title, description }: { title: string; description?: strin
 }
 
 interface UnifiedScheduleViewProps {
-    viewMode: 'organization' | 'workspace';
+    viewMode: 'organization' | 'space';
     items: ScheduleItem[];
     members: MemberReference[];
     renderItemActions?: (item: ScheduleItem) => React.ReactNode;
@@ -70,19 +70,19 @@ export function UnifiedScheduleView({
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [dialogInitialDate, setDialogInitialDate] = useState(new Date());
     
-    // Workspace-specific context and actions
-    const workspaceContext = useOptionalWorkspace();
-    const { createScheduleItem } = workspaceContext || {};
+    // Space-specific context and actions
+    const spaceContext = useOptionalSpace();
+    const { createScheduleItem } = spaceContext || {};
     
     const { state: appState } = useApp();
     const { activeAccount } = appState;
 
     const handleCreateItem = async (data: { title: string; description?: string; startDate?: Date; endDate?: Date; location: Location; }) => {
-        if (viewMode !== 'workspace' || !workspaceContext || !createScheduleItem) return;
+        if (viewMode !== 'space' || !spaceContext || !createScheduleItem) return;
         
         const newItemData = {
-            accountId: workspaceContext.workspace.dimensionId,
-            workspaceId: workspaceContext.workspace.id,
+            accountId: spaceContext.state.space.dimensionId,
+            spaceId: spaceContext.state.space.id,
             title: data.title.trim(),
             description: data.description?.trim(),
             startDate: data.startDate,
@@ -108,7 +108,7 @@ export function UnifiedScheduleView({
 
     const onItemClick = (item: ScheduleItem) => {
         if (viewMode === 'organization') {
-            router.push(`/workspaces/${item.workspaceId}?capability=schedule`);
+            router.push(`/spaces/${item.spaceId}?capability=schedule`);
         }
     };
     
@@ -129,7 +129,7 @@ export function UnifiedScheduleView({
             {viewMode === 'organization' && (
                 <PageHeader 
                     title="Organization Schedule"
-                    description="Aggregated view of all proposed and official schedule items across all workspaces."
+                    description="Aggregated view of all proposed and official schedule items across all spaces."
                 />
             )}
             
@@ -143,7 +143,7 @@ export function UnifiedScheduleView({
                             currentDate={currentDate}
                             onMonthChange={handleMonthChange}
                             onItemClick={onItemClick}
-                            onAddClick={viewMode === 'workspace' ? handleOpenAddDialog : undefined}
+                            onAddClick={viewMode === 'space' ? handleOpenAddDialog : undefined}
                             onApproveProposal={onApproveProposal}
                             onRejectProposal={onRejectProposal}
                             renderItemActions={renderItemActions}
@@ -185,7 +185,7 @@ export function UnifiedScheduleView({
                 </div>
             )}
 
-            {viewMode === 'workspace' && createScheduleItem && (
+            {viewMode === 'space' && createScheduleItem && (
                 <ProposalDialog
                     isOpen={isAddDialogOpen}
                     onOpenChange={setIsAddDialogOpen}

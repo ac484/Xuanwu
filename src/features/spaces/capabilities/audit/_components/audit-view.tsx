@@ -18,7 +18,7 @@ import { AuditTypeIcon } from "./audit-type-icon";
 
 
 interface AuditViewProps {
-  viewMode: 'organization' | 'workspace';
+  viewMode: 'organization' | 'space';
 }
 
 export function AuditView({ viewMode }: AuditViewProps) {
@@ -52,7 +52,7 @@ export function AuditView({ viewMode }: AuditViewProps) {
   
   const hasLogs = auditLogs.length > 0;
 
-  if (viewMode === 'workspace') {
+  if (viewMode === 'space') {
       return (
         <div className="animate-in fade-in duration-500">
           <Card className="border-border/60 bg-card/50 backdrop-blur-sm overflow-hidden shadow-sm h-[calc(100vh-20rem)] flex flex-col">

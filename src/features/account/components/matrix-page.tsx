@@ -10,20 +10,20 @@ import { useApp } from "@/hooks/state/use-app";
 
 import { PageHeader } from "../_components/shared/page-header";
 
-// DEPRECATED FOR WRITE: This permission matrix, which manages access by mapping `teamId` to `workspace.teamIds`, is now a read-only visualization. The `WorkspaceMembersManagement` component handles both team and individual grants. This component now serves to provide a high-level, read-only view of composite access state (Team Inheritance).
+// DEPRECATED FOR WRITE: This permission matrix, which manages access by mapping `teamId` to `space.teamIds`, is now a read-only visualization. The `SpaceMembersManagement` component handles both team and individual grants. This component now serves to provide a high-level, read-only view of composite access state (Team Inheritance).
 
 export function MatrixPage() {
   const { state: appState } = useApp();
   const { state: accountState } = useAccount();
   const { organizations, activeAccount } = appState;
-  const { workspaces } = accountState;
+  const { spaces } = accountState;
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const workspacesArray = useMemo(() => Object.values(workspaces), [workspaces]);
+  const spacesArray = useMemo(() => Object.values(spaces), [spaces]);
 
   const activeOrg = useMemo(
     () =>
@@ -46,20 +46,20 @@ export function MatrixPage() {
   }
 
   const teams = (activeOrg.teams || []).filter((t) => t.type === "internal");
-  const orgWorkspaces = workspacesArray.filter(
-    (w) => w.dimensionId === activeAccount?.id
+  const orgSpaces = spacesArray.filter(
+    (s) => s.dimensionId === activeAccount?.id
   );
 
-  const hasAccess = (teamId: string, workspaceId: string) => {
-    const ws = workspaces[workspaceId];
-    return ws?.teamIds?.includes(teamId) || false;
+  const hasAccess = (teamId: string, spaceId: string) => {
+    const space = spaces[spaceId];
+    return space?.teamIds?.includes(teamId) || false;
   };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-500">
       <PageHeader
         title="Permission Resonance Matrix"
-        description="Visualize mappings between internal teams and logical workspaces. Access management is handled within each workspace’s governance panel."
+        description="Visualize mappings between internal teams and logical spaces. Access management is handled within each space’s governance panel."
       />
 
       <div className="rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm overflow-hidden shadow-sm">
@@ -67,12 +67,12 @@ export function MatrixPage() {
           <TableHeader className="bg-muted/30">
             <TableRow className="hover:bg-transparent">
               <TableHead className="w-[220px] text-[10px] font-bold uppercase tracking-widest py-6 px-6">
-                Team / Workspace Node
+                Team / Space Node
               </TableHead>
-              {orgWorkspaces.map((ws) => (
-                <TableHead key={ws.id} className="text-center min-w-[120px]">
+              {orgSpaces.map((space) => (
+                <TableHead key={space.id} className="text-center min-w-[120px]">
                   <span className="text-[10px] font-bold uppercase tracking-tight text-primary">
-                    {ws.name}
+                    {space.name}
                   </span>
                 </TableHead>
               ))}
@@ -97,10 +97,10 @@ export function MatrixPage() {
                     </div>
                   </div>
                 </TableCell>
-                {orgWorkspaces.map((ws) => {
-                  const access = hasAccess(team.id, ws.id);
+                {orgSpaces.map((space) => {
+                  const access = hasAccess(team.id, space.id);
                   return (
-                    <TableCell key={ws.id} className="text-center p-0">
+                    <TableCell key={space.id} className="text-center p-0">
                       <div className="flex items-center justify-center h-full min-h-[80px]">
                         {access ? (
                           <ShieldCheck className="w-5 h-5 text-green-500" />

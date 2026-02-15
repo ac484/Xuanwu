@@ -7,7 +7,6 @@ import { ShieldCheck, Activity, Layers, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Progress } from "@/app/_components/ui/progress";
 import { useAccount } from "@/hooks/state/use-account";
-import { Workspace } from "@/types/domain";
 
 interface StatCardsProps {
     orgId: string;
@@ -16,23 +15,23 @@ interface StatCardsProps {
 
 export function StatCards({ orgId, orgName }: StatCardsProps) {
   const { state: accountState } = useAccount();
-  const { auditLogs, workspaces } = accountState;
+  const { auditLogs, spaces } = accountState;
 
   const auditLogsArray = useMemo(() => Object.values(auditLogs), [auditLogs]);
-  const workspacesArray = useMemo(() => Object.values(workspaces), [workspaces]);
+  const spacesArray = useMemo(() => Object.values(spaces), [spaces]);
   
-  const orgWorkspaces = useMemo(() => 
-    workspacesArray.filter(w => w.dimensionId === orgId),
-    [workspacesArray, orgId]
+  const orgSpaces = useMemo(() => 
+    spacesArray.filter(s => s.dimensionId === orgId),
+    [spacesArray, orgId]
   );
   
   const consistency = useMemo(() => {
-    if (orgWorkspaces.length === 0) return 100;
-    const protocols = orgWorkspaces.map(w => w.protocol || 'Default');
+    if (orgSpaces.length === 0) return 100;
+    const protocols = orgSpaces.map(s => s.protocol || 'Default');
     const uniqueProtocols = new Set(protocols);
     const val = Math.round((1 / (uniqueProtocols.size || 1)) * 100);
     return isFinite(val) ? val : 100;
-  }, [orgWorkspaces]);
+  }, [orgSpaces]);
 
   const pulseRate = useMemo(() => {
     const recentPulseCount = auditLogsArray.filter(l => l.orgId === orgId).length;
@@ -41,10 +40,10 @@ export function StatCards({ orgId, orgName }: StatCardsProps) {
   }, [auditLogsArray, orgId]);
 
   const capabilityLoad = useMemo(() => {
-    const totalCapabilities = orgWorkspaces.reduce((acc, w) => acc + (w.capabilities?.length || 0), 0);
+    const totalCapabilities = orgSpaces.reduce((acc, s) => acc + (s.capabilities?.length || 0), 0);
     const val = totalCapabilities * 10;
     return isFinite(val) ? Math.min(val, 100) : 0;
-  }, [orgWorkspaces]);
+  }, [orgSpaces]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 gpu-accelerated">
@@ -56,7 +55,7 @@ export function StatCards({ orgId, orgName }: StatCardsProps) {
         <CardContent>
           <div className="text-2xl font-bold font-headline">{consistency}% Protocol Alignment</div>
           <p className="text-[10px] text-muted-foreground mt-1">
-            Dimension {orgName} currently has {orgWorkspaces.length} workspace nodes mounted.
+            Dimension {orgName} currently has {orgSpaces.length} space nodes mounted.
           </p>
           <div className="mt-4 space-y-2">
             <div className="flex items-center justify-between text-[9px] uppercase font-bold tracking-tighter">

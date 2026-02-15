@@ -12,13 +12,14 @@ import {
   CommandItem,
   CommandList,
 } from "@/app/_components/ui/command";
-import { Organization, Workspace, MemberReference, SwitchableAccount } from "@/types/domain";
+import { Organization, MemberReference } from "@/types/domain";
+import { Space } from "@/types/space";
 
 interface GlobalSearchProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   organizations: Organization[];
-  workspaces: Workspace[];
+  spaces: Space[];
   members: MemberReference[];
   activeOrgId: string | null;
   onSwitchOrg: (org: Organization) => void;
@@ -28,7 +29,7 @@ export function GlobalSearch({
   isOpen,
   onOpenChange,
   organizations,
-  workspaces,
+  spaces,
   members,
   activeOrgId,
   onSwitchOrg,
@@ -55,11 +56,11 @@ export function GlobalSearch({
           ))}
         </CommandGroup>
         <CommandGroup heading="Spaces">
-          {workspaces.map((ws) => (
-            <CommandItem key={ws.id} onSelect={() => handleSelect(() => router.push(`/workspaces/${ws.id}`))}>
+          {spaces.map((space) => (
+            <CommandItem key={space.id} onSelect={() => handleSelect(() => router.push(`/spaces/${space.id}`))}>
               <Layers className="mr-2 h-4 w-4 text-primary" />
-              <span>{ws.name}</span>
-              <span className="text-[9px] text-muted-foreground font-mono ml-auto">{ws.id.toUpperCase()}</span>
+              <span>{space.name}</span>
+              <span className="text-[9px] text-muted-foreground font-mono ml-auto">{space.id.toUpperCase()}</span>
             </CommandItem>
           ))}
         </CommandGroup>

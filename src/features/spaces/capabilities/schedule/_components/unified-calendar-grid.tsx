@@ -23,7 +23,7 @@ const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 interface UnifiedCalendarGridProps {
   items: ScheduleItem[];
   members: MemberReference[];
-  viewMode: 'workspace' | 'organization';
+  viewMode: 'space' | 'organization';
   currentDate: Date;
   onMonthChange: (direction: 'prev' | 'next') => void;
   onItemClick?: (item: ScheduleItem) => void;
@@ -113,7 +113,7 @@ export function UnifiedCalendarGrid({
           
           return (
             <div key={dateKey} className={cn('group relative flex min-h-[140px] flex-col gap-1.5 border-r border-b p-1.5', { 'bg-muted/30': isWeekend(day) })}>
-              {viewMode === 'workspace' && onAddClick && (
+              {viewMode === 'space' && onAddClick && (
                 <Button variant="ghost" size="icon" className="absolute top-1 left-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => onAddClick(day)}>
                   <Plus className="w-4 h-4 text-muted-foreground" />
                 </Button>
@@ -136,17 +136,17 @@ export function UnifiedCalendarGrid({
                                 item.status === 'PROPOSAL' ? 'border-dashed border-primary/50 bg-primary/5' : 'bg-background shadow-sm'
                             )}
                         >
-                            {/* Section 1: Workspace */}
+                            {/* Section 1: Space */}
                             {viewMode === 'organization' && (
                                 <div 
                                     className="flex items-center gap-1.5 p-1.5 border-b cursor-pointer hover:bg-muted/50 rounded-t-md transition-colors"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        router.push(`/workspaces/${item.workspaceId}?capability=schedule`);
+                                        router.push(`/spaces/${item.spaceId}?capability=schedule`);
                                     }}
                                 >
                                     <Layers className="w-3 h-3 text-muted-foreground" />
-                                    <p className="text-[9px] font-bold text-muted-foreground truncate">{item.workspaceName}</p>
+                                    <p className="text-[9px] font-bold text-muted-foreground truncate">{item.spaceName}</p>
                                 </div>
                             )}
 
@@ -155,7 +155,7 @@ export function UnifiedCalendarGrid({
                                 className={cn(
                                     "p-2",
                                     (onItemClick) && "cursor-pointer",
-                                    viewMode === 'workspace' && 'rounded-t-md'
+                                    viewMode === 'space' && 'rounded-t-md'
                                 )}
                                 onClick={() => onItemClick?.(item)}
                             >

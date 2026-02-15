@@ -159,6 +159,7 @@ export interface AuditLog {
   id: string;
   orgId: string;
   spaceId?: string;
+  spaceName?: string;
   recordedAt: any; // Event Timestamp
   actor: string;
   actorId?: string;

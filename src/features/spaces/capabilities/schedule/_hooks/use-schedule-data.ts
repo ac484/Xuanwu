@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { subDays, isFuture, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useOptionalSpace } from "@/features/spaces";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
 import { ScheduleItem } from "@/types/domain";
@@ -12,13 +12,13 @@ import { ScheduleItem } from "@/types/domain";
 /**
  * @fileoverview useScheduleData - Unified hook for fetching schedule data.
  * @description This hook is context-aware. It takes a `viewMode` and fetches
- * either organization-wide data (from `useAccount`) or workspace-specific data
- * (from `useWorkspace`), returning a consistent data shape for the UI.
+ * either organization-wide data (from `useAccount`) or space-specific data
+ * (from `useSpace`), returning a consistent data shape for the UI.
  */
-export function useScheduleData(viewMode: 'organization' | 'workspace') {
+export function useScheduleData(viewMode: 'organization' | 'space') {
   const { state: appState } = useApp();
   const { state: accountState } = useAccount();
-  const workspaceContext = useOptionalWorkspace();
+  const spaceContext = useOptionalSpace();
 
   const { organizations, activeAccount } = appState;
 
@@ -33,20 +33,20 @@ export function useScheduleData(viewMode: 'organization' | 'workspace') {
     if (viewMode === 'organization') {
       return Object.values(accountState.schedule_items || {});
     }
-    // In workspace view, we get items pre-filtered by the AccountContext
-    // but we need to re-filter them for the specific workspace from the context.
-    if (viewMode === 'workspace' && workspaceContext) {
-        return Object.values(accountState.schedule_items || {}).filter(item => item.workspaceId === workspaceContext.workspace.id);
+    // In space view, we get items pre-filtered by the AccountContext
+    // but we need to re-filter them for the specific space from the context.
+    if (viewMode === 'space' && spaceContext) {
+        return Object.values(accountState.schedule_items || {}).filter(item => item.spaceId === spaceContext.state.space.id);
     }
     return [];
-  }, [viewMode, accountState.schedule_items, workspaceContext]);
+  }, [viewMode, accountState.schedule_items, spaceContext]);
 
   const allItems: ScheduleItem[] = useMemo(() => {
     return allRawItems.map(item => ({
       ...item,
-      workspaceName: accountState.workspaces[item.workspaceId]?.name || "Unknown",
+      spaceName: accountState.spaces[item.spaceId]?.name || "Unknown",
     } as ScheduleItem));
-  }, [allRawItems, accountState.workspaces]);
+  }, [allRawItems, accountState.spaces]);
 
 
   // Organization-specific derived data

@@ -51,11 +51,12 @@ export function useLogger(spaceId?: string, spaceName?: string) {
       type,
       recordedAt: serverTimestamp(),
       orgId: activeAccount.id,
-      spaceId: spaceId || undefined
+      spaceId: spaceId || undefined,
+      spaceName: spaceName || undefined,
     };
 
     return addDocument(`organizations/${activeAccount.id}/auditLogs`, eventData);
-  }, [db, activeAccount, spaceId]);
+  }, [db, activeAccount, spaceId, spaceName]);
 
   return { logDaily, logAudit };
 }

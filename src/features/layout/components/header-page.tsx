@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Search, Command } from "lucide-react";
 
 import { Button } from "@/app/_components/ui/button";
 import { SidebarTrigger } from "@/app/_components/ui/sidebar";
-import { useAuth } from '@/context/auth-context';
-import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
-import { Organization, SwitchableAccount, Workspace } from '@/types/domain';
+import { useVisibleSpaces } from "@/hooks/state/use-visible-spaces";
+import { Organization, SwitchableAccount } from '@/types/domain';
 
 import { LanguageSwitcher } from '../';
 import { GlobalSearch } from "../_components/global-search";
@@ -25,58 +24,9 @@ import { NotificationCenter } from "../_components/notification-center";
 export function HeaderPage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { state: appState, dispatch } = useApp();
-  const { state: accountState } = useAccount();
-  const { state: authState } = useAuth();
+  const { notifications, organizations, activeAccount } = appState;
+  const visibleSpaces = useVisibleSpaces();
   
-  const { user } = authState;
-  const { organizations, notifications, activeAccount } = appState;
-  const { workspaces } = accountState;
-  
-  const visibleWorkspaces = useMemo(() => {
-    if (!activeAccount || !user || !workspaces) return [];
-
-    const accountWorkspaces = Object.values(workspaces).filter((workspace: Workspace) => {
-      return workspace.dimensionId === activeAccount.id;
-    });
-
-    if (activeAccount.type === 'user') {
-      return accountWorkspaces;
-    }
-    
-    if (activeAccount.type === 'organization') {
-      const activeOrg = organizations[activeAccount.id];
-      if (!activeOrg) return [];
-      
-      if (activeOrg.ownerId === user.id) {
-        return accountWorkspaces;
-      }
-      
-      const userTeamIds = new Set(
-        (activeOrg.teams || [])
-          .filter(team => (team.memberIds || []).includes(user.id))
-          .map(team => team.id)
-      );
-
-      return accountWorkspaces.filter(workspace => {
-        const hasDirectGrant = (workspace.grants || []).some(g => g.userId === user.id && g.status === 'active');
-        const hasTeamGrant = (workspace.teamIds || []).some(teamId => userTeamIds.has(teamId));
-        const hasExplicitAccess = hasDirectGrant || hasTeamGrant;
-        
-        if (workspace.visibility === 'visible') {
-          return true;
-        }
-
-        if (workspace.visibility === 'hidden') {
-          return hasExplicitAccess;
-        }
-
-        return false;
-      });
-    }
-
-    return [];
-  }, [workspaces, activeAccount, organizations, user]);
-
   const organizationsArray = Object.values(organizations);
   const activeOrg = activeAccount?.type === 'organization' ? organizations[activeAccount.id] : null;
   const activeOrgMembers = activeOrg?.members ?? [];
@@ -122,7 +72,7 @@ export function HeaderPage() {
         isOpen={isSearchOpen}
         onOpenChange={setIsSearchOpen}
         organizations={organizationsArray}
-        workspaces={visibleWorkspaces}
+        spaces={visibleSpaces}
         members={activeOrgMembers}
         activeOrgId={activeOrg?.id || null}
         onSwitchOrg={handleSwitchOrg}

@@ -19,7 +19,7 @@ function useSpace() {
  * @description Encapsulates data filtering logic for the space-specific
  * schedule, keeping the entry component clean and focused on state and actions.
  */
-export function useWorkspaceSchedule() {
+export function useSpaceSchedule() {
   const { space } = useSpace() as any;
   const { state: appState } = useApp();
   const { state: accountState } = useAccount();
@@ -34,7 +34,7 @@ export function useWorkspaceSchedule() {
   const orgMembers = useMemo(() => activeOrg?.members || [], [activeOrg]);
 
   const localItems = useMemo(() => 
-    Object.values(schedule_items || {}).filter((item: any) => item.workspaceId === space.id),
+    Object.values(schedule_items || {}).filter((item: any) => item.spaceId === space.id),
     [schedule_items, space.id]
   );
   
