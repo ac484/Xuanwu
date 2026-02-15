@@ -3,6 +3,6 @@
 
 import { createContext } from "react";
 
-import { WorkspaceEventBus } from "@/features/workspaces/_events/workspace-event-bus";
+import { SpaceEventBus } from "@/features/spaces/_events/space-event-bus";
 
-export const EventBusContext = createContext<WorkspaceEventBus | null>(null);
+export const EventBusContext = createContext<SpaceEventBus | null>(null);

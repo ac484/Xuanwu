@@ -26,20 +26,20 @@ export const deleteOrganization = repositories.deleteOrganization;
 
 
 // ==================================================================
-// == Workspace Aggregate Exports
+// == Space Aggregate Exports
 // ==================================================================
 
-export const createWorkspace = repositories.createWorkspace;
-export const authorizeWorkspaceTeam = repositories.authorizeWorkspaceTeam;
-export const revokeWorkspaceTeam = repositories.revokeWorkspaceTeam;
-export const grantIndividualWorkspaceAccess =
-  repositories.grantIndividualWorkspaceAccess;
-export const revokeIndividualWorkspaceAccess =
-  repositories.revokeIndividualWorkspaceAccess;
+export const createSpace = repositories.createSpace;
+export const authorizeSpaceTeam = repositories.authorizeSpaceTeam;
+export const revokeSpaceTeam = repositories.revokeSpaceTeam;
+export const grantIndividualSpaceAccess =
+  repositories.grantIndividualSpaceAccess;
+export const revokeIndividualSpaceAccess =
+  repositories.revokeIndividualSpaceAccess;
 export const mountCapabilities = repositories.mountCapabilities;
 export const unmountCapability = repositories.unmountCapability;
-export const updateWorkspaceSettings = repositories.updateWorkspaceSettings;
-export const deleteWorkspace = repositories.deleteWorkspace;
+export const updateSpaceSettings = repositories.updateSpaceSettings;
+export const deleteSpace = repositories.deleteSpace;
 
 // ==================================================================
 // == User Aggregate Exports
@@ -48,7 +48,7 @@ export const getUserProfile = repositories.getUserProfile;
 export const updateUserProfile = repositories.updateUserProfile;
 
 // ==================================================================
-// == Workspace Sub-Collection Exports
+// == Space Sub-Collection Exports
 // ==================================================================
 
 // Issues

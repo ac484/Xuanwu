@@ -11,17 +11,17 @@ import { uploadFile } from './storage.write.adapter';
 /**
  * Uploads a photo for a daily log entry to a structured path and returns its public URL.
  * @param orgId The ID of the organization.
- * @param workspaceId The ID of the workspace.
+ * @param spaceId The ID of the space.
  * @param file The File object to upload.
  * @returns A promise that resolves with the public download URL of the uploaded file.
  */
 export const uploadDailyPhoto = async (
   orgId: string,
-  workspaceId: string,
+  spaceId: string,
   file: File
 ): Promise<string> => {
   const fileId = Math.random().toString(36).substring(2, 11);
-  const storagePath = `daily-photos/${orgId}/${workspaceId}/${fileId}/${file.name}`;
+  const storagePath = `daily-photos/${orgId}/${spaceId}/${fileId}/${file.name}`;
 
   await uploadFile(storagePath, file);
 
@@ -30,17 +30,17 @@ export const uploadDailyPhoto = async (
 
 
 /**
- * Uploads a file as an attachment for a workspace task.
- * @param workspaceId The ID of the workspace where the task resides.
+ * Uploads a file as an attachment for a space task.
+ * @param spaceId The ID of the space where the task resides.
  * @param file The file to be uploaded.
  * @returns A promise that resolves with the public download URL of the uploaded file.
  */
 export const uploadTaskAttachment = async (
-  workspaceId: string,
+  spaceId: string,
   file: File
 ): Promise<string> => {
   const fileId = Math.random().toString(36).substring(2, 11);
-  const storagePath = `task-attachments/${workspaceId}/${fileId}/${file.name}`;
+  const storagePath = `task-attachments/${spaceId}/${fileId}/${file.name}`;
 
   await uploadFile(storagePath, file);
 
