@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 
-import { Handshake, Plus, FolderTree, ArrowRight, Globe, AlertCircle } from "lucide-react";
+import { Users, Plus, FolderTree, ArrowRight, Globe, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/app/_components/ui/badge";
@@ -126,7 +126,7 @@ export function PartnersPage() {
           onClick={() => setIsCreateOpen(true)}
         >
           <div className="p-4 rounded-full bg-muted/10 group-hover:bg-accent/10 transition-colors">
-            <Handshake className="w-10 h-10 text-muted-foreground group-hover:text-accent transition-colors opacity-30" />
+            <Users className="w-10 h-10 text-muted-foreground group-hover:text-accent transition-colors opacity-30" />
           </div>
           <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-4">{t('account.createCollaborationBoundary')}</p>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useI18n } from "@/features/core/i18n/i18n-context";
 
 import { Button } from "@/app/_components/ui/button";
 import {
@@ -27,45 +27,45 @@ interface DangerZoneCardProps {
 }
 
 export function DangerZoneCard({ onDelete }: DangerZoneCardProps) {
-  const t = useTranslations("SettingsPage");
+  const { t } = useI18n();
 
   return (
     <Card className="border-destructive">
       <CardHeader>
-        <CardTitle>{t("dangerZone.title")}</CardTitle>
-        <CardDescription>{t("dangerZone.description")}</CardDescription>
+        <CardTitle>{t("settings.dangerZone")}</CardTitle>
+        <CardDescription>{t("settings.destroyDimensionDescription")}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex justify-between items-start p-4 border border-destructive rounded-lg">
           <div>
             <h3 className="font-semibold">
-              {t("dangerZone.deleteOrganization.label")}
+              {t("settings.destroyDimension")}
             </h3>
             <p className="text-sm text-muted-foreground">
-              {t("dangerZone.deleteOrganization.description")}
+              {t("settings.destroyDimensionDescription")}
             </p>
           </div>
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="destructive">
-                {t("dangerZone.deleteOrganization.button")}
+                {t("settings.destroy")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  {t("dangerZone.deleteOrganization.dialog.title")}
+                  {t("settings.destroyDimension")}
                 </DialogTitle>
                 <DialogDescription>
-                  {t("dangerZone.deleteOrganization.dialog.description")}
+                  {t("settings.confirmDestroy")}
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
+                  <Button variant="outline">{t("common.cancel")}</Button>
                 </DialogClose>
                 <Button variant="destructive" onClick={onDelete}>
-                  {t("dangerZone.deleteOrganization.dialog.confirm")}
+                  {t("settings.destroy")}
                 </Button>
               </DialogFooter>
             </DialogContent>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -7,7 +8,7 @@ import {
   Settings2,
   Trash2,
   CalendarPlus,
-  ClipboardPlus,
+  ClipboardCheck,
   Send,
   MapPin,
 } from 'lucide-react';
@@ -204,7 +205,7 @@ export function TaskItem({
                 className="h-7 w-7 rounded-lg text-primary"
                 onClick={() => onReportProgress(node)}
               >
-                <ClipboardPlus className="w-3.5 h-3.5" />
+                <ClipboardCheck className="w-3.5 h-3.5" />
               </Button>
             )}
              <Button

@@ -76,7 +76,7 @@ export function MembersPage() {
       await dismissMember(member);
       toast({
         title: t("account.identityDeregistered"),
-        description: t("account.memberRemoved", { name: member.name }),
+        description: t("account.memberRemoved").replace('{name}', member.name),
         variant: "destructive",
       });
     } catch (error: unknown) {
@@ -94,8 +94,8 @@ export function MembersPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-500 pb-20">
       <PageHeader
-        title={t("account.membersTitle)}
-        description={t("account.membersDescription", { name: activeOrg.name })}
+        title={t("account.membersTitle")}
+        description={t("account.membersDescription").replace('{name}', activeOrg.name)}
       >
         <Button
           className="flex items-center gap-2 font-bold uppercase text-[11px] tracking-widest h-10 px-6 shadow-lg shadow-primary/20"
