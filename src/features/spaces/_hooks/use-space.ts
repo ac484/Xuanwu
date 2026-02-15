@@ -12,3 +12,7 @@ export function useSpace() {
   }
   return context;
 }
+
+export function useOptionalSpace() {
+  return useContext(SpaceContext);
+}

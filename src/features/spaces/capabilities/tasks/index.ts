@@ -1,1 +1,1 @@
-export { default as WorkspaceTasks } from './entry';
+export { default as SpaceTasks } from './entry';

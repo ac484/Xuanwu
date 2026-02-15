@@ -3,11 +3,13 @@
 
 import { ReactNode } from "react";
 
-import { SpaceLayout } from "@/features/spaces";
+import { SpaceContextShell, SpaceLayout } from "@/features/spaces";
 
 /**
- * SpaceLayout - The main layout component.
- * Its sole responsibility is to provide the SpaceContextShell and a Suspense boundary for page transitions.
+ * This is the root layout for a specific space.
+ * Its primary responsibility is to wrap the content with the SpaceContextShell,
+ * which provides the necessary context for all child components within this space.
+ * It then uses SpaceLayout for the consistent visual structure.
  */
 export default function Layout({
   children,
@@ -17,8 +19,10 @@ export default function Layout({
   params: { spaceId: string };
 }) {
   return (
-    <SpaceLayout spaceId={params.spaceId}>
+    <SpaceContextShell spaceId={params.spaceId}>
+      <SpaceLayout>
         {children}
-    </SpaceLayout>
+      </SpaceLayout>
+    </SpaceContextShell>
   );
 }

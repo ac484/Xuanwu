@@ -42,7 +42,7 @@ import {
   SelectValue,
 } from '@/app/_components/ui/select';
 import { Textarea } from '@/app/_components/ui/textarea';
-import { WorkspaceContext } from '@/features/workspaces/_context/workspace-context';
+import { SpaceContext } from '@/features/spaces/_context/space-context';
 import { toast } from '@/hooks/ui/use-toast';
 import { WorkspaceTask, Location } from '@/types/domain';
 
@@ -55,16 +55,16 @@ import { TaskWithChildren } from './_types/types';
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
-function useWorkspace() {
-  const context = useContext(WorkspaceContext);
+function useSpace() {
+  const context = useContext(SpaceContext);
   if (!context) {
-    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+    throw new Error("useSpace must be used within a SpaceProvider");
   }
   return context;
 }
 
-export default function WorkspaceTasks() {
-  const { state: workspace, logAuditEvent, eventBus, createTask, updateTask, deleteTask } = useWorkspace() as any;
+export default function SpaceTasks() {
+  const { state: space, logAuditEvent, eventBus, createTask, updateTask, deleteTask } = useSpace() as any;
   const { uploadTaskAttachment } = useTaskUpload();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -82,10 +82,10 @@ export default function WorkspaceTasks() {
 
   const tasks = useMemo(
     () =>
-      Object.values(workspace.tasks || {}).sort(
+      Object.values(space.tasks || {}).sort(
         (a: any, b: any) => (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
       ),
-    [workspace.tasks]
+    [space.tasks]
   );
 
   const tree = useTaskTree(tasks);
@@ -214,7 +214,7 @@ export default function WorkspaceTasks() {
     const updates = { progressState: 'completed' as const };
     try {
       await updateTask(task.id, updates);
-      eventBus.publish('workspace:tasks:completed', { task: { ...task, ...updates } });
+      eventBus.publish('space:tasks:completed', { task: { ...task, ...updates } });
       logAuditEvent('Submitted for QA', task.name, 'update');
       toast({
         title: 'Task Submitted for QA',
@@ -237,7 +237,7 @@ export default function WorkspaceTasks() {
   }, [deleteTask]);
   
   const handleScheduleRequest = useCallback((task: WorkspaceTask) => {
-    eventBus.publish('workspace:tasks:scheduleRequested', { taskName: task.name! });
+    eventBus.publish('space:tasks:scheduleRequested', { taskName: task.name! });
     toast({ title: 'Schedule Request Sent', description: `"${task.name}" was sent to the Schedule capability.` });
   }, [eventBus]);
 

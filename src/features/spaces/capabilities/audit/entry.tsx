@@ -1,6 +1,6 @@
 "use client";
-import { WorkspaceAuditPage } from './components/workspace-audit-page';
+import { SpaceAuditPage } from './components/space-audit-page';
 
 export default function AuditCapabilityEntry() {
-  return <WorkspaceAuditPage />;
+  return <SpaceAuditPage />;
 }

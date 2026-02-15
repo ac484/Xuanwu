@@ -5,8 +5,7 @@ import { useState, useMemo } from "react";
 import { AlertCircle, MessageSquare } from "lucide-react";
 
 import { useAuth } from "@/context/auth-context";
-import { useOptionalWorkspace, WorkspaceContextShell } from "@/features/workspaces";
-import { useLogger } from "@/features/workspaces";
+import { useLogger, useOptionalSpace, SpaceContextShell } from "@/features/spaces";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
@@ -39,24 +38,24 @@ export function DailyView({ viewMode }: DailyViewProps) {
   const { logs: aggregatedLogs } = useAggregatedLogs();
 
   // Workspace View specific hooks and data
-  const workspaceContext = useOptionalWorkspace();
+  const spaceContext = useOptionalSpace();
   const accountState = useAccount();
   
   const [content, setContent] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
 
-  const { isUploading, upload } = workspaceContext ? useDailyUpload() : { isUploading: false, upload: async () => [] };
-  const { logDaily } = workspaceContext ? useLogger(workspaceContext.workspace.id, workspaceContext.workspace.name) : { logDaily: async () => {} };
+  const { isUploading, upload } = spaceContext ? useDailyUpload() : { isUploading: false, upload: async () => [] };
+  const { logDaily } = spaceContext ? useLogger(spaceContext.state.space.id, spaceContext.state.space.name) : { logDaily: async () => {} };
 
   const localLogs = useMemo(() => {
-    if (!workspaceContext) return [];
+    if (!spaceContext) return [];
     return Object.values(accountState.state.dailyLogs as Record<string, DailyLog>)
-        .filter(log => log.workspaceId === workspaceContext.workspace.id)
+        .filter(log => log.spaceId === spaceContext.state.space.id)
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-  }, [accountState.state.dailyLogs, workspaceContext?.workspace.id]);
+  }, [accountState.state.dailyLogs, spaceContext]);
 
   const handlePost = async () => {
-    if (!workspaceContext || (!content.trim() && photos.length === 0)) return;
+    if (!spaceContext || (!content.trim() && photos.length === 0)) return;
     if (!user) {
         toast({ variant: "destructive", title: "Authentication Error", description: "You must be logged in to post."});
         return;
@@ -112,14 +111,14 @@ export function DailyView({ viewMode }: DailyViewProps) {
             </div>
           )}
           {selectedLog && (
-            <WorkspaceContextShell workspaceId={selectedLog.workspaceId}>
+            <SpaceContextShell spaceId={selectedLog.spaceId}>
                 <DailyLogDialog
                     log={selectedLog}
                     currentUser={user}
                     isOpen={!!selectedLog}
                     onOpenChange={(open) => !open && setSelectedLog(null)}
                 />
-            </WorkspaceContextShell>
+            </SpaceContextShell>
           )}
         </>
       );

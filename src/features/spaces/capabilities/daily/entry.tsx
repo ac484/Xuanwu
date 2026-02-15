@@ -1,7 +1,7 @@
 "use client";
 
-import { WorkspaceDailyPage } from ".";
+import { SpaceDailyPage } from ".";
 
-export default function WorkspaceDailyEntry() {
-  return <WorkspaceDailyPage />;
+export default function SpaceDailyEntry() {
+  return <SpaceDailyPage />;
 }

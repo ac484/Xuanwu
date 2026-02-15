@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { useOptionalWorkspace } from "@/features/workspaces";
+import { useOptionalSpace } from "@/features/spaces";
 import { toast } from "@/hooks/ui/use-toast";
 import { DailyLog } from "@/types/domain";
 
@@ -20,10 +20,10 @@ interface ShareButtonProps {
 }
 
 export function ShareButton({ log }: ShareButtonProps) {
-  const workspaceContext = useOptionalWorkspace();
+  const spaceContext = useOptionalSpace();
 
   const handleForward = (target: "tasks") => {
-    if (!workspaceContext) {
+    if (!spaceContext) {
         toast({
             variant: "destructive",
             title: "Action Not Available",
@@ -32,7 +32,7 @@ export function ShareButton({ log }: ShareButtonProps) {
         return;
     }
 
-    workspaceContext.eventBus.publish("daily:log:forwardRequested", {
+    spaceContext.eventBus.publish("daily:log:forwardRequested", {
       log: log,
       targetCapability: target,
       action: "create",
@@ -44,7 +44,7 @@ export function ShareButton({ log }: ShareButtonProps) {
     });
   };
 
-  if (!workspaceContext) {
+  if (!spaceContext) {
     return null; 
   }
 

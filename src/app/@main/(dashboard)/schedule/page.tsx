@@ -1,6 +1,6 @@
 "use client";
 
-import { OrganizationSchedulePage } from "@/features/workspaces/capabilities/schedule";
+import { OrganizationSchedulePage } from "@/features/spaces/capabilities/schedule";
 
 /**
  * @fileoverview Organization Schedule Route

@@ -19,7 +19,7 @@ import { useWorkspaceScheduleActions } from "../_hooks/use-workspace-schedule-ac
  * cohesive, self-contained `UnifiedScheduleView` component, instructing it to 
  * run in "workspace" mode. It only fetches data relevant to its context.
  */
-export function WorkspaceSchedulePage() {
+export function SpaceSchedulePage() {
   const { localItems, orgMembers } = useWorkspaceSchedule();
   const { assignMember, unassignMember } = useWorkspaceScheduleActions();
 

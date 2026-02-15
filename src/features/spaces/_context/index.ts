@@ -1,2 +1,2 @@
 export * from './event-bus-context';
-export * from './workspace-context';
+export * from './space-context';

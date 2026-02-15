@@ -2,6 +2,6 @@
 
 import { SpaceSchedulePage } from ".";
 
-export default function WorkspaceScheduleEntry() {
+export default function SpaceScheduleEntry() {
   return <SpaceSchedulePage />;
 }

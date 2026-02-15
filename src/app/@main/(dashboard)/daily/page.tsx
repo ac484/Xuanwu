@@ -1,6 +1,6 @@
 "use client";
 
-import { OrganizationDailyPage } from "@/features/workspaces/capabilities/daily";
+import { OrganizationDailyPage } from "@/features/spaces/capabilities/daily";
 
 function PageHeader({ title, description }: { title: string; description?: string; }) {
   return (
