@@ -23,7 +23,7 @@ const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
 interface DailyViewProps {
-  viewMode: 'organization' | 'workspace';
+  viewMode: 'organization' | 'space';
 }
 
 export function DailyView({ viewMode }: DailyViewProps) {
@@ -37,7 +37,7 @@ export function DailyView({ viewMode }: DailyViewProps) {
   const { activeAccount } = appState;
   const { logs: aggregatedLogs } = useAggregatedLogs();
 
-  // Workspace View specific hooks and data
+  // Space View specific hooks and data
   const spaceContext = useOptionalSpace();
   const accountState = useAccount();
   
@@ -124,7 +124,7 @@ export function DailyView({ viewMode }: DailyViewProps) {
       );
   }
 
-  // Workspace View
+  // Space View
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in duration-500">
       <DailyLogComposer

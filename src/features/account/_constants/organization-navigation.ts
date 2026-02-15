@@ -23,7 +23,7 @@ export const GOVERNANCE_NAV_ITEMS = [
 /**
  * AGGREGATED_CAPABILITY_NAV_ITEMS
  * 定義了那些雖然是獨立能力，但在組織層級具有聚合視圖的導航項目。
- * 這些項目在功能上跨越多個工作區。
+ * 這些項目在功能上跨越多個空間。
  */
 export const AGGREGATED_CAPABILITY_NAV_ITEMS = [
   { path: "/schedule", icon: Calendar, translationKey: 'navigation.schedule' },
