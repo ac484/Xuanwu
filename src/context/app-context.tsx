@@ -2,10 +2,11 @@
 
 import React, { createContext, useReducer, useEffect, ReactNode, useMemo } from 'react';
 
-import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
+import { onSnapshot, QuerySnapshot } from "firebase/firestore";
 
 import { useFirebase } from "@/context/firebase-context";
 import { Organization, CapabilitySpec, Notification, SwitchableAccount, User } from '@/types/domain';
+import * as accountService from '@/features/account/services/account.service';
 
 import { useAuth } from './auth-context';
 
@@ -134,7 +135,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     let unsubscribe: (() => void) | null = null;
 
     if (user?.id && db) {
-      const orgQuery = query(collection(db, "organizations"), where("memberIds", "array-contains", user.id));
+      const orgQuery = accountService.getOrganizationsQuery(user.id);
       unsubscribe = onSnapshot(orgQuery, (snap) => dispatch({ type: 'SET_ORGANIZATIONS', payload: { snapshot: snap, user } }));
     } else {
       dispatch({ type: 'RESET_STATE' });

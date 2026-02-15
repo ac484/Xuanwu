@@ -1,10 +1,9 @@
-// [職責] 封裝所有的 Mutation (Create, Delete 呼叫)
 "use client";
 
 import {
-  createSpace as createSpaceFacade,
-  deleteSpace as deleteSpaceFacade,
-} from "@/features/core/firebase/firestore/firestore.facade";
+  createSpace,
+  deleteSpace,
+} from "@/features/spaces/services/space.service";
 import { toast } from "@/hooks/ui/use-toast";
 import type { SwitchableAccount } from "@/types/domain";
 
@@ -27,7 +26,7 @@ export const handleCreateSpace = async (
   }
 
   try {
-    await createSpaceFacade(name, activeAccount);
+    await createSpace(name, activeAccount);
     toast({
       title: t("spaces.logicalSpaceCreated"),
       description: t("spaces.spaceSynchronized").replace("{name}", name),
@@ -49,7 +48,7 @@ export const handleDeleteSpace = async (
   onSuccess: () => void
 ) => {
   try {
-    await deleteSpaceFacade(spaceId);
+    await deleteSpace(spaceId);
     toast({ title: "Space node destroyed" });
     onSuccess();
   } catch (error: unknown) {

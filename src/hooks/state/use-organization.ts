@@ -4,16 +4,16 @@ import { useCallback } from 'react';
 
 import { useAuth } from '@/context/auth-context';
 import {
-  createOrganization as createOrganizationFacade,
+  createOrganization,
   recruitOrganizationMember,
   dismissOrganizationMember,
-  createTeam as createTeamFacade,
-  updateTeamMembers as updateTeamMembersFacade,
-  sendPartnerInvite as sendPartnerInviteFacade,
-  dismissPartnerMember as dismissPartnerMemberFacade,
-  updateOrganizationSettings as updateOrganizationSettingsFacade,
-  deleteOrganization as deleteOrganizationFacade,
-} from '@/features/core/firebase/firestore/firestore.facade';
+  createTeam,
+  updateTeamMembers,
+  sendPartnerInvite,
+  dismissPartnerMember,
+  updateOrganizationSettings,
+  deleteOrganization,
+} from '@/features/account/services/account.service';
 import type { MemberReference, User, ThemeConfig } from '@/types/domain';
 
 import { useApp } from './use-app';
@@ -33,9 +33,9 @@ export function useOrganization() {
 
   const orgId = activeAccount?.type === 'organization' ? activeAccount.id : null;
 
-  const createOrganization = useCallback(async (orgName: string) => {
+  const createOrganizationFn = useCallback(async (orgName: string) => {
     if (!user) throw new Error("User must be authenticated to create an organization.");
-    return createOrganizationFacade(orgName, user);
+    return createOrganization(orgName, user);
   }, [user]);
 
   const recruitMember = useCallback(async (newId: string, name: string, email: string) => {
@@ -48,45 +48,45 @@ export function useOrganization() {
       return dismissOrganizationMember(orgId, member);
     }, [orgId]);
 
-  const createTeam = useCallback(async (teamName: string, type: 'internal' | 'external') => {
+  const createTeamFn = useCallback(async (teamName: string, type: 'internal' | 'external') => {
       if (!orgId) throw new Error('No active organization selected');
-      return createTeamFacade(orgId, teamName, type);
+      return createTeam(orgId, teamName, type);
     }, [orgId]);
 
-  const updateTeamMembers = useCallback(async (teamId: string, memberId: string, action: 'add' | 'remove') => {
+  const updateTeamMembersFn = useCallback(async (teamId: string, memberId: string, action: 'add' | 'remove') => {
       if (!orgId) throw new Error('No active organization selected');
-      return updateTeamMembersFacade(orgId, teamId, memberId, action);
+      return updateTeamMembers(orgId, teamId, memberId, action);
     }, [orgId]);
   
-  const sendPartnerInvite = useCallback(async (teamId: string, email: string) => {
+  const sendPartnerInviteFn = useCallback(async (teamId: string, email: string) => {
       if (!orgId) throw new Error('No active organization selected');
-      return sendPartnerInviteFacade(orgId, teamId, email);
+      return sendPartnerInvite(orgId, teamId, email);
     }, [orgId]);
 
-  const dismissPartnerMember = useCallback(async (teamId: string, member: MemberReference) => {
+  const dismissPartnerMemberFn = useCallback(async (teamId: string, member: MemberReference) => {
       if (!orgId) throw new Error('No active organization selected');
-      return dismissPartnerMemberFacade(orgId, teamId, member);
+      return dismissPartnerMember(orgId, teamId, member);
     }, [orgId]);
     
-  const updateOrganizationSettings = useCallback(async (settings: { name?: string; description?: string; theme?: ThemeConfig | null; }) => {
+  const updateOrganizationSettingsFn = useCallback(async (settings: { name?: string; description?: string; theme?: ThemeConfig | null; }) => {
       if (!orgId) throw new Error('No active organization selected');
-      return updateOrganizationSettingsFacade(orgId, settings);
+      return updateOrganizationSettings(orgId, settings);
     }, [orgId]);
     
-  const deleteOrganization = useCallback(async () => {
+  const deleteOrganizationFn = useCallback(async () => {
       if (!orgId) throw new Error('No active organization selected');
-      return deleteOrganizationFacade(orgId);
+      return deleteOrganization(orgId);
     }, [orgId]);
 
   return {
-    createOrganization,
+    createOrganization: createOrganizationFn,
     recruitMember,
     dismissMember,
-    createTeam,
-    updateTeamMembers,
-    sendPartnerInvite,
-    dismissPartnerMember,
-    updateOrganizationSettings,
-    deleteOrganization,
+    createTeam: createTeamFn,
+    updateTeamMembers: updateTeamMembersFn,
+    sendPartnerInvite: sendPartnerInviteFn,
+    dismissPartnerMember: dismissPartnerMemberFn,
+    updateOrganizationSettings: updateOrganizationSettingsFn,
+    deleteOrganization: deleteOrganizationFn,
   };
 }

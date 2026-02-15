@@ -3,31 +3,31 @@
 import { useCallback } from 'react';
 
 import {
-  createTask as createTaskFacade,
-  updateTask as updateTaskFacade,
-  deleteTask as deleteTaskFacade,
-  authorizeSpaceTeam as authorizeSpaceTeamFacade,
-  revokeSpaceTeam as revokeSpaceTeamFacade,
-  grantIndividualSpaceAccess as grantIndividualSpaceAccessFacade,
-  revokeIndividualSpaceAccess as revokeIndividualSpaceAccessFacade,
-  mountCapabilities as mountCapabilitiesFacade,
-  unmountCapability as unmountCapabilityFacade,
-  updateSpaceSettings as updateSpaceSettingsFacade,
-  deleteSpace as deleteSpaceFacade,
-  createIssue as createIssueFacade,
-  addCommentToIssue as addCommentToIssueFacade,
-  createScheduleItem as createScheduleItemFacade,
-} from '@/features/core/firebase/firestore/firestore.facade';
+  createTask,
+  updateTask,
+  deleteTask,
+  authorizeSpaceTeam,
+  revokeSpaceTeam,
+  grantIndividualSpaceAccess,
+  revokeIndividualSpaceAccess,
+  mountCapabilities,
+  unmountCapability,
+  updateSpaceSettings,
+  deleteSpace,
+  createIssue,
+  addCommentToIssue,
+} from '@/features/spaces/services/space.service';
+import { createScheduleItem } from '@/features/account/services/account.service';
 import { useLogger } from '@/features/spaces/_hooks/shell/use-logger';
-import { 
-  Space, 
-  SpaceTask, 
-  SpaceRole, 
-  Capability, 
-  SpaceLifecycleState, 
-  Address, 
-  ScheduleItem 
-} from '@/types/domain';
+import {
+  Space,
+  SpaceTask,
+  SpaceRole,
+  Capability,
+  SpaceLifecycleState,
+  Address,
+  ScheduleItem
+} from '@/types/space';
 
 interface UseSpaceActionsProps {
   spaceId: string;
@@ -42,55 +42,68 @@ export const useSpaceActions = ({ spaceId, spaceName }: UseSpaceActionsProps) =>
   }, [logAudit]);
 
   // Task specific actions
-  const createTask = useCallback(async (task: Omit<SpaceTask, 'id' | 'createdAt' | 'updatedAt'>) => 
-    createTaskFacade(spaceId, task), [spaceId]);
+  const createTaskAction = useCallback(async (task: Omit<SpaceTask, 'id' | 'createdAt' | 'updatedAt'>) => 
+    createTask(spaceId, task), [spaceId]);
 
-  const updateTask = useCallback(async (taskId: string, updates: Partial<SpaceTask>) => 
-    updateTaskFacade(spaceId, taskId, updates), [spaceId]);
+  const updateTaskAction = useCallback(async (taskId: string, updates: Partial<SpaceTask>) => 
+    updateTask(spaceId, taskId, updates), [spaceId]);
 
-  const deleteTask = useCallback(async (taskId: string) => 
-    deleteTaskFacade(spaceId, taskId), [spaceId]);
+  const deleteTaskAction = useCallback(async (taskId: string) => 
+    deleteTask(spaceId, taskId), [spaceId]);
 
   // Member management actions
-  const authorizeSpaceTeam = useCallback(async (teamId: string) => 
-    authorizeSpaceTeamFacade(spaceId, teamId), [spaceId]);
+  const authorizeSpaceTeamAction = useCallback(async (teamId: string) => 
+    authorizeSpaceTeam(spaceId, teamId), [spaceId]);
 
-  const revokeSpaceTeam = useCallback(async (teamId: string) => 
-    revokeSpaceTeamFacade(spaceId, teamId), [spaceId]);
+  const revokeSpaceTeamAction = useCallback(async (teamId: string) => 
+    revokeSpaceTeam(spaceId, teamId), [spaceId]);
 
-  const grantIndividualSpaceAccess = useCallback(async (userId: string, role: SpaceRole, protocol?: string) => 
-    grantIndividualSpaceAccessFacade(spaceId, userId, role, protocol), [spaceId]);
+  const grantIndividualSpaceAccessAction = useCallback(async (userId: string, role: SpaceRole, protocol?: string) => 
+    grantIndividualSpaceAccess(spaceId, userId, role, protocol), [spaceId]);
 
-  const revokeIndividualSpaceAccess = useCallback(async (grantId: string) => 
-    revokeIndividualSpaceAccessFacade(spaceId, grantId), [spaceId]);
+  const revokeIndividualSpaceAccessAction = useCallback(async (grantId: string) => 
+    revokeIndividualSpaceAccess(spaceId, grantId), [spaceId]);
 
   // Capability management
-  const mountCapabilities = useCallback(async (capabilities: Capability[]) => 
-    mountCapabilitiesFacade(spaceId, capabilities), [spaceId]);
+  const mountCapabilitiesAction = useCallback(async (capabilities: Capability[]) => 
+    mountCapabilities(spaceId, capabilities), [spaceId]);
 
-  const unmountCapability = useCallback(async (capability: Capability) => 
-    unmountCapabilityFacade(spaceId, capability), [spaceId]);
+  const unmountCapabilityAction = useCallback(async (capability: Capability) => 
+    unmountCapability(spaceId, capability), [spaceId]);
 
   // Space settings
-  const updateSpaceSettings = useCallback(async (settings: { name: string; visibility: 'visible' | 'hidden'; lifecycleState: SpaceLifecycleState, address: Address }) => 
-    updateSpaceSettingsFacade(spaceId, settings), [spaceId]);
+  const updateSpaceSettingsAction = useCallback(async (settings: { name: string; visibility: 'visible' | 'hidden'; lifecycleState: SpaceLifecycleState, address: Address }) => 
+    updateSpaceSettings(spaceId, settings), [spaceId]);
 
-  const deleteSpace = useCallback(async () => 
-    deleteSpaceFacade(spaceId), [spaceId]);
+  const deleteSpaceAction = useCallback(async () => 
+    deleteSpace(spaceId), [spaceId]);
 
   // Issue Management
-  const createIssue = useCallback(async (title: string, type: 'technical' | 'financial', priority: 'high' | 'medium') => 
-    createIssueFacade(spaceId, title, type, priority), [spaceId]);
+  const createIssueAction = useCallback(async (title: string, type: 'technical' | 'financial', priority: 'high' | 'medium') => 
+    createIssue(spaceId, title, type, priority), [spaceId]);
 
-  const addCommentToIssue = useCallback(async (issueId: string, author: string, content: string) => 
-    addCommentToIssueFacade(spaceId, issueId, author, content), [spaceId]);
+  const addCommentToIssueAction = useCallback(async (issueId: string, author: string, content: string) => 
+    addCommentToIssue(spaceId, issueId, author, content), [spaceId]);
 
   // Schedule Management
-  const createScheduleItem = useCallback(async (itemData: Omit<ScheduleItem, 'id' | 'createdAt'>) => 
-    createScheduleItemFacade(itemData), []);
+  const createScheduleItemAction = useCallback(async (itemData: Omit<ScheduleItem, 'id' | 'createdAt'>) => 
+    createScheduleItem(itemData), []);
 
   return {
     logAuditEvent,
-    createTask,
+    createTask: createTaskAction,
+    updateTask: updateTaskAction,
+    deleteTask: deleteTaskAction,
+    authorizeSpaceTeam: authorizeSpaceTeamAction,
+    revokeSpaceTeam: revokeSpaceTeamAction,
+    grantIndividualSpaceAccess: grantIndividualSpaceAccessAction,
+    revokeIndividualSpaceAccess: revokeIndividualSpaceAccessAction,
+    mountCapabilities: mountCapabilitiesAction,
+    unmountCapability: unmountCapabilityAction,
+    updateSpaceSettings: updateSpaceSettingsAction,
+    deleteSpace: deleteSpaceAction,
+    createIssue: createIssueAction,
+    addCommentToIssue: addCommentToIssueAction,
+    createScheduleItem: createScheduleItemAction,
   };
 };

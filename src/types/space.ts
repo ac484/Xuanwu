@@ -72,6 +72,13 @@ export interface SpaceIssue {
   comments?: any[]; // IssueComment
 }
 
+export interface IssueComment {
+    id: string;
+    author: string;
+    content: string;
+    createdAt: any;
+}
+
 // File Management
 export interface SpaceFileVersion {
   versionId: string;

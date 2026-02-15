@@ -12,13 +12,15 @@ import {
   arrayRemove,
   doc,
   getDoc,
+  query,
+  collection,
+  where,
 } from 'firebase/firestore';
 
 import type {
   SwitchableAccount,
   Capability,
   Address,
-  IssueComment,
 } from '@/types/domain';
 import type {
   Space,
@@ -27,14 +29,15 @@ import type {
   SpaceIssue,
   SpaceTask,
   SpaceLifecycleState,
+  IssueComment,
 } from '@/types/space';
 
-import { db } from '../firestore.client';
+import { db } from '@/features/core/firebase/firestore/firestore.client';
 import {
   updateDocument,
   addDocument,
   deleteDocument,
-} from '../firestore.write.adapter';
+} from '@/features/core/firebase/firestore/firestore.write.adapter';
 
 /**
  * Creates a new space with default values, based on the active account context.
@@ -42,6 +45,11 @@ import {
  * @param account The active account (user or organization) creating the space.
  * @returns The ID of the newly created space.
  */
+
+export const getSpacesQuery = (accountId: string) => {
+    return query(collection(db, "spaces"), where("dimensionId", "==", accountId));
+}
+
 export const createSpace = async (
   name: string,
   account: SwitchableAccount

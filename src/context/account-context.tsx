@@ -2,12 +2,14 @@
 
 import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
 
-import { collection, query, where, onSnapshot, QuerySnapshot, orderBy, limit } from "firebase/firestore";
+import { onSnapshot, QuerySnapshot } from "firebase/firestore";
 
 import { useFirebase } from "@/context/firebase-context";
 import { useApp } from '@/hooks/state/use-app';
 import { DailyLog, AuditLog, PartnerInvite, ScheduleItem } from '@/types/domain';
 import { Space } from '@/types/space';
+import * as accountService from '@/features/account/services/account.service';
+import * as spaceService from '@/features/spaces/services/space.service';
 
 // State and Action Types
 interface AccountState {
@@ -110,20 +112,20 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
         const unsubs: (() => void)[] = [];
 
         if (activeAccount.type === 'organization') {
-            const dailyLogsQuery = query(collection(db, "organizations", activeAccount.id, "dailyLogs"), orderBy("recordedAt", "desc"), limit(50));
+            const dailyLogsQuery = accountService.getDailyLogsQuery(activeAccount.id);
             unsubs.push(onSnapshot(dailyLogsQuery, (snap) => dispatch({ type: 'SET_DAILY_LOGS', payload: snap })));
 
-            const auditLogsQuery = query(collection(db, "organizations", activeAccount.id, "auditLogs"), orderBy("recordedAt", "desc"), limit(50));
+            const auditLogsQuery = accountService.getAuditLogsQuery(activeAccount.id);
             unsubs.push(onSnapshot(auditLogsQuery, (snap) => dispatch({ type: 'SET_AUDIT_LOGS', payload: snap })));
             
-            const invitesQuery = query(collection(db, "organizations", activeAccount.id, "invites"), orderBy("invitedAt", "desc"));
+            const invitesQuery = accountService.getInvitesQuery(activeAccount.id);
             unsubs.push(onSnapshot(invitesQuery, (snap) => dispatch({ type: 'SET_INVITES', payload: snap })));
 
-            const scheduleQuery = query(collection(db, "organizations", activeAccount.id, "schedule_items"), orderBy("createdAt", "desc"));
+            const scheduleQuery = accountService.getScheduleItemsQuery(activeAccount.id);
             unsubs.push(onSnapshot(scheduleQuery, (snap) => dispatch({ type: 'SET_SCHEDULE_ITEMS', payload: snap })));
         }
         
-        const spQuery = query(collection(db, "spaces"), where("dimensionId", "==", activeAccount.id));
+        const spQuery = spaceService.getSpacesQuery(activeAccount.id);
         unsubs.push(onSnapshot(spQuery, (snap) => dispatch({ type: 'SET_SPACES', payload: snap })));
         
         return () => {

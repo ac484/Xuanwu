@@ -10,7 +10,7 @@ import { useFirebase } from '@/context/firebase-context';
 import {
   updateUserProfile,
   getUserProfile,
-} from '@/features/core/firebase/firestore/firestore.facade';
+} from '@/features/account/services/account.service';
 import { uploadProfilePicture } from '@/features/core/firebase/storage/storage.facade';
 import type { UserProfile } from '@/types/domain';
 

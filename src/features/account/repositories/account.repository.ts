@@ -18,6 +18,10 @@ import {
   collection,
   writeBatch,
   updateDoc,
+  query,
+  where,
+  orderBy,
+  limit,
 } from 'firebase/firestore';
 
 import type {
@@ -31,8 +35,28 @@ import type {
   DailyLogComment,
 } from '@/types/domain';
 
-import { db } from '../firestore.client';
-import { updateDocument, addDocument } from '../firestore.write.adapter';
+import { db } from '@/features/core/firebase/firestore/firestore.client';
+import { updateDocument, addDocument } from '@/features/core/firebase/firestore/firestore.write.adapter';
+
+export const getOrganizationsQuery = (userId: string) => {
+    return query(collection(db, "organizations"), where("memberIds", "array-contains", userId));
+}
+
+export const getDailyLogsQuery = (orgId: string) => {
+    return query(collection(db, "organizations", orgId, "dailyLogs"), orderBy("recordedAt", "desc"), limit(50));
+}
+
+export const getAuditLogsQuery = (orgId: string) => {
+    return query(collection(db, "organizations", orgId, "auditLogs"), orderBy("recordedAt", "desc"), limit(50));
+}
+
+export const getInvitesQuery = (orgId: string) => {
+    return query(collection(db, "organizations", orgId, "invites"), orderBy("invitedAt", "desc"));
+}
+
+export const getScheduleItemsQuery = (orgId: string) => {
+    return query(collection(db, "organizations", orgId, "schedule_items"), orderBy("createdAt", "desc"));
+}
 
 export const createOrganization = async (orgName: string, owner: User): Promise<string> => {
   const orgData: Omit<Organization, 'id' | 'createdAt'> = {
@@ -188,7 +212,7 @@ export const toggleDailyLogLike = async (orgId: string, logId: string, userId: s
     }
 
     const logData = logDoc.data() as DailyLog;
-    const likes = logData.likes || [];
+  const likes = logData.likes || [];
     let newLikes;
     let newLikeCount;
 
@@ -217,7 +241,10 @@ export const addDailyLogComment = async (
     const commentRef = doc(collection(db, `organizations/${orgId}/dailyLogs/${logId}/comments`));
 
     const newComment: Omit<DailyLogComment, 'id' | 'createdAt'> & { createdAt: any } = {
-        author,
+        author: {
+            ...author,
+            avatarUrl: author.avatarUrl || ''
+        },
         content,
         createdAt: serverTimestamp(),
     };
