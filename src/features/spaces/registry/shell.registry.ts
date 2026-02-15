@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import type { CapabilityDetail } from '../capability.model';
 
 /**
- * Defines the shell capabilities, which are fundamental to the workspace container itself.
+ * Defines the shell capabilities, which are fundamental to the space container itself.
  */
 export const shellCapabilities: Record<string, CapabilityDetail> = {
   overview: {

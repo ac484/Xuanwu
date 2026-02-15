@@ -32,11 +32,11 @@ interface DailyLogDialogProps {
   onOpenChange: (isOpen: boolean) => void;
 }
 
-function WorkspaceAvatar({ name }: { name: string }) {
+function SpaceAvatar({ name }: { name: string }) {
     return (
         <Avatar className="w-10 h-10 border-2 border-primary/20">
             <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                {name?.[0]?.toUpperCase() || 'W'}
+                {name?.[0]?.toUpperCase() || 'S'}
             </AvatarFallback>
         </Avatar>
     )
@@ -127,9 +127,9 @@ export function DailyLogDialog({ log, currentUser, isOpen, onOpenChange }: Daily
         <div className="flex flex-col h-full max-h-[90vh] order-2 md:order-1">
             <DialogHeader className="p-4 border-b flex-row items-center justify-between space-y-0">
                 <div className="flex items-center gap-3">
-                    <WorkspaceAvatar name={log.workspaceName} />
+                    <SpaceAvatar name={log.spaceName} />
                     <div className="flex flex-col text-left">
-                      <DialogTitle className="font-bold text-sm">{log.workspaceName}</DialogTitle>
+                      <DialogTitle className="font-bold text-sm">{log.spaceName}</DialogTitle>
                       <span className="text-xs text-muted-foreground">
                         by {log.author.name} • <TimeAgo date={log.createdAt} />
                       </span>

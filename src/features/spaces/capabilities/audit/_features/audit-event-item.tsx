@@ -40,8 +40,8 @@ export function AuditEventItem({ log, onSelect }: AuditEventItemProps) {
           </p>
           <time className="text-xs text-muted-foreground">{logTime}</time>
         </div>
-        {log.workspaceName && (
-            <Badge variant="secondary" className="text-[10px]">{log.workspaceName}</Badge>
+        {log.spaceName && (
+            <Badge variant="secondary" className="text-[10px]">{log.spaceName}</Badge>
         )}
       </div>
     </AuditEventItemContainer>

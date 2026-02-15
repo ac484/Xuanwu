@@ -1,6 +1,5 @@
 "use client";
 
-import { useContext } from "react";
 import { useMemo, useState } from "react";
 
 import { format } from "date-fns";
@@ -16,31 +15,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/app/_components/ui/sheet";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { useAuth } from "@/context/auth-context";
-import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+import { useSpace } from "@/features/spaces";
 import { toast } from "@/hooks/ui/use-toast";
-import { WorkspaceIssue } from "@/types/domain";
+import { SpaceIssue } from "@/types/domain";
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
-function useWorkspace() {
-  const context = useContext(WorkspaceContext);
-  if (!context) {
-    throw new Error("useWorkspace must be used within a WorkspaceProvider");
-  }
-  return context;
-}
-
-export default function WorkspaceIssues() {
-  const { state: workspace, logAuditEvent, protocol, createIssue, addCommentToIssue } = useWorkspace() as any;
+export default function SpaceIssues() {
+  const { state, logAuditEvent, actions } = useSpace() as any;
+  const { space, protocol } = state;
+  const { createIssue, addCommentToIssue } = actions;
   const { state: authState } = useAuth();
   
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [newIssue, setNewIssue] = useState({ title: "", type: "technical" as const, priority: "high" as const });
-  const [selectedIssue, setSelectedIssue] = useState<WorkspaceIssue | null>(null);
+  const [selectedIssue, setSelectedIssue] = useState<SpaceIssue | null>(null);
   const [newComment, setNewComment] = useState("");
 
-  const issues = useMemo(() => Object.values(workspace.issues || {}).sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)), [workspace.issues]);
+  const issues = useMemo(() => Object.values(space.issues || {}).sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)), [space.issues]);
 
   const handleAddIssue = async () => {
     if (!newIssue.title.trim()) return;

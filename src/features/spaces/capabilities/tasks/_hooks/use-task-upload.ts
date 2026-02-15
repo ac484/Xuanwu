@@ -7,19 +7,20 @@
 import { useCallback } from "react";
 
 import { uploadTaskAttachment as uploadTaskAttachmentFacade } from '@/features/core/firebase/storage/storage.facade';
-import { useWorkspace } from '@/features/workspaces/_context/workspace-context';
+import { useSpace } from '@/features/spaces';
 
 export function useTaskUpload() {
-  const { workspace } = useWorkspace();
+  const { state } = useSpace();
+  const { space } = state;
 
   /**
-   * Uploads an image attachment for a workspace task.
+   * Uploads an image attachment for a space task.
    * @param file The file to upload.
    * @returns A promise resolving to the public download URL of the file.
    */
   const uploadTaskAttachment = useCallback(async (file: File): Promise<string> => {
-    return uploadTaskAttachmentFacade(workspace.id, file);
-  }, [workspace.id]);
+    return uploadTaskAttachmentFacade(space.id, file);
+  }, [space.id]);
 
   return { uploadTaskAttachment };
 }

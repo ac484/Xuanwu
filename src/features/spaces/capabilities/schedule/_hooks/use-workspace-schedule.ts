@@ -1,18 +1,10 @@
 "use client";
 
-import { useMemo, useContext } from "react";
+import { useMemo } from "react";
 
-import { SpaceContext } from "@/features/spaces/_context/space-context";
+import { useSpace } from "@/features/spaces";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
-
-function useSpace() {
-  const context = useContext(SpaceContext);
-  if (!context) {
-    throw new Error("useSpace must be used within a SpaceProvider");
-  }
-  return context.state;
-}
 
 /**
  * @fileoverview useSpaceSchedule - Hook for filtering schedule data for the current space.
@@ -20,7 +12,8 @@ function useSpace() {
  * schedule, keeping the entry component clean and focused on state and actions.
  */
 export function useSpaceSchedule() {
-  const { space } = useSpace() as any;
+  const { state } = useSpace();
+  const { space } = state;
   const { state: appState } = useApp();
   const { state: accountState } = useAccount();
   const { schedule_items } = accountState;

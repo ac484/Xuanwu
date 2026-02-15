@@ -6,22 +6,22 @@ import { MemberReference, ScheduleItem } from "@/types/domain";
 
 import { AssignMemberDropdown } from "../_components/assign-member-dropdown";
 import { UnifiedScheduleView } from "../_components/unified-schedule-view";
-import { useWorkspaceSchedule } from "../_hooks/use-workspace-schedule";
-import { useWorkspaceScheduleActions } from "../_hooks/use-workspace-schedule-actions";
+import { useSpaceSchedule } from "../_hooks/use-space-schedule";
+import { useSpaceScheduleActions } from "../_hooks/use-space-schedule-actions";
 
 
 
 /**
- * Workspace Schedule Page (The "Proposer" Mapper)
+ * Space Schedule Page (The "Proposer" Mapper)
  * 
  * ARCHITECTURAL ROLE:
  * This is a "thin" mapper component. Its SOLE RESPONSIBILITY is to render the 
  * cohesive, self-contained `UnifiedScheduleView` component, instructing it to 
- * run in "workspace" mode. It only fetches data relevant to its context.
+ * run in "space" mode. It only fetches data relevant to its context.
  */
 export function SpaceSchedulePage() {
-  const { localItems, orgMembers } = useWorkspaceSchedule();
-  const { assignMember, unassignMember } = useWorkspaceScheduleActions();
+  const { localItems, orgMembers } = useSpaceSchedule();
+  const { assignMember, unassignMember } = useSpaceScheduleActions();
 
   const renderItemActions = useCallback((item: ScheduleItem) => (
     <AssignMemberDropdown 
@@ -35,7 +35,7 @@ export function SpaceSchedulePage() {
 
   return (
     <UnifiedScheduleView
-      viewMode="workspace"
+      viewMode="space"
       items={localItems}
       members={orgMembers}
       renderItemActions={renderItemActions}

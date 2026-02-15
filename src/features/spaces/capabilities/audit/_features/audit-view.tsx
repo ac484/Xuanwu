@@ -6,7 +6,7 @@ import { AlertCircle, Terminal, Activity } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
-import { useOptionalWorkspace } from "@/features/workspaces/_context/workspace-context";
+import { useOptionalSpace } from "@/features/spaces";
 import { useAccount } from "@/hooks/state/use-account";
 import { useApp } from "@/hooks/state/use-app";
 import { AuditLog } from "@/types/domain";
@@ -18,7 +18,7 @@ import { AuditTypeIcon } from "./audit-type-icon";
 
 
 interface AuditViewProps {
-  viewMode: 'organization' | 'workspace';
+  viewMode: 'organization' | 'space';
 }
 
 export function AuditView({ viewMode }: AuditViewProps) {
@@ -27,7 +27,7 @@ export function AuditView({ viewMode }: AuditViewProps) {
   
   // Data sources
   const accountContext = useAccount();
-  const workspaceContext = useOptionalWorkspace();
+  const spaceContext = useOptionalSpace();
 
   const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null);
 
@@ -35,8 +35,8 @@ export function AuditView({ viewMode }: AuditViewProps) {
     if (viewMode === 'organization') {
       return Object.values(accountContext.state.auditLogs);
     }
-    return workspaceContext?.localAuditLogs || [];
-  }, [viewMode, accountContext.state.auditLogs, workspaceContext?.localAuditLogs]);
+    return spaceContext?.state.localAuditLogs || [];
+  }, [viewMode, accountContext.state.auditLogs, spaceContext?.state.localAuditLogs]);
 
   if (viewMode === 'organization' && activeAccount?.type !== 'organization') {
     return (
@@ -52,7 +52,7 @@ export function AuditView({ viewMode }: AuditViewProps) {
   
   const hasLogs = auditLogs.length > 0;
 
-  if (viewMode === 'workspace') {
+  if (viewMode === 'space') {
       return (
         <div className="animate-in fade-in duration-500">
           <Card className="border-border/60 bg-card/50 backdrop-blur-sm overflow-hidden shadow-sm h-[calc(100vh-20rem)] flex flex-col">

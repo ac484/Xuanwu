@@ -7,7 +7,7 @@ import { MemberReference, ScheduleItem } from "@/types/domain";
 import { AssignMemberDropdown } from "../_components/assign-member-dropdown";
 import { UnifiedScheduleView } from "../_components/unified-schedule-view";
 import { useSpaceSchedule } from "../_hooks/use-space-schedule";
-import { useWorkspaceScheduleActions } from "../_hooks/use-workspace-schedule-actions";
+import { useSpaceScheduleActions } from "../_hooks/use-space-schedule-actions";
 
 
 
@@ -21,7 +21,7 @@ import { useWorkspaceScheduleActions } from "../_hooks/use-workspace-schedule-ac
  */
 export function SpaceSchedulePage() {
   const { localItems, orgMembers } = useSpaceSchedule();
-  const { assignMember, unassignMember } = useWorkspaceScheduleActions();
+  const { assignMember, unassignMember } = useSpaceScheduleActions();
 
   const renderItemActions = useCallback((item: ScheduleItem) => (
     <AssignMemberDropdown 

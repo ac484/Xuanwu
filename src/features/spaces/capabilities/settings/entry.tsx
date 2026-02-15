@@ -16,28 +16,28 @@ import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
 import { Switch } from "@/app/_components/ui/switch";
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { toast } from "@/hooks/ui/use-toast";
-import { WorkspaceLifecycleState, Address } from "@/types/domain";
+import { SpaceLifecycleState, Address } from "@/types/domain";
 
-function WorkspaceSettingsForm() {
-    const { state, dispatch } = useWorkspace();
+function SpaceSettingsForm() {
+    const { state, actions } = useSpace() as any;
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     
     const [name, setName] = useState("");
     const [visibility, setVisibility] = useState<'visible' | 'hidden'>("hidden");
-    const [lifecycleState, setLifecycleState] = useState<WorkspaceLifecycleState>("preparatory");
+    const [lifecycleState, setLifecycleState] = useState<SpaceLifecycleState>("preparatory");
     const [address, setAddress] = useState<Address>({ street: "", city: "", state: "", postalCode: "", country: "" });
   
     useEffect(() => {
-      if (state.workspace) {
-        setName(state.workspace.name);
-        setVisibility(state.workspace.visibility);
-        setLifecycleState(state.workspace.lifecycleState);
-        setAddress(state.workspace.address || { street: "", city: "", state: "", postalCode: "", country: "" });
+      if (state.space) {
+        setName(state.space.name);
+        setVisibility(state.space.visibility);
+        setLifecycleState(state.space.lifecycleState);
+        setAddress(state.space.address || { street: "", city: "", state: "", postalCode: "", country: "" });
       }
-    }, [state.workspace]);
+    }, [state.space]);
   
     const handleAddressChange = (field: keyof Address, value: string) => {
       setAddress(prev => ({ ...prev, [field]: value }));
@@ -46,7 +46,7 @@ function WorkspaceSettingsForm() {
     const onUpdateSettings = async () => {
       setLoading(true);
       try {
-        dispatch({ type: 'UPDATE_SETTINGS', payload: { name, visibility, lifecycleState, address } });
+        await actions.updateSpaceSettings({ name, visibility, lifecycleState, address });
         toast({ title: "Space settings synchronized" });
       } catch (error: unknown) {
         toast({ variant: "destructive", title: "Failed to update settings" });
@@ -55,18 +55,18 @@ function WorkspaceSettingsForm() {
     };
 
     const onDelete = async () => {
-        if (confirm(`This action will permanently erase the workspace node \"${state.workspace?.name}\". Are you sure?`)) {
+        if (confirm(`This action will permanently erase the space node \"${state.space?.name}\". Are you sure?`)) {
             try {
-                dispatch({ type: 'DELETE_WORKSPACE' });
-                toast({ title: "Workspace node destroyed" });
-                router.push('/workspaces');
+                await actions.deleteSpace();
+                toast({ title: "Space node destroyed" });
+                router.push('/spaces');
             } catch (error: unknown) {
-                 toast({ variant: "destructive", title: "Failed to destroy workspace" });
+                 toast({ variant: "destructive", title: "Failed to destroy space" });
             }
         }
     }
   
-    if (!state.workspace) return null;
+    if (!state.space) return null;
 
     return (
         <div className="space-y-8">
@@ -76,12 +76,12 @@ function WorkspaceSettingsForm() {
                         <Settings2 className="w-5 h-5 text-primary" />
                         General Settings
                     </CardTitle>
-                    <CardDescription>Manage this workspace's core attributes.</CardDescription>
+                    <CardDescription>Manage this space's core attributes.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="space-y-2">
                         <Label className="text-xs font-bold uppercase tracking-widest opacity-60">
-                            Workspace Node Name
+                            Space Node Name
                         </Label>
                         <Input
                             value={name}
@@ -95,7 +95,7 @@ function WorkspaceSettingsForm() {
                         </Label>
                         <Select
                             value={lifecycleState}
-                            onValueChange={(v: WorkspaceLifecycleState) =>
+                            onValueChange={(v: SpaceLifecycleState) =>
                             setLifecycleState(v)
                             }
                         >
@@ -127,7 +127,7 @@ function WorkspaceSettingsForm() {
                         <div className="space-y-0.5">
                             <Label className="text-sm font-bold flex items-center gap-2">
                                 {visibility === 'visible' ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                                Workspace Visibility
+                                Space Visibility
                             </Label>
                             <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
                             {visibility === "visible"
@@ -156,10 +156,10 @@ function WorkspaceSettingsForm() {
                         <Box className="w-5 h-5 text-destructive" />
                         Danger Zone
                     </CardTitle>
-                    <CardDescription>Irreversible actions related to this workspace.</CardDescription>
+                    <CardDescription>Irreversible actions related to this space.</CardDescription>
                 </CardHeader>
                 <CardFooter className="border-t pt-6">
-                     <Button variant="destructive" onClick={onDelete}>Destroy Workspace Node</Button>
+                     <Button variant="destructive" onClick={onDelete}>Destroy Space Node</Button>
                 </CardFooter>
             </Card>
         </div>
@@ -167,12 +167,12 @@ function WorkspaceSettingsForm() {
 }
 
 /**
- * WorkspaceSettings - Manages settings for the workspace.
+ * SpaceSettings - Manages settings for the space.
  */
-export default function WorkspaceSettings() {
+export default function SpaceSettings() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <WorkspaceSettingsForm />
+      <SpaceSettingsForm />
     </div>
   );
 }

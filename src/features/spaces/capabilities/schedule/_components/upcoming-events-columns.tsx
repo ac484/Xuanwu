@@ -14,7 +14,7 @@ import {
 } from "@/app/_components/ui/tooltip"
 import { MemberReference, ScheduleItem } from "@/types/domain"
 
-export type UpcomingEventItem = Pick<ScheduleItem, 'id' | 'title' | 'workspaceName' | 'startDate' | 'endDate' | 'assigneeIds'> & { members: MemberReference[] }
+export type UpcomingEventItem = Pick<ScheduleItem, 'id' | 'title' | 'spaceName' | 'startDate' | 'endDate' | 'assigneeIds'> & { members: MemberReference[] }
 
 export const upcomingEventsColumns: ColumnDef<UpcomingEventItem>[] = [
   {
@@ -39,8 +39,8 @@ export const upcomingEventsColumns: ColumnDef<UpcomingEventItem>[] = [
     }
   },
   {
-    accessorKey: "workspaceName",
-    header: "Workspace",
+    accessorKey: "spaceName",
+    header: "Space",
   },
   {
     accessorKey: "title",

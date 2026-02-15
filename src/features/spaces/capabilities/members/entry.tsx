@@ -22,30 +22,30 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Label } from "@/app/_components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/_components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/_components/ui/tabs";
-import { useWorkspace } from "@/features/workspaces";
+import { useSpace } from "@/features/spaces";
 import { useApp } from "@/hooks/state/use-app";
 import { toast } from "@/hooks/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Team, WorkspaceGrant, WorkspaceRole, MemberReference } from "@/types/domain";
+import { Team, SpaceGrant, SpaceRole, MemberReference } from "@/types/domain";
 
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
-// TODO: [Refactor Grant Model] This component now uses a safer update pattern, but the core access model is still a composite of team-based access (`workspace.teamIds`) and individual-based access (`workspace.grants`). A more robust, unified model would represent team access as a special type of grant (e.g., a grant with a `teamId` instead of a `userId`). This would simplify both security rules and client-side logic into a single, expressive `grants` array.
-
 /**
- * WorkspaceMembers - Comprehensive access governance for the workspace.
- * Implements a unified authorization system for Internal and Partner Teams using WorkspaceGrant.
+ * SpaceMembers - Comprehensive access governance for the space.
+ * Implements a unified authorization system for Internal and Partner Teams using SpaceGrant.
  */
-export default function WorkspaceMembers() {
-  const { workspace, logAuditEvent, authorizeWorkspaceTeam, revokeWorkspaceTeam, grantIndividualWorkspaceAccess, revokeIndividualWorkspaceAccess } = useWorkspace();
-  const { state } = useApp();
-  const { organizations, activeAccount } = state;
+export default function SpaceMembers() {
+  const { state, logAuditEvent, actions } = useSpace() as any;
+  const { space } = state;
+  const { authorizeSpaceTeam, revokeSpaceTeam, grantIndividualSpaceAccess, revokeIndividualSpaceAccess } = actions;
+  const { state: appState } = useApp();
+  const { organizations, activeAccount } = appState;
   const activeOrgId = activeAccount?.type === 'organization' ? activeAccount.id : null;
 
   const [grantTarget, setGrantTarget] = useState<MemberReference | null>(null);
-  const [selectedRole, setSelectedRole] = useState<WorkspaceRole>('Contributor');
+  const [selectedRole, setSelectedRole] = useState<SpaceRole>('Contributor');
 
   const activeOrg = useMemo(() => 
     activeOrgId ? organizations[activeOrgId] : null,
@@ -55,11 +55,11 @@ export default function WorkspaceMembers() {
   const handleToggleTeam = async (team: Team, isAuthorized: boolean) => {
     try {
       if (isAuthorized) {
-        await revokeWorkspaceTeam(team.id);
+        await revokeSpaceTeam(team.id);
         logAuditEvent("Revoked Team Access", team.name, 'delete');
         toast({ title: "Access Revoked" });
       } else {
-        await authorizeWorkspaceTeam(team.id);
+        await authorizeSpaceTeam(team.id);
         logAuditEvent("Authorized Team", team.name, 'create');
         toast({ title: "Team Access Granted" });
       }
@@ -77,7 +77,7 @@ export default function WorkspaceMembers() {
     if (!grantTarget) return;
 
     try {
-      await grantIndividualWorkspaceAccess(grantTarget.id, selectedRole, workspace.protocol);
+      await grantIndividualSpaceAccess(grantTarget.id, selectedRole, space.protocol);
       logAuditEvent("Authorized Individual", `${grantTarget.name} as ${selectedRole}`, 'create');
       toast({ title: "Individual Access Granted" });
       setGrantTarget(null);
@@ -93,10 +93,10 @@ export default function WorkspaceMembers() {
 
   const handleRevokeGrant = async (grantId: string) => {
     try {
-      const grant = (workspace.grants || []).find(g => g.grantId === grantId);
+      const grant = (space.grants || []).find((g: SpaceGrant) => g.grantId === grantId);
       const member = activeOrg?.members.find(m => m.id === grant?.userId);
       
-      await revokeIndividualWorkspaceAccess(grantId);
+      await revokeIndividualSpaceAccess(grantId);
       
       logAuditEvent("Revoked Individual Access", member?.name || grantId, 'delete');
       toast({ title: "Individual Access Revoked", variant: "destructive" });
@@ -117,7 +117,7 @@ export default function WorkspaceMembers() {
   const partnerTeams = (activeOrg.teams || []).filter(t => t.type === 'external');
 
   const renderTeamCard = (team: Team, type: 'internal' | 'external') => {
-    const isAuthorized = (workspace.teamIds || []).includes(team.id);
+    const isAuthorized = (space.teamIds || []).includes(team.id);
     const isInternal = type === 'internal';
 
     return (
@@ -160,7 +160,7 @@ export default function WorkspaceMembers() {
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-primary" /> Workspace Access Governance
+            <ShieldCheck className="w-4 h-4 text-primary" /> Space Access Governance
           </h3>
           <p className="text-[10px] text-muted-foreground uppercase font-bold">Strategy: Granular Grant-Based Authorization</p>
         </div>
@@ -189,9 +189,9 @@ export default function WorkspaceMembers() {
 
         <TabsContent value="individuals" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {(activeOrg.members || []).map(member => {
-            const directGrant = (workspace.grants || []).find(g => g.userId === member.id && g.status === 'active');
+            const directGrant = (space.grants || []).find((g: SpaceGrant) => g.userId === member.id && g.status === 'active');
             const hasInheritedAccess = (activeOrg.teams || [])
-              .some(t => (workspace.teamIds || []).includes(t.id) && t.memberIds.includes(member.id));
+              .some(t => (space.teamIds || []).includes(t.id) && t.memberIds.includes(member.id));
             
             const cardClass = cn('border-border/60', {
               'bg-muted/20 opacity-60': hasInheritedAccess && !directGrant,
@@ -258,7 +258,7 @@ export default function WorkspaceMembers() {
           <h4 className="text-xs font-bold uppercase tracking-widest">Access Governance Principles</h4>
         </div>
         <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-          This workspace uses "Composite Authorization". A member's final access = (Team Inheritance ∪ Direct Individual Grant).
+          This space uses "Composite Authorization". A member's final access = (Team Inheritance ∪ Direct Individual Grant).
           When access is granted via multiple paths, the "Least Restrictive" principle is applied to ensure uninterrupted operational momentum.
         </p>
       </div>
@@ -267,11 +267,11 @@ export default function WorkspaceMembers() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Grant Individual Access</DialogTitle>
-            <CardDescription>Grant direct access for "{grantTarget?.name}" to this workspace.</CardDescription>
+            <CardDescription>Grant direct access for "{grantTarget?.name}" to this space.</CardDescription>
           </DialogHeader>
           <div className="py-4 space-y-4">
-            <Label>Workspace Role</Label>
-            <Select value={selectedRole} onValueChange={(v: WorkspaceRole) => setSelectedRole(v)}>
+            <Label>Space Role</Label>
+            <Select value={selectedRole} onValueChange={(v: SpaceRole) => setSelectedRole(v)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

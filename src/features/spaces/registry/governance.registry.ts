@@ -5,14 +5,14 @@ import type { CapabilityDetail } from '../capability.model';
 
 /**
  * [Governance] Governance Strategy
- * Defines capabilities related to rules, monitoring, and process control within a workspace.
+ * Defines capabilities related to rules, monitoring, and process control within a space.
  */
 export const governanceCapabilities: Record<string, CapabilityDetail> = {
   audit: {
     label: "Audit",
     icon: Activity,
     views: {
-      single: { component: dynamic(() => import('@/features/spaces/capabilities/audit').then(mod => mod.WorkspaceAuditPage)) },
+      single: { component: dynamic(() => import('@/features/spaces/capabilities/audit').then(mod => mod.SpaceAuditPage)) },
       aggregated: { component: dynamic(() => import('@/features/spaces/capabilities/audit').then(mod => mod.OrganizationAuditPage)) }
     },
   },

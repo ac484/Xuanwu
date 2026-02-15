@@ -1,23 +1,14 @@
 "use client";
 
-import { useContext } from "react";
 import { useMemo } from "react";
 
 import { Layers, ListTodo, AlertCircle } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Progress } from "@/app/_components/ui/progress";
-import { WorkspaceContext } from "@/features/workspaces/_context/workspace-context";
+import { useSpace } from "@/features/spaces";
 
 
-
-function useWorkspace() {
-  const context = useContext(WorkspaceContext);
-  if (!context) {
-    throw new Error("useWorkspace must be used within a WorkspaceProvider");
-  }
-  return context.state;
-}
 
 function StatCard({ icon, title, value, description, progress }: { icon: React.ReactNode, title: string, value: string, description: string, progress?: number }) {
   return (
@@ -39,24 +30,25 @@ function StatCard({ icon, title, value, description, progress }: { icon: React.R
   );
 }
 
-export default function WorkspaceOverview() {
-  const { workspace } = useWorkspace() as any;
+export default function SpaceOverview() {
+  const { state } = useSpace();
+  const { space } = state;
 
   const taskStats = useMemo(() => {
-    const tasks = Object.values(workspace.tasks || {});
+    const tasks = Object.values(space.tasks || {});
     const total = tasks.length;
     if (total === 0) return { total: 0, completed: 0, progress: 0 };
     const completed = tasks.filter((t: any) => ['completed', 'verified', 'accepted'].includes(t.progressState)).length;
     const progress = Math.round((completed / total) * 100);
     return { total, completed, progress };
-  }, [workspace.tasks]);
+  }, [space.tasks]);
   
   const issueStats = useMemo(() => {
-    const issues = Object.values(workspace.issues || {});
+    const issues = Object.values(space.issues || {});
     const total = issues.length;
     const open = issues.filter((i: any) => i.issueState === 'open').length;
     return { total, open };
-  }, [workspace.issues]);
+  }, [space.issues]);
 
 
   return (
@@ -65,14 +57,14 @@ export default function WorkspaceOverview() {
         <StatCard
           icon={<Layers className="w-4 h-4" />}
           title="Mounted Capabilities"
-          value={workspace.capabilities.length.toString()}
+          value={space.capabilities.length.toString()}
           description="Atomic functions active in this space."
         />
         <StatCard
           icon={<ListTodo className="w-4 h-4" />}
           title="Task Progress"
           value={`${taskStats.completed} / ${taskStats.total}`}
-          description="Total tasks completed in this workspace."
+          description="Total tasks completed in this space."
           progress={taskStats.progress}
         />
         <StatCard
@@ -84,11 +76,11 @@ export default function WorkspaceOverview() {
       </div>
        <Card className="border-border/60 shadow-sm">
         <CardHeader>
-            <CardTitle>Workspace State</CardTitle>
+            <CardTitle>Space State</CardTitle>
         </CardHeader>
         <CardContent>
             <pre className="text-xs p-4 bg-muted rounded-md max-h-[500px] overflow-auto">
-              {JSON.stringify(workspace, null, 2)}
+              {JSON.stringify(space, null, 2)}
             </pre>
         </CardContent>
       </Card>
