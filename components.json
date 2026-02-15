@@ -11,15 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/app/_components",
-    "ui": "@/app/_components/ui",
+    "components": "@/components",
     "utils": "@/lib/utils",
+    "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "iconLibrary": "lucide",
-  "mcp": {
-    "enabled": true,
-    "strategy": "proactive_tool_use"
-  }
+  "iconLibrary": "lucide"
 }
