@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
-import type { WorkspaceTask } from "@/types/domain";
+import type { SpaceTask } from "@/types/domain";
 
 import type { TaskWithChildren } from '../_types/types';
 
-const buildTaskTree = (tasks: WorkspaceTask[]): TaskWithChildren[] => {
+const buildTaskTree = (tasks: SpaceTask[]): TaskWithChildren[] => {
   if (!tasks || tasks.length === 0) return [];
   const map: Record<string, TaskWithChildren> = {};
   tasks.forEach(
@@ -83,6 +83,6 @@ const buildTaskTree = (tasks: WorkspaceTask[]): TaskWithChildren[] => {
   return roots;
 };
 
-export function useTaskTree(tasks: WorkspaceTask[]) {
+export function useTaskTree(tasks: SpaceTask[]) {
     return useMemo(() => buildTaskTree(tasks), [tasks]);
 }

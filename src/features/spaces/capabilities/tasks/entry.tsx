@@ -44,7 +44,7 @@ import {
 import { Textarea } from '@/app/_components/ui/textarea';
 import { SpaceContext } from '@/features/spaces/_context/space-context';
 import { toast } from '@/hooks/ui/use-toast';
-import { WorkspaceTask, Location } from '@/types/domain';
+import { SpaceTask, Location } from '@/types/domain';
 
 import { ProgressReportDialog } from './_features/progress-report-dialog';
 import { TaskItem } from './_features/task-item';
@@ -68,7 +68,7 @@ export default function SpaceTasks() {
   const { uploadTaskAttachment } = useTaskUpload();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState<Partial<WorkspaceTask> | null>(null);
+  const [editingTask, setEditingTask] = useState<Partial<SpaceTask> | null>(null);
   const [reportingTask, setReportingTask] = useState<TaskWithChildren | null>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [previewingImage, setPreviewingImage] = useState<string | null>(null);
@@ -159,7 +159,7 @@ export default function SpaceTasks() {
         }
       }
 
-      const finalData: Partial<WorkspaceTask> = {
+      const finalData: Partial<SpaceTask> = {
         ...editingTask,
         subtotal,
         photoURLs: finalPhotoURLs,
@@ -171,7 +171,7 @@ export default function SpaceTasks() {
         await updateTask(editingTask.id, finalData);
         logAuditEvent('Calibrated WBS Node', `${editingTask.name} [Subtotal: ${subtotal}]`, 'update');
       } else {
-        const taskToCreate: Omit<WorkspaceTask, 'id' | 'createdAt' | 'updatedAt'> = {
+        const taskToCreate: Omit<SpaceTask, 'id' | 'createdAt' | 'updatedAt'> = {
             ...(finalData as any),
             name: finalData.name!,
             progressState: finalData.progressState!,
@@ -236,7 +236,7 @@ export default function SpaceTasks() {
     }
   }, [deleteTask]);
   
-  const handleScheduleRequest = useCallback((task: WorkspaceTask) => {
+  const handleScheduleRequest = useCallback((task: SpaceTask) => {
     eventBus.publish('space:tasks:scheduleRequested', { taskName: task.name! });
     toast({ title: 'Schedule Request Sent', description: `"${task.name}" was sent to the Schedule capability.` });
   }, [eventBus]);
@@ -344,7 +344,7 @@ export default function SpaceTasks() {
             
             <div className="col-span-2 space-y-3"><Label className="text-[10px] font-black uppercase text-muted-foreground ml-1 flex items-center gap-2"><Paperclip className="w-3 h-3"/> Attachments</Label>{editingTask?.photoURLs && editingTask.photoURLs.length > 0 && (<div className="grid grid-cols-4 gap-2">{editingTask.photoURLs.map((url, index) => (<div key={index} className="relative group aspect-square"><Image src={url} alt={`Existing attachment ${index + 1}`} fill sizes="200px" className="object-cover rounded-lg" /></div>))}</div>)}<div className="grid grid-cols-4 gap-2">{photos.map((photo, index) => (<div key={index} className="relative group aspect-square"><Image src={URL.createObjectURL(photo)} alt={`New attachment ${index}`} fill sizes="200px" className="object-cover rounded-lg" /><Button variant="destructive" size="icon" className="absolute top-1 right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => handleRemovePhoto(index)}><X className="w-3 h-3"/></Button></div>))}</div><Button asChild variant="outline" className="w-full h-12 rounded-xl border-dashed border-2 bg-muted/30 hover:bg-muted/50 cursor-pointer"><label htmlFor="photo-upload"><UploadCloud className="w-4 h-4 mr-2" /> Upload Images<input id="photo-upload" type="file" className="sr-only" multiple accept="image/*" onChange={handlePhotoSelect} /></label></Button></div>
 
-            <div className="space-y-1.5"><Label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Status</Label><Select value={editingTask?.progressState} onValueChange={(v) => setEditingTask({ ...editingTask, progressState: v as WorkspaceTask['progressState'] })}><SelectTrigger className="h-11 rounded-xl bg-muted/30 border-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="todo">To-do</SelectItem><SelectItem value="doing">Doing</SelectItem><SelectItem value="completed">Completed</SelectItem><SelectItem value="verified">Verified</SelectItem><SelectItem value="accepted">Accepted</SelectItem></SelectContent></Select></div>
+            <div className="space-y-1.5"><Label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Status</Label><Select value={editingTask?.progressState} onValueChange={(v) => setEditingTask({ ...editingTask, progressState: v as SpaceTask['progressState'] })}><SelectTrigger className="h-11 rounded-xl bg-muted/30 border-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="todo">To-do</SelectItem><SelectItem value="doing">Doing</SelectItem><SelectItem value="completed">Completed</SelectItem><SelectItem value="verified">Verified</SelectItem><SelectItem value="accepted">Accepted</SelectItem></SelectContent></Select></div>
             
             <div className="col-span-2 grid grid-cols-3 gap-4"><div className="space-y-1.5"><Label htmlFor="task-quantity" className="text-[10px] font-black uppercase text-muted-foreground ml-1">Quantity (Qty)</Label><Input id="task-quantity" type="number" value={editingTask?.quantity || 0} onChange={(e) => setEditingTask({ ...editingTask, quantity: Number(e.target.value) })} className="h-11 rounded-xl bg-muted/30 border-none" /></div><div className="space-y-1.5"><Label htmlFor="task-unitprice" className="text-[10px] font-black uppercase text-muted-foreground ml-1">Unit Price</Label><Input id="task-unitprice" type="number" value={editingTask?.unitPrice || 0} onChange={(e) => setEditingTask({ ...editingTask, unitPrice: Number(e.target.value) })} className="h-11 rounded-xl bg-muted/30 border-none" /></div><div className="space-y-1.5"><Label htmlFor="task-discount" className="text-[10px] font-black uppercase text-muted-foreground ml-1">Discount</Label><Input id="task-discount" type="number" value={editingTask?.discount || 0} onChange={(e) => setEditingTask({ ...editingTask, discount: Number(e.target.value) })} className="h-11 rounded-xl bg-muted/30 border-none" /></div></div>
             <div className="col-span-2 p-6 bg-primary/5 rounded-3xl flex justify-between items-center border border-primary/10"><div className="space-y-1"><p className="text-[10px] font-black uppercase tracking-widest text-primary">Subtotal</p></div><span className="text-2xl font-mono font-black text-primary">${((editingTask?.quantity || 0) * (editingTask?.unitPrice || 0) - (editingTask?.discount || 0)).toLocaleString()}</span></div>

@@ -25,7 +25,7 @@ interface AssignMemberDropdownProps {
  * @fileoverview AssignMemberDropdown - A self-contained component for assigning members to a schedule item.
  * @description REFACTORED: This component is now context-agnostic. It receives its action
  * handlers (`assignMember`, `unassignMember`) as props, allowing it to be used in
- * both workspace-specific and organization-wide contexts.
+ * both space-specific and organization-wide contexts.
  */
 export function AssignMemberDropdown({ item, members, assignMember, unassignMember }: AssignMemberDropdownProps) {
 

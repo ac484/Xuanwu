@@ -27,7 +27,7 @@ export function ShareButton({ log }: ShareButtonProps) {
         toast({
             variant: "destructive",
             title: "Action Not Available",
-            description: "Forwarding logs is only possible within a workspace context.",
+            description: "Forwarding logs is only possible within a space context.",
         });
         return;
     }

@@ -1,6 +1,6 @@
-import type { WorkspaceTask } from "@/types/domain";
+import type { SpaceTask } from "@/types/domain";
 
-export type TaskWithChildren = WorkspaceTask & {
+export type TaskWithChildren = SpaceTask & {
   children: TaskWithChildren[];
   descendantSum: number;
   wbsNo: string;

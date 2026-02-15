@@ -14,7 +14,7 @@ The `layout` feature slice is responsible for the application's main shell, whic
 -   The primary Sidebar navigation (`@sidebar`).
 -   The global Header (`@header`).
 -   The account switcher logic and UI.
--   The main navigation structure (main menu and workspace quick links).
+-   The main navigation structure (main menu and space quick links).
 -   The user profile menu and logout functionality.
 
 This feature provides the persistent frame within which all other page content is rendered.
